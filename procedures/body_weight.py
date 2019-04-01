@@ -1,6 +1,6 @@
-def new_entry():
-    print("New Entry")
-
-
-def retrieve_data():
-    print("Retrieve Data")
+#############################################################
+#               Body Weight specific functions              #
+#                                                           #
+#                   Add notes here                          #
+#                                                           #
+#############################################################

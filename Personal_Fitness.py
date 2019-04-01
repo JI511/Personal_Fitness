@@ -11,33 +11,34 @@
 from procedures import calories as calories
 from procedures import weight_lifting as weight_lifting
 from procedures import body_weight as body_weight
+import Utilities
 
 
 def weight_procedure():
     print("Body weight calculations.")
     body_weight_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if body_weight_text == '1':
-        body_weight.new_entry()
+        Utilities.new_entry("body_weight")
     elif body_weight_text == '2':
-        body_weight.retrieve_data()
+        Utilities.retrieve_data("body_weight")
 
 
 def calorie_procedure():
     print("Calorie track and calculations.")
     calorie_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if calorie_text == '1':
-        calories.new_entry()
+        Utilities.new_entry()
     elif calorie_text == '2':
-        calories.retrieve_data()
+        Utilities.retrieve_data()
 
 
 def lifting_procedure():
     print("Weight lifting tracking and calculations")
     lifting_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if lifting_text == '1':
-        weight_lifting.new_entry()
+        Utilities.new_entry()
     elif lifting_text == '2':
-        weight_lifting.retrieve_data()
+        Utilities.retrieve_data()
 
 
 if __name__ == '__main__':
