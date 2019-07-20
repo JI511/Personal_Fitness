@@ -1,10 +1,8 @@
 # ----------------------------------------------------------------------------------------------------------------------
-#             Personal Fitness Application                  #
-#                                                           #
-#            Store and track progress for multiple          #
-#           different fitness areas. Current plans          #
-#            are body weight, calories, and lifted          #
-#             weights.                                      #
+# Personal Fitness Application
+#
+# Store and track progress for multiple different fitness areas.
+# Current plans are body weight, calories, morning lifts and lifted weights.
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
