@@ -4,6 +4,22 @@
 
 database_path = r"C:\Users\User\Desktop\Python\Personal_Fitness\health_database.db"
 
+weight_lifting_query = (
+    "ID integer PRIMARY KEY ASC NOT NULL,"
+    "date text,"
+    "elliptical integer,"
+    "bench_press integer,"
+    "bench_press_sets_reps, text"
+    "squat integer,"
+    "squat_sets_reps text,"
+    "chin_up integer,"
+    "chin_up_sets_reps text,"
+    "grip_roller integer,"
+    "grip_roller_sets_reps text,"
+    "face_pulls integer,"
+    "face_pulls_sets_reps text"
+)
+
 morning_lifts_query = (
     "ID integer PRIMARY KEY ASC NOT NULL,"
     "date text,"

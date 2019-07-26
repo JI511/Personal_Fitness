@@ -14,13 +14,24 @@ from Util import Utilities
 from Util import database_api as db_api
 from Util import Constants
 
+# from .procedures import calories as calories
+# from .procedures import weight_lifting as weight_lifting
+# from .procedures import body_weight as body_weight
+# from .Util import Utilities
+# from .Util import database_api as db_api
+# from .Util import Constants
 
 
-def weight_procedure():
+def weight_lifting_procedure():
     print("Body weight calculations.")
-    body_weight_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
+    body_weight_text = input("Would you like to view data or add a new entry?\n"
+                             "1: New entry\n"
+                             "2: View data\n")
+    table = "weight_lifting"
     if body_weight_text == '1':
-        Utilities.new_entry("body_weight")
+        db_api.create_table(Constants.database_path, table, Constants.weight_lifting_query)
+        db_api.add_new_row(Constants.database_path, table)
+        db_api.get_table_rows(Constants.database_path, table)
     elif body_weight_text == '2':
         Utilities.retrieve_data("body_weight")
 
@@ -34,7 +45,7 @@ def calorie_procedure():
         Utilities.retrieve_data("calorie")
 
 
-def lifting_procedure():
+def body_weight_procedure():
     print("Weight lifting tracking and calculations")
     lifting_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if lifting_text == '1':
@@ -68,11 +79,11 @@ if __name__ == '__main__':
             "4: Morning Lifts\n"
             "q: Quit\n")
         if procedure_text == '1':
-            weight_procedure()
+            body_weight_procedure()
         elif procedure_text == '2':
             calorie_procedure()
         elif procedure_text == '3':
-            lifting_procedure()
+            weight_lifting_procedure()
         elif procedure_text == '4':
             morning_lifts_procedure()
         elif procedure_text == 'q':

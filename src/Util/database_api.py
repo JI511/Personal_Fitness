@@ -49,8 +49,8 @@ def add_new_row(db_path, table):
 @sql_wrapper
 def get_table_rows(db_path, table):
     with sqlite3.connect(db_path) as con:
-        for index, row in enumerate(con.execute("SELECT * FROM " + table + ";")):
-            print(str(index) + ": " + str(row))
+        for row in con.execute("SELECT * FROM " + table + ";"):
+            print(row)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
