@@ -7,17 +7,17 @@ from functools import wraps
 from . import Constants
 
 
-def create_connection(db_path):
-    try:
-        conn = sqlite3.connect(db_path)
-        return conn
-    except Exception as e:
-        print(e)
-    return None
+# def create_connection(db_path):
+#     try:
+#         conn = sqlite3.connect(db_path)
+#         return conn
+#     except Exception as e:
+#         print(e)
+#     return None
 
 
 class SqlError(Exception):
-    pass
+    print(Exception)
 
 
 def sql_wrapper(func):
@@ -43,7 +43,29 @@ def create_table(db_path, table, query):
 @sql_wrapper
 def add_new_row(db_path, table):
     with sqlite3.connect(db_path) as con:
-        con.execute("INSERT INTO " + table + " DEFAULT VALUES")
+        cursor = con.cursor()
+        cursor.execute("INSERT INTO " + table + " DEFAULT VALUES")
+        return cursor.lastrowid
+
+
+@sql_wrapper
+def update_item(db_path, table, value_tuple, name_list):
+    """
+
+    :param db_path: Path to the db file.
+    :param table: Name of the table to access within the db file.
+    :param value_tuple:
+    :param name_list:
+    """
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        query = 'Update ' + table + ' SET '
+        for name in name_list:
+            query = query + name + ' = ? ,'
+        query = query[:(len(query) - 1)]
+        query = query + ' WHERE ID = ?'
+        print(query)
+        cur.execute(query, value_tuple)
 
 
 @sql_wrapper

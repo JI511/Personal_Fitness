@@ -23,14 +23,16 @@ from Util import Constants
 
 
 def weight_lifting_procedure():
-    print("Body weight calculations.")
+    print("Weight lifting tracking and calculations.")
     body_weight_text = input("Would you like to view data or add a new entry?\n"
                              "1: New entry\n"
                              "2: View data\n")
     table = "weight_lifting"
     if body_weight_text == '1':
         db_api.create_table(Constants.database_path, table, Constants.weight_lifting_query)
-        db_api.add_new_row(Constants.database_path, table)
+        unique_id = db_api.add_new_row(Constants.database_path, table)
+        db_api.update_item(Constants.database_path, table, (135, 135, 0, 0, 7.5, 40, unique_id),
+                           ['bench_press', 'squat', 'chin_up', 'dips', 'grip_roller', 'face_pulls'])
         db_api.get_table_rows(Constants.database_path, table)
     elif body_weight_text == '2':
         Utilities.retrieve_data("body_weight")
@@ -46,7 +48,7 @@ def calorie_procedure():
 
 
 def body_weight_procedure():
-    print("Weight lifting tracking and calculations")
+    print("Body weight tracking and calculations")
     lifting_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if lifting_text == '1':
         Utilities.new_entry("weight_lifting")
