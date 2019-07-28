@@ -10,7 +10,7 @@ from Util import constants
 def add_new_data():
     table = 'weight_lifting'
     names = get_workout_item_names(determine_muscle_group())
-    print(names)
+    # print(names)
     while True:
         use_default = input("Would you like to use default values based on current max?\n"
                             "y: yes\n"

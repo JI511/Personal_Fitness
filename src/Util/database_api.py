@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 import sqlite3
+import datetime
 from functools import wraps
 from . import constants
 
@@ -36,7 +37,9 @@ def add_new_row(db_path, table):
     with sqlite3.connect(db_path) as con:
         cursor = con.cursor()
         cursor.execute("INSERT INTO " + table + " DEFAULT VALUES")
-        return cursor.lastrowid
+        unique_id = cursor.lastrowid
+    update_item(db_path, table, (str(datetime.datetime.now()), unique_id), ["date"])
+    return unique_id
 
 
 @sql_wrapper
@@ -55,7 +58,7 @@ def update_item(db_path, table, value_tuple, name_list):
             query = query + name + ' = ? ,'
         query = query[:(len(query) - 1)]
         query = query + ' WHERE ID = ?'
-        print(query)
+        # print(query)
         cur.execute(query, value_tuple)
 
 
