@@ -4,20 +4,11 @@
 
 import sqlite3
 from functools import wraps
-from . import Constants
-
-
-# def create_connection(db_path):
-#     try:
-#         conn = sqlite3.connect(db_path)
-#         return conn
-#     except Exception as e:
-#         print(e)
-#     return None
+from . import constants
 
 
 class SqlError(Exception):
-    print(Exception)
+    pass
 
 
 def sql_wrapper(func):

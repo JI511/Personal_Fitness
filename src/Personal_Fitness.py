@@ -12,7 +12,7 @@ from procedures import weight_lifting
 from procedures import body_weight
 from Util import Utilities
 from Util import database_api as db_api
-from Util import Constants
+from Util import constants
 
 # from .procedures import nutrition
 # from .procedures import weight_lifting
@@ -29,12 +29,8 @@ def weight_lifting_procedure():
                              "2: View data\n")
     table = "weight_lifting"
     if body_weight_text == '1':
-        db_api.create_table(Constants.database_path, table, Constants.weight_lifting_query)
-        unique_id = db_api.add_new_row(Constants.database_path, table)
-        db_api.update_item(Constants.database_path, table, (135, 135, 0, 0, 7.5, 40, unique_id),
-                           ['bench_press', 'squat', 'chin_up', 'dips', 'grip_roller', 'face_pulls'])
-        db_api.get_table_rows(Constants.database_path, table)
-        weight_lifting.determine_muscle_group()
+        weight_lifting.add_new_data()
+
     elif body_weight_text == '2':
         Utilities.retrieve_data("body_weight")
 
@@ -64,11 +60,11 @@ def morning_lifts_procedure():
                          "2: View data\n")
     table = "morning_lifts"
     if lifting_text == '1':
-        db_api.create_table(Constants.database_path, table, Constants.morning_lifts_query)
-        db_api.add_new_row(Constants.database_path, table)
+        db_api.create_table(constants.database_path, table, constants.morning_lifts_query)
+        db_api.add_new_row(constants.database_path, table)
         # todo, how to add actual data
     elif lifting_text == '2':
-        db_api.get_table_rows(Constants.database_path, table)
+        db_api.get_table_rows(constants.database_path, table)
 
 
 if __name__ == '__main__':
