@@ -7,16 +7,16 @@
 
 # imports
 import os
-from procedures import calories as calories
-from procedures import weight_lifting as weight_lifting
-from procedures import body_weight as body_weight
+from procedures import nutrition
+from procedures import weight_lifting
+from procedures import body_weight
 from Util import Utilities
 from Util import database_api as db_api
 from Util import Constants
 
-# from .procedures import calories as calories
-# from .procedures import weight_lifting as weight_lifting
-# from .procedures import body_weight as body_weight
+# from .procedures import nutrition
+# from .procedures import weight_lifting
+# from .procedures import body_weight
 # from .Util import Utilities
 # from .Util import database_api as db_api
 # from .Util import Constants
@@ -34,6 +34,7 @@ def weight_lifting_procedure():
         db_api.update_item(Constants.database_path, table, (135, 135, 0, 0, 7.5, 40, unique_id),
                            ['bench_press', 'squat', 'chin_up', 'dips', 'grip_roller', 'face_pulls'])
         db_api.get_table_rows(Constants.database_path, table)
+        weight_lifting.determine_muscle_group()
     elif body_weight_text == '2':
         Utilities.retrieve_data("body_weight")
 
