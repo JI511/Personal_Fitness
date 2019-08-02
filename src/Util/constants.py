@@ -131,6 +131,12 @@ weight_lifting_accessories_query = (
     "face_pulls_sets_reps text"
 )
 
+body_weight_query = (
+    "ID integer PRIMARY KEY ASC NOT NULL,"
+    "date text,"
+    "body_weight integer"
+)
+
 morning_lifts_query = (
     "ID integer PRIMARY KEY ASC NOT NULL,"
     "date text,"

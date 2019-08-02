@@ -48,7 +48,7 @@ def body_weight_procedure():
     print("Body weight tracking and calculations")
     lifting_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if lifting_text == '1':
-        Utilities.new_entry("weight_lifting")
+        body_weight.add_new_data()
     elif lifting_text == '2':
         Utilities.retrieve_data("weight_lifting")
 
