@@ -35,7 +35,7 @@ def weight_lifting_procedure():
         Utilities.retrieve_data("body_weight")
 
 
-def calorie_procedure():
+def nutrition_procedure():
     print("Calorie track and calculations.")
     calorie_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
     if calorie_text == '1':
@@ -80,7 +80,7 @@ if __name__ == '__main__':
         if procedure_text == '1':
             body_weight_procedure()
         elif procedure_text == '2':
-            calorie_procedure()
+            nutrition_procedure()
         elif procedure_text == '3':
             weight_lifting_procedure()
         elif procedure_text == '4':
