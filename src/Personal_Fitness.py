@@ -24,20 +24,25 @@ from Util import constants
 
 def weight_lifting_procedure():
     print("Weight lifting tracking and calculations.")
-    body_weight_text = input("Would you like to view data or add a new entry?\n"
-                             "1: New entry\n"
-                             "2: View data\n")
+    weight_lifting_text = input("Would you like to view data or add a new entry?\n"
+                                "1: New entry\n"
+                                "2: View data\n"
+                                "3: Update max lift values\n"
+                                )
     table = "weight_lifting"
-    if body_weight_text == '1':
+    if weight_lifting_text == '1':
         weight_lifting.add_new_data()
-
-    elif body_weight_text == '2':
-        Utilities.retrieve_data("body_weight")
+    elif weight_lifting_text == '2':
+        print('Not implemented!')
+    elif weight_lifting_text == '3':
+        weight_lifting.update_max_lifts()
 
 
 def nutrition_procedure():
     print("Calorie track and calculations.")
-    calorie_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
+    calorie_text = input("Would you like to view data or add a new entry?\n"
+                         "1: New entry\n"
+                         "2: View data\n")
     if calorie_text == '1':
         Utilities.new_entry("calorie")
     elif calorie_text == '2':
@@ -46,10 +51,12 @@ def nutrition_procedure():
 
 def body_weight_procedure():
     print("Body weight tracking and calculations")
-    lifting_text = input("Would you like to view data or add a new entry?\n1: New entry\n2: View data\n")
-    if lifting_text == '1':
+    body_weight_text = input("Would you like to view data or add a new entry?\n"
+                             "1: New entry\n"
+                             "2: View data\n")
+    if body_weight_text == '1':
         body_weight.add_new_data()
-    elif lifting_text == '2':
+    elif body_weight_text == '2':
         Utilities.retrieve_data("weight_lifting")
 
 

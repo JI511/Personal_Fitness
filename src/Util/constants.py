@@ -137,6 +137,15 @@ body_weight_query = (
     "body_weight integer"
 )
 
+max_lifts_query = (
+    "ID integer PRIMARY KEY ASC NOT NULL,"
+    "date text,"
+    "bench_press_max integer,"
+    "squat_max integer,"
+    "shoulder_press_max integer,"
+    "deadlift_max integer"
+)
+
 morning_lifts_query = (
     "ID integer PRIMARY KEY ASC NOT NULL,"
     "date text,"

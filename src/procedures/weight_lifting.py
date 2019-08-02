@@ -29,6 +29,11 @@ def add_new_data():
     db_api.get_table_rows(constants.database_path, table)
 
 
+def update_max_lifts():
+    table = 'max_lifts'
+    # todo finish this
+
+
 def get_default_values(names):
     values = tuple()
     for index, name in enumerate(names):
