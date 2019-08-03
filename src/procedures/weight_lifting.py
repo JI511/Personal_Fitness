@@ -9,17 +9,17 @@ from Util import constants
 
 def add_new_data():
     table = 'weight_lifting'
-    names = get_workout_item_names(determine_muscle_group())
+    names = get_workout_item_names(determine_muscle_group('Which muscle groups did you work today?'))
     while True:
         use_default = input("Would you like to use default values based on current max?\n"
                             "y: yes\n"
                             "n: no\n")
         if use_default == 'y':
-            values = get_default_values(names)
+            values = get_default_lift_values(names)
             break
         elif use_default == 'n':
             # todo, allow for custom input
-            values = get_default_values(names)
+            values = get_default_lift_values(names)
             break
         print('Please enter a valid option')
     db_api.create_table(constants.database_path, table, constants.weight_lifting_compound_query)
@@ -31,10 +31,44 @@ def add_new_data():
 
 def update_max_lifts():
     table = 'max_lifts'
-    # todo finish this
+    names = determine_muscle_group('Which max values would you like to update?')
+    max_lift_names = list()
+    if 'bench' in names:
+        max_lift_names.append('bench_press_max')
+    if 'squat' in names:
+        max_lift_names.append('squat_max')
+    if 'shoulder_press' in names:
+        max_lift_names.append('shoulder_press_max')
+    if 'deadlift' in names:
+        max_lift_names.append('deadlift_max')
+    # print(max_lift_names)
+    max_lift_values = tuple()
+    for row in max_lift_names:
+        while True:
+            max_text = input("New " + row + "value:\n")
+            try:
+                max_update = int(max_text)
+                max_lift_values = max_lift_values + (max_update,)
+                break
+            except ValueError:
+                print('Invalid literal, please enter a number.')
+    # print(max_lift_values)
+    db_api.create_table(constants.database_path, table, constants.max_lifts_query)
+    unique_id = db_api.add_new_row(constants.database_path, table)
+    db_api.get_table_rows(constants.database_path, table)
+    max_lift_values = max_lift_values + (unique_id,)
+    db_api.update_item(constants.database_path, table, max_lift_values, max_lift_names)
+    db_api.get_table_rows(constants.database_path, table)
 
 
-def get_default_values(names):
+def get_default_lift_values(names):
+    """
+    Get the current program lifting values for the day. This is to speed up input if the user is following
+    a program.
+
+    :param names:
+    :return: The default values
+    """
     values = tuple()
     for index, name in enumerate(names):
         values = values + (index,)
@@ -54,16 +88,13 @@ def get_workout_item_names(group):
     return rows
 
 
-def determine_muscle_group():
+def determine_muscle_group(question_text):
     while True:
-        groups = input("Which muscle groups did you work today? (Binary Entry)\n"
+        groups = input(question_text + " (Binary Entry)\n"
                        "8: Bench\n"
                        "4: Squat\n"
                        "2: Shoulder Press\n"
                        "1: Deadlift\n")
-        accessories = input("Would you life to use default accessories?\n"
-                            "y: yes\n"
-                            "n: no\n")
         try:
             result = int(groups)
             break
@@ -79,6 +110,17 @@ def determine_muscle_group():
     if (result & Vars.Deadlift) == 1:
         muscle_groups.append("deadlift")
     return muscle_groups
+
+
+def determine_accessories():
+    while True:
+        accessories = input("Would you life to use default accessories?\n"
+                            "y: yes\n"
+                            "n: no\n")
+        if accessories == 'y':
+            break
+        elif accessories == 'n':
+            break
 
 
 class Vars(object):
