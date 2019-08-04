@@ -8,6 +8,10 @@ from Util import constants
 
 
 def add_new_data():
+    """
+    Adds a new entry into the weight lifting table within the health_database database.
+
+    """
     table = 'weight_lifting'
     names = get_workout_item_names(determine_muscle_group('Which muscle groups did you work today?'))
     while True:
@@ -30,6 +34,10 @@ def add_new_data():
 
 
 def update_max_lifts():
+    """
+    Updates the user selected max lift values by getting input from the user.
+
+    """
     table = 'max_lifts'
     names = determine_muscle_group('Which max values would you like to update?')
     max_lift_names = list()
@@ -41,7 +49,6 @@ def update_max_lifts():
         max_lift_names.append('shoulder_press_max')
     if 'deadlift' in names:
         max_lift_names.append('deadlift_max')
-    # print(max_lift_names)
     max_lift_values = tuple()
     for row in max_lift_names:
         while True:
@@ -52,7 +59,6 @@ def update_max_lifts():
                 break
             except ValueError:
                 print('Invalid literal, please enter a number.')
-    # print(max_lift_values)
     db_api.create_table(constants.database_path, table, constants.max_lifts_query)
     unique_id = db_api.add_new_row(constants.database_path, table)
     db_api.get_table_rows(constants.database_path, table)
@@ -76,6 +82,12 @@ def get_default_lift_values(names):
 
 
 def get_workout_item_names(group):
+    """
+    Gets the column names for the specified workout group.
+
+    :param List group: The user chosen compound lifts.
+    :return: A list of Strings containing the column names to update.
+    """
     rows = list()
     if 'squat' in group:
         rows = rows + constants.weight_lifting_squats
@@ -89,6 +101,12 @@ def get_workout_item_names(group):
 
 
 def determine_muscle_group(question_text):
+    """
+    Gets a binary input from the user to select the chosen compound lifts to update.
+
+    :param question_text: Question for the user to determine which procedure is asking about compounds.
+    :return: A list of Strings containing the chosen compound lifts.
+    """
     while True:
         groups = input(question_text + " (Binary Entry)\n"
                        "8: Bench\n"
@@ -113,6 +131,11 @@ def determine_muscle_group(question_text):
 
 
 def determine_accessories():
+    """
+    Similar to determine_muscle_group(), this gets the user chosen accessory values.
+
+    :return: todo
+    """
     while True:
         accessories = input("Would you life to use default accessories?\n"
                             "y: yes\n"
@@ -124,6 +147,10 @@ def determine_accessories():
 
 
 class Vars(object):
+    """
+    Class to store the enum values for compound lifts.
+    """
+
     Bench = 8
     Squat = 4
     Shoulder_Press = 2
