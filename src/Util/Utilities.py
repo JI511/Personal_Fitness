@@ -4,6 +4,8 @@
 
 # imports
 import os
+import numpy as np
+from matplotlib import pyplot as plt
 
 
 path = r"C:\Users\User\Desktop\Output"
@@ -22,6 +24,13 @@ def new_entry(procedure):
 
 def retrieve_data(procedure):
     print("Retrieve %s data" % procedure)
+    x = np.arange(0, 3 * np.pi, 0.1)
+    y = np.sin(x)
+    plt.title("sine wave form")
+
+    # Plot the points using matplotlib
+    plt.plot(x, y)
+    plt.show()
 
 
 # ----------------------------------------------------------------------------------------------------------------------

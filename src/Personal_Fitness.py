@@ -29,7 +29,6 @@ def weight_lifting_procedure():
                                 "2: View data\n"
                                 "3: Update max lift values\n"
                                 )
-    table = "weight_lifting"
     if weight_lifting_text == '1':
         weight_lifting.add_new_data()
     elif weight_lifting_text == '2':
@@ -51,13 +50,11 @@ def nutrition_procedure():
 
 def body_weight_procedure():
     print("Body weight tracking and calculations")
-    body_weight_text = input("Would you like to view data or add a new entry?\n"
-                             "1: New entry\n"
-                             "2: View data\n")
+    body_weight_text = input(constants.user_prompt)
     if body_weight_text == '1':
         body_weight.add_new_data()
     elif body_weight_text == '2':
-        Utilities.retrieve_data("weight_lifting")
+        Utilities.retrieve_data("body_weight")
 
 
 def morning_lifts_procedure():
