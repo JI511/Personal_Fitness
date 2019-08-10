@@ -28,7 +28,7 @@ def retrieve_data(procedure):
     y = np.sin(x)
     plt.title("sine wave form")
 
-    # Plot the points using matplotlib
+    # Default plot for now
     plt.plot(x, y)
     plt.show()
 
