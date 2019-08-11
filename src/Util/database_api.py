@@ -65,6 +65,13 @@ def update_item(db_path, table, value_tuple, name_list):
 
 @sql_wrapper
 def get_table_rows(db_path, table):
+    """
+
+
+    :param db_path:
+    :param table:
+    :return:
+    """
     with sqlite3.connect(db_path) as con:
         for row in con.execute("SELECT * FROM " + table + ";"):
             print(row)
