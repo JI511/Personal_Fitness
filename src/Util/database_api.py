@@ -66,11 +66,12 @@ def update_item(db_path, table, value_tuple, name_list):
 @sql_wrapper
 def get_table_rows(db_path, table):
     """
+    Gets all rows within specified table.
 
+    Note - Do not call this with a lot of items present within table.
 
-    :param db_path:
-    :param table:
-    :return:
+    :param db_path: Path to the DB file.
+    :param table: Name of the table to access within the db file.
     """
     with sqlite3.connect(db_path) as con:
         for row in con.execute("SELECT * FROM " + table + ";"):
