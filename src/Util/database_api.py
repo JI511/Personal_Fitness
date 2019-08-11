@@ -71,7 +71,7 @@ def get_table_rows(db_path, table):
 
 
 @sql_wrapper
-def  table_to_csv(db_path, table):
+def table_to_csv(db_path, table):
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
         cur.execute("SELECT * FROM " + table + ";")
@@ -79,13 +79,6 @@ def  table_to_csv(db_path, table):
             csv_writer = csv.writer(file)
             csv_writer.writerow([i[0] for i in cur.description])
             csv_writer.writerows(cur)
-
-
-
-
-
-
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
