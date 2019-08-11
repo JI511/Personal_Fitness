@@ -33,6 +33,25 @@ def retrieve_data(procedure):
     plt.show()
 
 
+def read_file_values(path):
+    """
+    Parses an input file and appends each line to a list.
+
+    :param path: Path to the txt file
+    :return: List of ints
+    """
+    file = open(path, 'r')
+    values = list()
+    for line in file:
+        try:
+            number = int(line)
+            values.append(number)
+        except ValueError:
+            print("There was an invalid number present.")
+            return None
+    return values
+
+
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
 # ----------------------------------------------------------------------------------------------------------------------
