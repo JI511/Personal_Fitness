@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 import sqlite3
+import csv
 import datetime
 from functools import wraps
 from . import constants
@@ -67,6 +68,23 @@ def get_table_rows(db_path, table):
     with sqlite3.connect(db_path) as con:
         for row in con.execute("SELECT * FROM " + table + ";"):
             print(row)
+
+
+@sql_wrapper
+def  table_to_csv(db_path, table):
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM " + table + ";")
+        with open('{0}.csv'.format(table), "w", newline='') as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerow([i[0] for i in cur.description])
+            csv_writer.writerows(cur)
+
+
+
+
+
+
 
 
 # ----------------------------------------------------------------------------------------------------------------------

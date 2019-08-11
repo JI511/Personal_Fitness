@@ -7,6 +7,7 @@ database_path = r"C:\Users\User\Desktop\Python\Personal_Fitness\health_database.
 user_prompt = "Would you like to view data or add a new entry?\n"\
               "1: New entry\n"\
               "2: View plots\n"\
+              "3: Dump data to csv\n"\
 
 weight_lifting_compound_query = (
     "ID integer PRIMARY KEY ASC NOT NULL,"
