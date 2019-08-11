@@ -28,6 +28,7 @@ def weight_lifting_procedure():
                                 "1: New entry\n"
                                 "2: View data\n"
                                 "3: Update max lift values\n"
+                                "4: Dump data to CSV\n"
                                 )
     if weight_lifting_text == '1':
         weight_lifting.add_new_data()
@@ -35,6 +36,8 @@ def weight_lifting_procedure():
         print('Not implemented!')
     elif weight_lifting_text == '3':
         weight_lifting.update_max_lifts()
+    elif weight_lifting_text == '4':
+        db_api.table_to_csv(constants.database_path, "weight_lifting")
 
 
 def nutrition_procedure():
