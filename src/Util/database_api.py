@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 import sqlite3
+import csv
 import datetime
 from functools import wraps
 from . import constants
@@ -68,6 +69,28 @@ def get_table_rows(db_path, table):
         for row in con.execute("SELECT * FROM " + table + ";"):
             print(row)
 
+
+@sql_wrapper
+def table_to_csv(db_path, table):
+    """
+    Outputs the specified table to a csv file.
+
+    :param db_path: Path to the DB file.
+    :param table: Name of table within the DB file.
+    """
+    with sqlite3.connect(db_path) as con:
+        cur = con.cursor()
+        try:
+            cur.execute("SELECT * FROM " + table + ";")
+            with open('{0}.csv'.format(table), "w", newline='') as file:
+                csv_writer = csv.writer(file)
+                csv_writer.writerow([i[0] for i in cur.description])
+                csv_writer.writerows(cur)
+        except sqlite3.OperationalError as msg:
+            if 'no such table' in str(msg):
+                print("Error!\nTable: " + table + " does not exist")
+            else:
+                raise
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
