@@ -42,13 +42,11 @@ def weight_lifting_procedure():
 
 def nutrition_procedure():
     print("Calorie track and calculations.")
-    calorie_text = input("Would you like to view data or add a new entry?\n"
-                         "1: New entry\n"
-                         "2: View data\n")
+    calorie_text = input(constants.user_prompt)
     if calorie_text == '1':
         Utilities.new_entry("calorie")
     elif calorie_text == '2':
-        Utilities.retrieve_data("calorie")
+        pass
 
 
 def body_weight_procedure():
@@ -57,17 +55,14 @@ def body_weight_procedure():
     if body_weight_text == '1':
         body_weight.add_new_data()
     elif body_weight_text == '2':
-        Utilities.retrieve_data("body_weight")
+        body_weight.view_data()
     elif body_weight_text == '3':
         db_api.table_to_csv(constants.database_path, "body_weight")
 
 
 def morning_lifts_procedure():
     print("Morning lifts tracking")
-    lifting_text = input("Would you like to view data or add a new entry?\n"
-                         "1: New entry\n"
-                         "2: View data\n"
-                         "3: Dump data to CSV\n")
+    lifting_text = input(constants.user_prompt)
     table = "morning_lifts"
     if lifting_text == '1':
         db_api.create_table(constants.database_path, table, constants.morning_lifts_query)

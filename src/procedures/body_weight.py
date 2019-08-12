@@ -5,24 +5,37 @@
 # imports
 from Util import database_api as db_api
 from Util import constants
+from Util import Utilities as util
+
+table = 'body_weight'
 
 
 def add_new_data():
-    table = 'body_weight'
     while True:
-        text = input("What did you weigh today?\n")
+        weight_text = input("What did you weigh today?\n"
+                            "Optional: Input a file path to add multiple values (.txt)\n")
         try:
-            result = int(text)
+            result = int(weight_text)
             break
         except ValueError:
-            print('Invalid literal, please enter a number.')
+            result = util.read_file_values(weight_text)
+            if result is None:
+                print('Invalid option, please enter a valid number or valid path.')
+            else:
+                break
     db_api.create_table(constants.database_path, table, constants.body_weight_query)
-    unique_id = db_api.add_new_row(constants.database_path, table)
-    values = (result, unique_id)
-    names = ["body_weight"]
-    db_api.update_item(constants.database_path, table, values, names)
+    if not isinstance(result, list):
+        result = [result]
+    for item in result:
+        unique_id = db_api.add_new_row(constants.database_path, table)
+        values = (item, unique_id)
+        names = ["body_weight"]
+        db_api.update_item(constants.database_path, table, values, names)
     db_api.get_table_rows(constants.database_path, table)
 
+
+def view_data():
+    util.plot_data(constants.database_path, table, ['body_weight'])
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
