@@ -11,7 +11,7 @@ import os
 from procedures import nutrition
 from procedures import weight_lifting
 from procedures import body_weight
-from Util import Utilities
+from Util import utilities
 from Util import database_api as db_api
 from Util import constants
 from Util import config
