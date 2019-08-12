@@ -4,6 +4,7 @@
 
 # imports
 import os
+import datetime
 import numpy as np
 from matplotlib import pyplot as plt
 from . import database_api as db_api
@@ -42,7 +43,8 @@ def plot_data(db_path, table, column_names):
         if save_text == 'y':
             save_path = input("What path would you like to use?\n")
             try:
-                plt.savefig(save_path)
+                my_path = os.path.join(save_path, (table + ".png"))
+                plt.savefig(my_path)
             except Exception:
                 raise
         plt.show()
