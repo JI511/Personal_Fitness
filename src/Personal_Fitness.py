@@ -44,9 +44,9 @@ def nutrition_procedure():
     print("Calorie track and calculations.")
     calorie_text = input(constants.user_prompt)
     if calorie_text == '1':
-        Utilities.new_entry("calorie")
+        nutrition.add_new_data()
     elif calorie_text == '2':
-        pass
+        nutrition.view_data()
 
 
 def body_weight_procedure():

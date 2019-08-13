@@ -2,7 +2,8 @@
 #    Constants
 # ----------------------------------------------------------------------------------------------------------------------
 
-database_path = r"C:\Users\User\Desktop\Python\Personal_Fitness\health_database.db"
+#database_path = r"C:\Users\User\Desktop\Python\Personal_Fitness\health_database.db"
+database_path = r"E:\Programs\Personal_Fitness\src\health_database.db"
 
 user_prompt = "Would you like to view data or add a new entry?\n"\
               "1: New entry\n"\
@@ -162,6 +163,16 @@ morning_lifts_query = (
     "legs_dumbbell_squat text,"
     "abs_ab_roller text,"
     "abs_ab_shrugs text"
+)
+
+nutrition_query = (
+    "ID integer PRIMARY KEY ASC NOT NULL,"
+    "date text,"
+    "calories integer,"
+    "protein integer,"
+    "carbohydrates integer,"
+    "fat integer,"
+    "water integer"
 )
 
 # ----------------------------------------------------------------------------------------------------------------------
