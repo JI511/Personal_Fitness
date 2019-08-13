@@ -47,6 +47,8 @@ def nutrition_procedure():
         nutrition.add_new_data()
     elif calorie_text == '2':
         nutrition.view_data()
+    elif calorie_text == '3':
+        db_api.table_to_csv(constants.database_path, "nutrition")
 
 
 def body_weight_procedure():

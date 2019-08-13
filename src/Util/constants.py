@@ -2,8 +2,7 @@
 #    Constants
 # ----------------------------------------------------------------------------------------------------------------------
 
-#database_path = r"C:\Users\User\Desktop\Python\Personal_Fitness\health_database.db"
-database_path = r"E:\Programs\Personal_Fitness\src\health_database.db"
+database_path = r"C:\Users\User\Desktop\Python\Personal_Fitness\health_database.db"
 
 user_prompt = "Would you like to view data or add a new entry?\n"\
               "1: New entry\n"\
