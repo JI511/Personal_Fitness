@@ -7,8 +7,17 @@ import unittest
 
 
 class TestDatabaseApi(unittest.TestCase):
-    def run_tests(self):
+    def setUp(self):
+        self.logs_dir = ''
+
+    def tearDown(self):
+        pass
+
+    def test_nominal(self):
         self.assertEqual('test', 'test')
+
+    def test_nominal_2(self):
+        self.assertTrue(True)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
