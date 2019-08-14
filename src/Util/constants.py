@@ -164,6 +164,16 @@ morning_lifts_query = (
     "abs_ab_shrugs text"
 )
 
+nutrition_query = (
+    "ID integer PRIMARY KEY ASC NOT NULL,"
+    "date text,"
+    "calories integer,"
+    "protein integer,"
+    "carbohydrates integer,"
+    "fat integer,"
+    "water integer"
+)
+
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
 # ----------------------------------------------------------------------------------------------------------------------

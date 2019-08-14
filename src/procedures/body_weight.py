@@ -22,7 +22,7 @@ def add_new_data():
             if result is None:
                 print('Invalid option, please enter a valid number or valid path.')
             else:
-                break
+                raise
     db_api.create_table(constants.database_path, table, constants.body_weight_query)
     if not isinstance(result, list):
         result = [result]
