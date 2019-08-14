@@ -41,7 +41,7 @@ def weight_lifting_procedure():
 
 
 def nutrition_procedure():
-    print("Calorie track and calculations.")
+    print("Nutrition tracking and calculations.")
     calorie_text = input(constants.user_prompt)
     if calorie_text == '1':
         nutrition.add_new_data()
@@ -82,7 +82,7 @@ if __name__ == '__main__':
         procedure_text = input(
             "Which application would you like to run?\n"
             "1: Body Weight\n"
-            "2: Calories\n"
+            "2: Nutrition\n"
             "3: Weight Lifting\n"
             "4: Morning Lifts\n"
             "q: Quit\n")
