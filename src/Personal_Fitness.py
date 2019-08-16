@@ -80,7 +80,6 @@ def morning_lifts_procedure():
 if __name__ == '__main__':
     print("Starting Fitness Application...")
 
-    
     if not pathlib.Path('.\\Util\\config.cfg').exists():
         print("No config found... Creating")
         Utilities.initCfg()

@@ -69,7 +69,6 @@ def read_file_values(file_path):
             return None
     return values
 
-
 def initCfg():
     config = configparser.ConfigParser()
 
@@ -81,7 +80,6 @@ def initCfg():
 
     with open(r".\Util\config.cfg", "w") as file:
         config.write(file)
-
 
 def readCfg():
     config = configparser.ConfigParser()
