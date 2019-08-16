@@ -8,7 +8,8 @@ import datetime
 import numpy as np
 from matplotlib import pyplot as plt
 from . import database_api as db_api
-
+from Util import constants
+import configparser
 
 path = r"C:\Users\User\Desktop\Output"
 
@@ -68,6 +69,26 @@ def read_file_values(file_path):
             return None
     return values
 
+
+def initCfg():
+    config = configparser.ConfigParser()
+
+    config["DATA"] = {  "DatabasePath" : r"..\data\health_database.db",
+                        "CsvPath" : r"..\data\csv",
+                        "LogsPath" : r"..\data\logs.txt"}
+
+    config["VALUES"] = { "Water" : "oz" }
+
+    with open(r".\Util\config.cfg", "w") as file:
+        config.write(file)
+
+
+def readCfg():
+    config = configparser.ConfigParser()
+    config.read(r".\Util\config.cfg")
+    constants.database_path = config["DATA"]["DatabasePath"]
+    constants.csv_path = config["DATA"]["CsvPath"]
+    constants.logs_path = config["DATA"]["LogsPath"]
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
