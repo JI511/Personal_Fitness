@@ -9,7 +9,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from . import database_api as db_api
 
-
 path = r"C:\Users\User\Desktop\Output"
 
 
@@ -67,7 +66,6 @@ def read_file_values(file_path):
             print("There was an invalid number present.")
             return None
     return values
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

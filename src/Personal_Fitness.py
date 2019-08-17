@@ -7,12 +7,14 @@
 
 # imports
 import os
+# import pathlib
 from procedures import nutrition
 from procedures import weight_lifting
 from procedures import body_weight
 from Util import Utilities
 from Util import database_api as db_api
 from Util import constants
+from Util import config
 
 # from .procedures import nutrition
 # from .procedures import weight_lifting
@@ -78,6 +80,13 @@ def morning_lifts_procedure():
 
 if __name__ == '__main__':
     print("Starting Fitness Application...")
+
+    # if not pathlib.Path(r'.\Util\config.cfg').exists():
+    #     print("No config found... Creating")
+    #     config.init_cfg()
+
+    config.read_cfg()
+
     while True:
         procedure_text = input(
             "Which application would you like to run?\n"
