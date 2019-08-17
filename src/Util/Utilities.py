@@ -8,7 +8,6 @@ import datetime
 import numpy as np
 from matplotlib import pyplot as plt
 from . import database_api as db_api
-from Util import constants
 
 path = r"C:\Users\User\Desktop\Output"
 

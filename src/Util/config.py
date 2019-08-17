@@ -1,24 +1,40 @@
-from Util import constants
+# ----------------------------------------------------------------------------------------------------------------------
+#    Config file util
+# ----------------------------------------------------------------------------------------------------------------------
+
+# imports
 import configparser
+import pathlib
+from Util import constants
 
-def init_cfg():
+config_path = 'config.ini'
+
+
+def __init_cfg():
+    """
+    Creates a config file with default values.
+
+    """
     config = configparser.ConfigParser()
+    config["OPTIONS"] = constants.config_defaults["OPTIONS"]
+    with open(config_path, "w") as configfile:
+        config.write(configfile)
 
-    config["DATA"] = constants.config_defaults["DATA"]
-    config["VALUES"] = constants.config_defaults["VALUES"]
-
-    with open(r".\Util\config.cfg", "w") as file:
-        config.write(file)
 
 def read_cfg():
-    config = configparser.ConfigParser()
+    """
 
+    """
+    if not pathlib.Path(config_path).exists():
+        __init_cfg()
+    config = configparser.ConfigParser()
     try:
-        config.read(r".\Util\config.cfg")
-        constants.database_path = config["DATA"]["DatabasePath"]
-        constants.csv_path = config["DATA"]["CsvPath"]
-        constants.logs_path = config["DATA"]["LogsPath"]
-    except Exception as e:
-        print("problem reading config with exception: {0}".format(e))
-        return 0
-    return 1
+        config.read(config_path)
+        constants.water_option = config["OPTIONS"]["Water"]
+    except KeyError:
+        print("Error with config file path")
+
+
+# ----------------------------------------------------------------------------------------------------------------------
+#    End
+# ----------------------------------------------------------------------------------------------------------------------

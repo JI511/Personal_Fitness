@@ -2,9 +2,13 @@
 #    Constants
 # ----------------------------------------------------------------------------------------------------------------------
 
-database_path = ""
+# imports
+import os
+
+database_path = os.path.join(os.getcwd(), 'health_database.db')
 csv_path = ""
 logs_path = ""
+water_option = 'mL'
 
 
 user_prompt = "Would you like to view data or add a new entry?\n"\
@@ -178,14 +182,8 @@ nutrition_query = (
 )
 
 
-config_defaults = { 
-    "DATA" : {
-        "DatabasePath" : r"..\data\health_database.db",
-        "CsvPath" : r"..\data\csv",
-        "LogsPath" : r"..\data\logs.txt"
-        },
-
-    "VALUES" : {
+config_defaults = {
+    "OPTIONS" : {
         "Water" : "oz"
     }
 }

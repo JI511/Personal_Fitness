@@ -7,7 +7,7 @@
 
 # imports
 import os
-import pathlib
+# import pathlib
 from procedures import nutrition
 from procedures import weight_lifting
 from procedures import body_weight
@@ -81,9 +81,9 @@ def morning_lifts_procedure():
 if __name__ == '__main__':
     print("Starting Fitness Application...")
 
-    if not pathlib.Path(r'.\Util\config.cfg').exists():
-        print("No config found... Creating")
-        config.init_cfg()
+    # if not pathlib.Path(r'.\Util\config.cfg').exists():
+    #     print("No config found... Creating")
+    #     config.init_cfg()
 
     config.read_cfg()
 

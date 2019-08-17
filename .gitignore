@@ -7,7 +7,8 @@ __pycache__/
 *.db
 *.csv
 *.png
-config.cfg
+*.ini
+#.cfg
 
 # C extensions
 *.so
