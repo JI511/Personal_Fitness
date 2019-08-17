@@ -9,7 +9,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 from . import database_api as db_api
 from Util import constants
-import configparser
 
 path = r"C:\Users\User\Desktop\Output"
 
@@ -68,23 +67,6 @@ def read_file_values(file_path):
             print("There was an invalid number present.")
             return None
     return values
-
-def initCfg():
-    config = configparser.ConfigParser()
-
-    config["DATA"] = constants.config_defaults["DATA"]
-
-    config["VALUES"] = constants.config_defaults["VALUES"]
-
-    with open(r".\Util\config.cfg", "w") as file:
-        config.write(file)
-
-def readCfg():
-    config = configparser.ConfigParser()
-    config.read(r".\Util\config.cfg")
-    constants.database_path = config["DATA"]["DatabasePath"]
-    constants.csv_path = config["DATA"]["CsvPath"]
-    constants.logs_path = config["DATA"]["LogsPath"]
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

@@ -14,6 +14,7 @@ from procedures import body_weight
 from Util import Utilities
 from Util import database_api as db_api
 from Util import constants
+from Util import config
 
 # from .procedures import nutrition
 # from .procedures import weight_lifting
@@ -82,9 +83,9 @@ if __name__ == '__main__':
 
     if not pathlib.Path('.\\Util\\config.cfg').exists():
         print("No config found... Creating")
-        Utilities.initCfg()
+        config.initCfg()
 
-    Utilities.readCfg()
+    config.readCfg()
 
     while True:
         procedure_text = input(
