@@ -72,11 +72,9 @@ def read_file_values(file_path):
 def initCfg():
     config = configparser.ConfigParser()
 
-    config["DATA"] = {  "DatabasePath" : r"..\data\health_database.db",
-                        "CsvPath" : r"..\data\csv",
-                        "LogsPath" : r"..\data\logs.txt"}
+    config["DATA"] = constants.config_defaults["DATA"]
 
-    config["VALUES"] = { "Water" : "oz" }
+    config["VALUES"] = constants.config_defaults["VALUES"]
 
     with open(r".\Util\config.cfg", "w") as file:
         config.write(file)
