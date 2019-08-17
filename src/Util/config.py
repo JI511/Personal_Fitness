@@ -12,11 +12,13 @@ def init_cfg():
 
 def read_cfg():
     config = configparser.ConfigParser()
-    config.read(r".\Util\config.cfg")
-    constants.database_path = config["DATA"]["DatabasePath"]
-    constants.csv_path = config["DATA"]["CsvPath"]
-    constants.logs_path = config["DATA"]["LogsPath"]
 
-def init_value(key):
-
-    '''TODO: find default value for problematic key and apply its default'''
+    try:
+        config.read(r".\Util\config.cfg")
+        constants.database_path = config["DATA"]["DatabasePath"]
+        constants.csv_path = config["DATA"]["CsvPath"]
+        constants.logs_path = config["DATA"]["LogsPath"]
+    except Exception as e:
+        print("problem reading config with exception: {0}".format(e))
+        return 0
+    return 1
