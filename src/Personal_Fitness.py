@@ -83,9 +83,9 @@ if __name__ == '__main__':
 
     if not pathlib.Path('.\\Util\\config.cfg').exists():
         print("No config found... Creating")
-        config.initCfg()
+        config.init_cfg()
 
-    config.readCfg()
+    config.read_cfg()
 
     while True:
         procedure_text = input(
