@@ -1,12 +1,12 @@
 # ----------------------------------------------------------------------------------------------------------------------
-#    Utilities test cases
+#    Body Weight test cases
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
 import unittest
 
 
-class TestUtilities(unittest.TestCase):
+class TestBodyWeight(unittest.TestCase):
     def setUp(self):
         self.logs_dir = ''
 

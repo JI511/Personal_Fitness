@@ -5,8 +5,13 @@
 # imports
 import unittest
 import os
-from Util import test_database_api as test_db
-# from .Util.test_database_api import TestDatabaseApi
+
+from Util.test_database_api import TestDatabaseApi
+from Util.test_utilities import TestUtilities
+from Procedures.test_body_weight import TestBodyWeight
+from Procedures.test_nutrition import TestNutrition
+from Procedures.test_morning_lifts import TestMorningLifts
+from Procedures.test_weight_lifting import TestWeightLifting
 
 
 def suite():
@@ -15,16 +20,17 @@ def suite():
 
     :return: The suite of tests.
     """
-    modules_to_test = []
-    test_dir = os.listdir('.')
-    print(test_dir)
-    for test in test_dir:
-        if test.startswith('test') and test.endswith('.py'):
-            modules_to_test.append(test.rstrip('.py'))
+    test_dir = os.listdir(os.path.join(os.getcwd(), 'tests'))
+    for (dirpath, dirnames, filenames) in os.walk(os.path.join(os.getcwd(), 'tests')):
+        for name in filenames:
+            if name.startswith('test') and name.endswith('.py'):
+                pass
 
-    print(modules_to_test)
+    test_classes = [TestDatabaseApi, TestUtilities, TestBodyWeight, TestNutrition, TestMorningLifts, TestWeightLifting]
     my_suite = unittest.TestSuite()
-    my_suite.addTest(test_db.TestDatabaseApi('test_nominal'))
+    loader = unittest.TestLoader()
+    for item in test_classes:
+        my_suite.addTests(loader.loadTestsFromTestCase(item))
     return my_suite
 
 

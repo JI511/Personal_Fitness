@@ -1,12 +1,12 @@
 # ----------------------------------------------------------------------------------------------------------------------
-#    Utilities test cases
+#    Morning Lifts test cases
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
 import unittest
 
 
-class TestUtilities(unittest.TestCase):
+class TestMorningLifts(unittest.TestCase):
     def setUp(self):
         self.logs_dir = ''
 

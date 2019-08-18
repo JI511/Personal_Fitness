@@ -1,12 +1,12 @@
 # ----------------------------------------------------------------------------------------------------------------------
-#    Utilities test cases
+#    Nutrition test cases
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
 import unittest
 
 
-class TestUtilities(unittest.TestCase):
+class TestNutrition(unittest.TestCase):
     def setUp(self):
         self.logs_dir = ''
 
