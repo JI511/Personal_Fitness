@@ -11,14 +11,14 @@ import os
 from procedures import nutrition
 from procedures import weight_lifting
 from procedures import body_weight
-from Util import Utilities
+from Util import utilities
 from Util import database_api as db_api
 from Util import constants
 from Util import config
 
-# from .procedures import nutrition
-# from .procedures import weight_lifting
-# from .procedures import body_weight
+# from .Procedures import nutrition
+# from .Procedures import weight_lifting
+# from .Procedures import body_weight
 # from .Util import Utilities
 # from .Util import database_api as db_api
 # from .Util import Constants
