@@ -4,7 +4,7 @@
 
 from Util import database_api as db_api
 from Util import constants
-from Util import Utilities as util
+from Util import utilities as util
 
 table = 'nutrition'
 

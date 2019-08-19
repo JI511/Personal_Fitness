@@ -26,12 +26,13 @@ def read_cfg():
 
     """
     if not pathlib.Path(config_path).exists():
+        print("Creating config...")
         __init_cfg()
+    print("Reading config...")
     config = configparser.ConfigParser()
     try:
         config.read(config_path)
         constants.water_option = config["OPTIONS"]["Water"]
-        a = config["OPTIONS"]["test"]
     except KeyError:
         print("Error, trying to access a field not available in current config file.")
 
