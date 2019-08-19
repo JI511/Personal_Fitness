@@ -6,12 +6,12 @@
 import unittest
 import os
 
-from Util.test_database_api import TestDatabaseApi
-from Util.test_utilities import TestUtilities
-from Procedures.test_body_weight import TestBodyWeight
-from Procedures.test_nutrition import TestNutrition
-from Procedures.test_morning_lifts import TestMorningLifts
-from Procedures.test_weight_lifting import TestWeightLifting
+from tests.Util.test_database_api import TestDatabaseApi
+from tests.Util.test_utilities import TestUtilities
+from tests.Procedures.test_body_weight import TestBodyWeight
+from tests.Procedures.test_nutrition import TestNutrition
+from tests.Procedures.test_morning_lifts import TestMorningLifts
+from tests.Procedures.test_weight_lifting import TestWeightLifting
 
 
 def suite():
