@@ -28,7 +28,7 @@ Can add a new entry for chosen compound lists (Currently dummy values).
 Dump existing data to a csv file.
 
 Nutrition:
-Can add new entry to a text file.
+Can add new entry to a database file. Supports 3 macros currently and water.
 
 Morning Lifts:
 Dump existing data to a csv file.
