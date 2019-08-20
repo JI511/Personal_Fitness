@@ -31,6 +31,7 @@ def suite():
     loader = unittest.TestLoader()
     for item in test_classes:
         my_suite.addTests(loader.loadTestsFromTestCase(item))
+    print("\nStarting " + str(my_suite.countTestCases()) + " unit tests...")
     return my_suite
 
 

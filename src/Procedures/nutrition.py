@@ -2,9 +2,9 @@
 #    Calories
 # ----------------------------------------------------------------------------------------------------------------------
 
-from Util import database_api as db_api
-from Util import constants
-from Util import utilities as util
+from src.Util import database_api as db_api
+from src.Util import constants
+from src.Util import utilities as util
 
 table = 'nutrition'
 
