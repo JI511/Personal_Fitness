@@ -26,12 +26,17 @@ def sql_wrapper(func):
 
 @sql_wrapper
 def create_table(db_path, table, query):
-    with sqlite3.connect(db_path) as con:
-        try:
-            con.execute("CREATE TABLE " + table + " (" + query + ");")
-        except sqlite3.OperationalError as e:
-            if str(e) != ('table ' + table + " already exists"):
-                raise
+    try:
+        with sqlite3.connect(db_path) as con:
+            try:
+                con.execute("CREATE TABLE " + table + " (" + query + ");")
+            except sqlite3.OperationalError as e:
+                if str(e) != ('table ' + table + " already exists"):
+                    raise
+    except sqlite3.OperationalError as msg:
+        if 'unable to open database file' in str(msg):
+            # print('There was an error trying to open the database file...')
+            pass
 
 
 @sql_wrapper

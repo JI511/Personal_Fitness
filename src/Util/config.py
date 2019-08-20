@@ -5,7 +5,7 @@
 # imports
 import configparser
 import pathlib
-from Util import constants
+from src.Util import constants
 
 config_path = 'config.ini'
 

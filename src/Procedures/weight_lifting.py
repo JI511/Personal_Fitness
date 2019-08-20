@@ -3,8 +3,8 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
-from Util import database_api as db_api
-from Util import constants
+from src.Util import database_api as db_api
+from src.Util import constants
 
 
 def add_new_data():

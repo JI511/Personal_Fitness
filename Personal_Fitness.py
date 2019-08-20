@@ -8,13 +8,13 @@
 # imports
 import os
 # import pathlib
-from Procedures import nutrition
-from Procedures import weight_lifting
-from Procedures import body_weight
-from Util import utilities
-from Util import database_api as db_api
-from Util import constants
-from Util import config
+from src.Procedures import nutrition
+from src.Procedures import weight_lifting
+from src.Procedures import body_weight
+from src.Util import utilities
+from src.Util import database_api as db_api
+from src.Util import constants
+from src.Util import config
 
 # from .Procedures import nutrition
 # from .Procedures import weight_lifting
