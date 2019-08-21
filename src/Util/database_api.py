@@ -6,6 +6,7 @@ import sqlite3
 import csv
 import datetime
 import sys
+import os
 from functools import wraps
 from . import constants
 
@@ -26,17 +27,20 @@ def sql_wrapper(func):
 
 @sql_wrapper
 def create_table(db_path, table, query):
-    try:
-        with sqlite3.connect(db_path) as con:
-            try:
-                con.execute("CREATE TABLE " + table + " (" + query + ");")
-            except sqlite3.OperationalError as e:
-                if str(e) != ('table ' + table + " already exists"):
-                    raise
-    except sqlite3.OperationalError as msg:
-        if 'unable to open database file' in str(msg):
-            # print('There was an error trying to open the database file...')
+    if 'date' in query and 'ID integer' in query:
+        if not os.path.isdir(db_path) and db_path[-3:] == '.db':
+            with sqlite3.connect(db_path) as con:
+                try:
+                    con.execute("CREATE TABLE " + table + " (" + query + ");")
+                except sqlite3.OperationalError as e:
+                    if str(e) != ('table ' + table + " already exists"):
+                        raise
+        else:
+            # print('invalid file path')
             pass
+    else:
+        pass
+        # print('required column names not in query')
 
 
 @sql_wrapper

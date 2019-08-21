@@ -31,13 +31,50 @@ def suite():
     loader = unittest.TestLoader()
     for item in test_classes:
         my_suite.addTests(loader.loadTestsFromTestCase(item))
-    print("\nStarting " + str(my_suite.countTestCases()) + " unit tests...")
+    print("Starting " + str(my_suite.countTestCases()) + " unit tests...\n")
     return my_suite
 
 
 if __name__ == '__main__':
-    runner = unittest.TextTestRunner()
-    runner.run(suite())
+    print("##########################################################\n"
+          "######                                              ######\n"
+          "######      ##    ##  ##    ##   ##   ######        ######\n"
+          "######      ##    ##  ###   ##   ##     ##          ######\n"
+          "######      ##    ##  ## #  ##   ##     ##          ######\n"
+          "######      ##    ##  ##  # ##   ##     ##          ######\n"
+          "######      ##    ##  ##   ###   ##     ##          ######\n"
+          "######      ########  ##    ##   ##     ##          ######\n"
+          "######                                              ######\n"
+          "######                 tests                        ######\n"
+          "##########################################################\n" )
+
+    log_file = os.path.join(os.getcwd(), "logs.txt")
+    fail_count = 0
+    with open(log_file, "w") as file:
+        runner = unittest.TextTestRunner(file)
+        for test in suite():
+            result = runner.run(test)
+            if result.wasSuccessful():
+                print(str(test) + "           PASS")
+            else:
+                fail_count += 1
+    if fail_count == 0:
+        print("\n##################\n"
+              "#                #\n"
+              "#    All tests   #\n"
+              "#   successful!  #\n"
+              "#                #\n"
+              "##################")
+    else:
+        print("###\n"
+              "###\n"
+              "###\n"
+              "###\n"
+              "###\n"
+              "###\n"
+              "\n"
+              "###\n"
+              "###")
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

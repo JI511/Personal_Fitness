@@ -29,7 +29,6 @@ class TestDatabaseApi(unittest.TestCase):
             "text_item text,"
             "number_item int"
         )
-        print('\n' + str(self.__class__).split(".")[-1][:-2] + '.' + self._testMethodName)
 
     def tearDown(self):
         """
@@ -52,12 +51,18 @@ class TestDatabaseApi(unittest.TestCase):
         db_api.create_table(self.logs_dir, self.table, self.query)
         self.assertFalse(os.path.exists(self.db_path))
 
+    def test_create_table_date_query(self):
+        """
+        Tries to create a test database without the required query column names.
+        """
+        self.query = ("ID integer PRIMARY KEY ASC NOT NULL")
+        db_api.create_table(self.db_path, self.table, self.query)
+        self.assertFalse(os.path.exists(self.db_path))
+
     def test_add_new_row_nominal(self):
         db_api.create_table(self.db_path, self.table, self.query)
         unique_id = db_api.add_new_row(self.db_path, self.table)
         self.assertEqual(unique_id, 1)
-
-    # todo add test for date not present
 
 
 # ----------------------------------------------------------------------------------------------------------------------
