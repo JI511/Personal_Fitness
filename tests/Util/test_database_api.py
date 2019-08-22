@@ -60,9 +60,15 @@ class TestDatabaseApi(unittest.TestCase):
         self.assertFalse(os.path.exists(self.db_path))
 
     def test_add_new_row_nominal(self):
+        """
+        Creates a default row.
+        """
         db_api.create_table(self.db_path, self.table, self.query)
         unique_id = db_api.add_new_row(self.db_path, self.table)
+        result = db_api.get_all_table_items(self.db_path, self.table)
+        print(result)
         self.assertEqual(unique_id, 1)
+        self.assertEqual(result[0][0], 1)
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -74,7 +74,7 @@ def update_item(db_path, table, value_tuple, name_list):
 
 
 @sql_wrapper
-def get_table_rows(db_path, table):
+def get_all_table_items(db_path, table):
     """
     Gets all rows within specified table.
 
@@ -84,12 +84,13 @@ def get_table_rows(db_path, table):
     :param table: Name of the table to access within the db file.
     """
     with sqlite3.connect(db_path) as con:
-        for row in con.execute("SELECT * FROM " + table + ";"):
-            print(row)
+        cursor = con.cursor()
+        cursor.execute("SELECT * FROM " + table + ";")
+        return cursor.fetchall()
 
 
 @sql_wrapper
-def get_column_items(db_path, table, column_names, count=None):
+def get_table_columns(db_path, table, column_names):
     """
     Gets all column items from the specified table column, or a set amount if count is used.
 
@@ -100,16 +101,12 @@ def get_column_items(db_path, table, column_names, count=None):
     :return: Dictionary of key=column_name and value=gathered values
     """
     value_dict = dict()
-    if count is None:
-        count = 9999
     with sqlite3.connect(db_path) as con:
         for column in column_names:
             item_list = list()
             cursor = con.cursor()
             for item in cursor.execute("SELECT " + column + " FROM " + table + ";"):
                 item_list.append(int(item[0]))
-                if len(item_list) > count:
-                    break
             value_dict[column] = item_list
         return value_dict
 

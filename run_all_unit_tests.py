@@ -57,6 +57,13 @@ if __name__ == '__main__':
             if result.wasSuccessful():
                 print(str(test) + "           PASS")
             else:
+                print(str(test) + "           FAIL\n\n***** DEBUG *****\n")
+                if len(result.failures) != 0:
+                    for failure in result.failures[0]:
+                        print(failure)
+                if len(result.errors) != 0:
+                    for error in result.errors[0]:
+                        print(error)
                 fail_count += 1
     if fail_count == 0:
         print("\n##################\n"
@@ -66,15 +73,15 @@ if __name__ == '__main__':
               "#                #\n"
               "##################")
     else:
-        print("###\n"
-              "###\n"
-              "###\n"
-              "###\n"
-              "###\n"
-              "###\n"
+        print("\n    ###\n"
+              "    ###\n"
+              "    ###\n"
+              "    ###        Errors!\n"
+              "    ###\n"
+              "    ###\n"
               "\n"
-              "###\n"
-              "###")
+              "    ###\n"
+              "    ###")
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
