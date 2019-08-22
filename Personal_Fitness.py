@@ -45,8 +45,14 @@ def weight_lifting_procedure():
 def nutrition_procedure():
     print("Nutrition tracking and calculations.")
     calorie_text = input(constants.user_prompt)
+    table = 'nutrition'
+    names = ["protein", "fat", "carbohydrates", "calories", "water"]
     if calorie_text == '1':
-        nutrition.add_new_data()
+        db_api.create_table(constants.database_path, table, constants.nutrition_query)
+        unique_id = db_api.add_new_row(constants.database_path, table)
+        result = nutrition.add_new_data()
+        result.append(unique_id)
+        db_api.update_item(constants.database_path, table, tuple(result), names)
     elif calorie_text == '2':
         nutrition.view_data()
     elif calorie_text == '3':

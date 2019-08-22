@@ -7,7 +7,6 @@ import unittest
 import tempfile
 import os
 import shutil
-import inspect
 from src.Util import database_api as db_api
 
 

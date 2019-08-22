@@ -31,7 +31,7 @@ def plot_data(db_path, table, column_names):
     :param String table: Name of table within the DB file.
     :param List column_names: Column names within the database.
     """
-    plot_values = db_api.get_column_items(db_path, table, column_names)
+    plot_values = db_api.get_table_columns(db_path, table, column_names)
     for column in column_names:
         x = np.arange(len(plot_values[column]))
         y = np.asarray(plot_values[column])

@@ -45,6 +45,13 @@ def create_table(db_path, table, query):
 
 @sql_wrapper
 def add_new_row(db_path, table):
+    """
+    Creates a default row with a unique id and appends the current time to the table entry.
+
+    :param db_path: Path to the DB file.
+    :param table: Name of the table to access within the db file.
+    :return: The unique id as an integer.
+    """
     with sqlite3.connect(db_path) as con:
         cursor = con.cursor()
         cursor.execute("INSERT INTO " + table + " DEFAULT VALUES")
