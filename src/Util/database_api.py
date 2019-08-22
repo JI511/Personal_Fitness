@@ -54,18 +54,20 @@ def add_new_row(db_path, table):
 
 
 @sql_wrapper
-def update_item(db_path, table, value_tuple, name_list):
+def update_item(db_path, table, value_tuple, column_list):
     """
+
+    Note - unique_id needs to be the last value of the value tuple.
 
     :param db_path: Path to the db file.
     :param table: Name of the table to access within the db file.
     :param value_tuple:
-    :param name_list:
+    :param column_list:
     """
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
         query = 'Update ' + table + ' SET '
-        for name in name_list:
+        for name in column_list:
             query = query + name + ' = ? ,'
         query = query[:(len(query) - 1)]
         query = query + ' WHERE ID = ?'
@@ -106,27 +108,32 @@ def get_table_columns(db_path, table, column_names):
             item_list = list()
             cursor = con.cursor()
             for item in cursor.execute("SELECT " + column + " FROM " + table + ";"):
-                item_list.append(int(item[0]))
+                item_list.append(item[0])
             value_dict[column] = item_list
         return value_dict
 
 
 @sql_wrapper
-def table_to_csv(db_path, table):
+def table_to_csv(db_path, table, output_dir=None):
     """
     Outputs the specified table to a csv file.
 
     :param db_path: Path to the DB file.
     :param table: Name of table within the DB file.
+    :param output_dir: Optional output directory (if different than project root).
     """
     with sqlite3.connect(db_path) as con:
         cur = con.cursor()
         try:
             cur.execute("SELECT * FROM " + table + ";")
-            with open('{0}.csv'.format(table), "w", newline='') as file:
+            csv_name = '%s.csv' % table
+            if output_dir is not None and os.path.isdir(output_dir):
+                csv_name = os.path.join(output_dir, csv_name)
+            with open(csv_name.format(table), "w", newline='') as file:
                 csv_writer = csv.writer(file)
                 csv_writer.writerow([i[0] for i in cur.description])
                 csv_writer.writerows(cur)
+            return csv_name
         except sqlite3.OperationalError as msg:
             if 'no such table' in str(msg):
                 print("Error!\nTable: " + table + " does not exist")
