@@ -8,7 +8,6 @@ import datetime
 import sys
 import os
 from functools import wraps
-from . import constants
 
 
 class SqlError(Exception):

@@ -31,7 +31,7 @@ def add_new_data():
         values = (item, unique_id)
         names = ["body_weight"]
         db_api.update_item(constants.database_path, table, values, names)
-    db_api.get_table_rows(constants.database_path, table)
+    db_api.get_table_columns(constants.database_path, table)
 
 
 def view_data():

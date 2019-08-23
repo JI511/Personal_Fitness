@@ -7,7 +7,7 @@ import os
 import datetime
 import numpy as np
 from matplotlib import pyplot as plt
-from . import database_api as db_api
+from src.Util import database_api as db_api
 
 path = r"C:\Users\User\Desktop\Output"
 
