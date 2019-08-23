@@ -5,6 +5,7 @@
 # imports
 import unittest
 import os
+import datetime
 
 from tests.Util.Test_Help import suite
 
@@ -24,6 +25,7 @@ print("##########################################################\n"
 log_file = os.path.join(os.getcwd(), "logs.txt")
 fail_count = 0
 with open(log_file, "w") as file:
+    file.write(str(datetime.datetime.now()))
     runner = unittest.TextTestRunner(file)
     for test in suite():
         result = runner.run(test)
