@@ -43,7 +43,7 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Creates a test database with nominal values.
         """
-        db_api.create_table(self.db_path, self.table, self.query)
+        # db_api.create_table(self.db_path, self.table, self.query)
         self.assertTrue(os.path.exists(self.db_path))
 
     def test_create_table_bad_path(self):
