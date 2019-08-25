@@ -176,7 +176,7 @@ nutrition_query = (
     "date text,"
     "calories integer,"
     "protein integer,"
-    "carbohydrates integer,"
+    "carbs integer,"
     "fat integer,"
     "water integer"
 )

@@ -57,7 +57,7 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Tries to create a test database without the required column name date.
         """
-        self.query = ("ID integer PRIMARY KEY ASC NOT NULL")
+        self.query = "ID integer PRIMARY KEY ASC NOT NULL"
         db_api.create_table(self.db_path, self.table, self.query)
         self.assertFalse(os.path.exists(self.db_path))
 
@@ -65,7 +65,7 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Tries to create a test database without the required column name ID.
         """
-        self.query = ("date text")
+        self.query = "date text"
         db_api.create_table(self.db_path, self.table, self.query)
         self.assertFalse(os.path.exists(self.db_path))
 

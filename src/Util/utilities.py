@@ -23,13 +23,14 @@ def new_entry(procedure):
     file.close()
 
 
-def plot_data(db_path, table, column_names):
+def plot_data(db_path, table, column_names, output_path):
     """
     Gathers and plots all data points within the specified table
 
     :param db_path: Path to the DB file.
-    :param String table: Name of table within the DB file.
+    :param str table: Name of table within the DB file.
     :param List column_names: Column names within the database.
+    :param str output_path: Path to where plots should be saved.
     """
     plot_values = db_api.get_table_columns(db_path, table, column_names)
     for column in column_names:
@@ -38,15 +39,11 @@ def plot_data(db_path, table, column_names):
 
         plt.title(table)
         plt.plot(x, y)
-        save_text = input("Would you like to save the plot? y for yes:\n")
-        if save_text == 'y':
-            save_path = input("What path would you like to use?\n")
-            try:
-                my_path = os.path.join(save_path, (table + ".png"))
-                plt.savefig(my_path)
-            except Exception:
-                raise
-        plt.show()
+        try:
+            my_path = os.path.join(output_path, "%s_%s.png" % (table, column))
+            plt.savefig(my_path)
+        except Exception:
+            raise
 
 
 def read_file_values(file_path):

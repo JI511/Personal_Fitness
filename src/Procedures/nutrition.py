@@ -2,8 +2,6 @@
 #    Calories
 # ----------------------------------------------------------------------------------------------------------------------
 
-from src.Util import database_api as db_api
-from src.Util import constants
 from src.Util import utilities as util
 
 table = 'nutrition'
@@ -15,7 +13,6 @@ def add_new_data():
     """
     while True:
         macros_text = input("Enter your protein, tat, carbs (g), and water intake separated by spaces:\n")
-        # water_text = input("Please enter your water intake in ml:\n")
         try:
             if macros_text == "":
                 print("Nothing was entered, please try again.")
@@ -35,18 +32,20 @@ def add_new_data():
                 print('Invalid option, please enter a valid number or valid path.')
             else:
                 raise
-    # todo move where all this is done
-    # calculate calories
-    # all_values.append((protein * 4) + (fat * 9) + (carbohydrates * 4))
-    # names = ["protein", "fat", "carbohydrates", "calories", "water"]
-    # db_api.create_table(constants.database_path, table, constants.nutrition_query)
-    # unique_id = db_api.add_new_row(constants.database_path, table)
-    # all_values.append(unique_id)
-    # db_api.update_item(constants.database_path, table, tuple(all_values), names)
 
 
-def view_data():
-    util.plot_data(constants.database_path, table, ['nutrition'])
+def view_data(db_path, output_path, column_names=None):
+    """
+    Creates a separate plot for all nutrition columns by default.
+
+    :param db_path: The path to the DB file.
+    :param str output_path: The desired output directory for created plots.
+    :param List column_names: Optional to only plot certain nutrition items.
+    """
+    columns = ["protein", "fat", "carbs", "calories", "water"]
+    if column_names is not None:
+        columns = column_names
+    util.plot_data(db_path, table, columns, output_path)
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
