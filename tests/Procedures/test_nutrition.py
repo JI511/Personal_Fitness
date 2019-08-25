@@ -13,6 +13,8 @@ from src.Procedures import nutrition
 from src.Util import database_api as db_api
 from src.Util import constants
 
+table = 'weight_lifting'
+
 
 class TestNutrition(unittest.TestCase):
     def setUp(self):
@@ -34,14 +36,14 @@ class TestNutrition(unittest.TestCase):
             shutil.rmtree(self.logs_dir)
 
     # ------------------------------------------------------------------------------------------------------------------
-    # add_new_data tests
+    # get_new_data tests
     # ------------------------------------------------------------------------------------------------------------------
-    def test_add_new_data_nominal(self):
+    def test_get_new_data_nominal(self):
         """
         Adds a new entry into the nutrition table.
         """
         with mock.patch('builtins.input', return_value='1 2 3 4'):
-            result = nutrition.add_new_data()
+            result = nutrition.get_new_data()
             self.assertEqual(result, [1, 2, 3, 4, 34])
             unique_id = db_api.add_new_row(self.db_path, self.table)
             result.append(unique_id)

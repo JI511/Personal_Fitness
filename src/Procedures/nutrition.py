@@ -7,7 +7,7 @@ from src.Util import utilities as util
 table = 'nutrition'
 
 
-def add_new_data():
+def get_new_data():
     """
     Gathers user input about macros and water intake. Appends values to database file.
     """

@@ -6,39 +6,29 @@
 from src.Util import database_api as db_api
 from src.Util import constants
 
+table = 'weight_lifting'
 
-def add_new_data():
+
+def get_new_data():
     """
     Adds a new entry into the weight lifting table within the health_database database.
-
     """
-    table = 'weight_lifting'
     names = get_workout_item_names(determine_muscle_group('Which muscle groups did you work today?'))
     while True:
         use_default = input("Would you like to use default values based on current max?\n"
                             "y: yes\n"
                             "n: no\n")
         if use_default == 'y':
-            values = get_default_lift_values(names)
-            break
+            return get_default_lift_values(names), names
         elif use_default == 'n':
-            # todo, allow for custom input
-            values = get_default_lift_values(names)
-            break
+            return get_default_lift_values(names), names
         print('Please enter a valid option')
-    db_api.create_table(constants.database_path, table, constants.weight_lifting_compound_query)
-    unique_id = db_api.add_new_row(constants.database_path, table)
-    values = values + (unique_id,)
-    db_api.update_item(constants.database_path, table, values, names)
-    db_api.get_table_rows(constants.database_path, table)
 
 
-def update_max_lifts():
+def get_max_lift_updates():
     """
     Updates the user selected max lift values by getting input from the user.
-
     """
-    table = 'max_lifts'
     names = determine_muscle_group('Which max values would you like to update?')
     max_lift_names = list()
     if 'bench' in names:
@@ -49,22 +39,17 @@ def update_max_lifts():
         max_lift_names.append('shoulder_press_max')
     if 'deadlift' in names:
         max_lift_names.append('deadlift_max')
-    max_lift_values = tuple()
+    max_lift_values = []
     for row in max_lift_names:
         while True:
-            max_text = input("New " + row + "value:\n")
+            max_text = input(("New " + row + "value:\n").replace("_", " "))
             try:
                 max_update = int(max_text)
-                max_lift_values = max_lift_values + (max_update,)
+                max_lift_values.append(max_update)
                 break
             except ValueError:
                 print('Invalid literal, please enter a number.')
-    db_api.create_table(constants.database_path, table, constants.max_lifts_query)
-    unique_id = db_api.add_new_row(constants.database_path, table)
-    db_api.get_table_rows(constants.database_path, table)
-    max_lift_values = max_lift_values + (unique_id,)
-    db_api.update_item(constants.database_path, table, max_lift_values, max_lift_names)
-    db_api.get_table_rows(constants.database_path, table)
+    return max_lift_values, max_lift_names
 
 
 def get_default_lift_values(names):
@@ -75,9 +60,9 @@ def get_default_lift_values(names):
     :param names:
     :return: The default values
     """
-    values = tuple()
-    for index, name in enumerate(names):
-        values = values + (index,)
+    values = []
+    for i in range(len(names)):
+        values.append(i)
     return values
 
 
@@ -104,7 +89,7 @@ def determine_muscle_group(question_text):
     """
     Gets a binary input from the user to select the chosen compound lifts to update.
 
-    :param question_text: Question for the user to determine which procedure is asking about compounds.
+    :param str question_text: Question for the user to determine which procedure is asking about compounds.
     :return: A list of Strings containing the chosen compound lifts.
     """
     while True:
@@ -115,7 +100,10 @@ def determine_muscle_group(question_text):
                        "1: Deadlift\n")
         try:
             result = int(groups)
-            break
+            if result > 0:
+                break
+            else:
+                print('Please enter a positive integer value.')
         except ValueError:
             print('Invalid literal, please enter a number.')
     muscle_groups = list()

@@ -8,7 +8,7 @@ from src.Util import utilities as util
 table = 'body_weight'
 
 
-def add_new_data():
+def get_new_data():
     """
     Get the input value from the user for body weight procedure.
     :return:

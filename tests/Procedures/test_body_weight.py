@@ -34,14 +34,14 @@ class TestBodyWeight(unittest.TestCase):
             shutil.rmtree(self.logs_dir)
 
     # ------------------------------------------------------------------------------------------------------------------
-    # add_new_data tests
+    # get_new_data tests
     # ------------------------------------------------------------------------------------------------------------------
-    def test_add_new_data_nominal(self):
+    def test_get_new_data_nominal(self):
         """
         Provides mock user input for a body weight entry.
         """
         with mock.patch('builtins.input', return_value='100'):
-            result = body_weight.add_new_data()
+            result = body_weight.get_new_data()
             self.assertEqual(result, [100])
             unique_id = db_api.add_new_row(self.db_path, self.table)
             result.append(unique_id)

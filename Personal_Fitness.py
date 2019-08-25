@@ -7,21 +7,12 @@
 
 # imports
 import os
-# import pathlib
 from src.Procedures import nutrition
 from src.Procedures import weight_lifting
 from src.Procedures import body_weight
-from src.Util import utilities
 from src.Util import database_api as db_api
 from src.Util import constants
 from src.Util import config
-
-# from .Procedures import nutrition
-# from .Procedures import weight_lifting
-# from .Procedures import body_weight
-# from .Util import Utilities
-# from .Util import database_api as db_api
-# from .Util import Constants
 
 
 def weight_lifting_procedure():
@@ -32,12 +23,22 @@ def weight_lifting_procedure():
                                 "3: Update max lift values\n"
                                 "4: Dump data to CSV\n"
                                 )
+    table = 'weight_lifting'
     if weight_lifting_text == '1':
-        weight_lifting.add_new_data()
+        db_api.create_table(constants.database_path, table, constants.weight_lifting_compound_query)
+        unique_id = db_api.add_new_row(constants.database_path, table)
+        results, names = weight_lifting.get_new_data()
+        results.append(unique_id)
+        db_api.update_item(constants.database_path, table, tuple(results), names)
     elif weight_lifting_text == '2':
         print('Not implemented!')
     elif weight_lifting_text == '3':
-        weight_lifting.update_max_lifts()
+        table = 'max_lifts'
+        db_api.create_table(constants.database_path, table, constants.max_lifts_query)
+        unique_id = db_api.add_new_row(constants.database_path, table)
+        results, names = weight_lifting.get_max_lift_updates()
+        results.append(unique_id)
+        db_api.update_item(constants.database_path, table, tuple(results), names)
     elif weight_lifting_text == '4':
         db_api.table_to_csv(constants.database_path, "weight_lifting")
 
@@ -50,11 +51,11 @@ def nutrition_procedure():
     if calorie_text == '1':
         db_api.create_table(constants.database_path, table, constants.nutrition_query)
         unique_id = db_api.add_new_row(constants.database_path, table)
-        result = nutrition.add_new_data()
-        result.append(unique_id)
-        db_api.update_item(constants.database_path, table, tuple(result), names)
+        results = nutrition.get_new_data()
+        results.append(unique_id)
+        db_api.update_item(constants.database_path, table, tuple(results), names)
     elif calorie_text == '2':
-        nutrition.view_data()
+        nutrition.view_data(constants.database_path, constants.output_path)
     elif calorie_text == '3':
         db_api.table_to_csv(constants.database_path, "nutrition")
 
@@ -67,11 +68,11 @@ def body_weight_procedure():
     if body_weight_text == '1':
         db_api.create_table(constants.database_path, table, constants.body_weight_query)
         unique_id = db_api.add_new_row(constants.database_path, table)
-        result = body_weight.add_new_data()
+        result = body_weight.get_new_data()
         result.append(unique_id)
         db_api.update_item(constants.database_path, table, tuple(result), names)
     elif body_weight_text == '2':
-        body_weight.view_data()
+        body_weight.view_data(constants.database_path, constants.output_path)
     elif body_weight_text == '3':
         db_api.table_to_csv(constants.database_path, "body_weight")
 

@@ -6,6 +6,7 @@
 import os
 
 database_path = os.path.join(os.getcwd(), 'health_database.db')
+output_path = os.path.join(os.getcwd(), 'output_files')
 csv_path = ""
 logs_path = ""
 water_option = 'mL'
