@@ -62,8 +62,14 @@ def nutrition_procedure():
 def body_weight_procedure():
     print("Body weight tracking and calculations")
     body_weight_text = input(constants.user_prompt)
+    table = 'body_weight'
+    names = ['body_weight']
     if body_weight_text == '1':
-        body_weight.add_new_data()
+        db_api.create_table(constants.database_path, table, constants.body_weight_query)
+        unique_id = db_api.add_new_row(constants.database_path, table)
+        result = body_weight.add_new_data()
+        result.append(unique_id)
+        db_api.update_item(constants.database_path, table, tuple(result), names)
     elif body_weight_text == '2':
         body_weight.view_data()
     elif body_weight_text == '3':
@@ -79,18 +85,13 @@ def morning_lifts_procedure():
         db_api.add_new_row(constants.database_path, table)
         # todo, how to add actual data
     elif lifting_text == '2':
-        db_api.get_table_rows(constants.database_path, table)
+        db_api.get_table_columns(constants.database_path, table)
     elif lifting_text == '3':
         db_api.table_to_csv(constants.database_path, "morning_lifts")
 
 
 if __name__ == '__main__':
     print("Starting Fitness Application...")
-
-    # if not pathlib.Path(r'.\Util\config.cfg').exists():
-    #     print("No config found... Creating")
-    #     config.init_cfg()
-
     config.read_cfg()
 
     while True:
