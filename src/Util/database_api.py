@@ -35,11 +35,11 @@ def create_table(db_path, table, query):
                     if str(e) != ('table ' + table + " already exists"):
                         raise
         else:
-            # print('invalid file path')
+            # log: print('invalid file path')
             pass
     else:
         pass
-        # print('required column names not in query')
+        # log: print('required column names not in query')
 
 
 @sql_wrapper
@@ -77,7 +77,6 @@ def update_item(db_path, table, value_tuple, column_list):
             query = query + name + ' = ? ,'
         query = query[:(len(query) - 1)]
         query = query + ' WHERE ID = ?'
-        # print(query)
         cur.execute(query, value_tuple)
 
 
