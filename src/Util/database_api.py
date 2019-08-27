@@ -10,7 +10,7 @@ import os
 from functools import wraps
 
 
-class SqlError(Exception):
+class SqlError(BaseException):
     pass
 
 
@@ -22,6 +22,22 @@ def sql_wrapper(func):
         except sqlite3.Error as e:
             raise SqlError(e)
     return wrapper
+
+
+@sql_wrapper
+def create_connection(db_path):
+    """
+    Creates a connection to a specified database path.
+
+    :param db_path: The path to the DB file.
+    :return: Connection object.
+    """
+    if not os.path.isdir(db_path) and db_path[-3:] == '.db':
+        with sqlite3.connect(db_path) as con:
+            cursor = con.cursor()
+            return cursor
+    else:
+        return None
 
 
 @sql_wrapper
