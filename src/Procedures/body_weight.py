@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
+import logging
 from src.Util import utilities as util
 
 table = 'body_weight'
@@ -17,7 +18,9 @@ def get_new_data():
         weight_text = input("What did you weigh today?\n"
                             "Optional: Input a file path to add multiple values (.txt)\n")
         try:
-            return [int(weight_text)]
+            result = [int(weight_text)]
+            logging.info('Weight text retrieved: %s' % weight_text)
+            return result
         except ValueError:
             result = util.read_file_values(weight_text)
             if result is None:
