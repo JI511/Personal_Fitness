@@ -7,6 +7,7 @@
 
 # imports
 import os
+import logging
 from src.Procedures import nutrition
 from src.Procedures import weight_lifting
 from src.Procedures import body_weight
@@ -93,6 +94,7 @@ def morning_lifts_procedure():
 
 if __name__ == '__main__':
     print("Starting Fitness Application...")
+    logging.basicConfig(filename='app.log', level=logging.INFO)
     config.read_cfg()
 
     while True:

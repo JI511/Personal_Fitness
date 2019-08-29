@@ -20,9 +20,10 @@ print("##########################################################\n"
       "######      ########  ##    ##   ##     ##          ######\n"
       "######                                              ######\n"
       "######                     tests                    ######\n"
+      "######                                              ######\n"
       "##########################################################\n")
 
-log_file = os.path.join(os.getcwd(), "logs.txt")
+log_file = os.path.join(os.getcwd(), "unit_test_log.txt")
 fail_count = 0
 with open(log_file, "w") as file:
     file.write(str(datetime.datetime.now()))
