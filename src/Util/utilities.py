@@ -4,23 +4,11 @@
 
 # imports
 import os
-import datetime
 import numpy as np
 from matplotlib import pyplot as plt
 from src.Util import database_api as db_api
 
 path = r"C:\Users\User\Desktop\Output"
-
-
-def new_entry(procedure):
-    print("New %s entry" % procedure)
-    file_name = procedure + ".txt"
-    full_path = os.path.join(path, file_name)
-    file = open(full_path, "a")
-    text = input("Enter a valid number\n")
-    # todo add check for valid number
-    file.write(text + "\n")
-    file.close()
 
 
 def plot_data(db_path, table, column_names, output_path):
@@ -44,6 +32,13 @@ def plot_data(db_path, table, column_names, output_path):
             plt.savefig(my_path)
         except Exception:
             raise
+
+
+def write_log_file():
+    """
+
+    :return:
+    """
 
 
 def read_file_values(file_path):

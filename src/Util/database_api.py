@@ -7,6 +7,7 @@ import csv
 import datetime
 import sys
 import os
+import logging
 from functools import wraps
 
 
@@ -35,11 +36,11 @@ def create_table(db_path, table, query):
                     if str(e) != ('table ' + table + " already exists"):
                         raise
         else:
-            # print('invalid file path')
+            logging.getLogger(__name__).error('Invalid file path')
             pass
     else:
         pass
-        # print('required column names not in query')
+        logging.getLogger(__name__).error('required column names not in query')
 
 
 @sql_wrapper
@@ -55,6 +56,7 @@ def add_new_row(db_path, table):
         cursor = con.cursor()
         cursor.execute("INSERT INTO " + table + " DEFAULT VALUES")
         unique_id = cursor.lastrowid
+        logging.getLogger(__name__).info('New default row at ID %s added.' % unique_id)
     update_item(db_path, table, (str(datetime.datetime.now()), unique_id), ["date"])
     return unique_id
 
@@ -77,8 +79,9 @@ def update_item(db_path, table, value_tuple, column_list):
             query = query + name + ' = ? ,'
         query = query[:(len(query) - 1)]
         query = query + ' WHERE ID = ?'
-        # print(query)
         cur.execute(query, value_tuple)
+        logging.getLogger(__name__).info('%s updated with: %s\nColumns: %s\n:Values: %s' % (table, query,
+                                                                                            column_list, value_tuple))
 
 
 @sql_wrapper

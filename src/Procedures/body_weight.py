@@ -19,13 +19,14 @@ def get_new_data():
                             "Optional: Input a file path to add multiple values (.txt)\n")
         try:
             result = [int(weight_text)]
-            logging.info('Weight text retrieved: %s' % weight_text)
+            logging.getLogger(__name__).info('Weight text retrieved: %s' % weight_text)
             return result
         except ValueError:
             result = util.read_file_values(weight_text)
             if result is None:
-                print('Invalid option, please enter a valid number or valid path.')
+                logging.getLogger(__name__).info('Invalid option, please enter a valid number or valid path.')
             else:
+
                 return result
 
 
@@ -36,7 +37,9 @@ def view_data(db_path, output_path):
     :param db_path: The path to the DB file.
     :param output_path: The desired output path for plots.
     """
-    util.plot_data(db_path, table, ['body_weight'], output_path)
+    columns = ['body_weight']
+    util.plot_data(db_path, table, columns, output_path)
+    logging.getLogger(__name__).info('Plots created for %s table' % table)
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
