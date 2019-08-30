@@ -3,29 +3,32 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 from src.Util import utilities as util
-from src.Procedures import procedure
+from src.Procedures.procedure import Procedures
+from src.Util import constants
 
 # table = 'nutrition'
 
 
-class NutritionProcedure(procedure):
+class NutritionProcedure(Procedures):
     """
 
     """
-    def __init__(self, connection, table, query, output_path):
+    def __init__(self, connection, output_path):
         """
         :param connection: Connection to the database.
-        :param table: Table to access within the database.
-        :param query: Query for the table.
         :param output_path: Output path for any graphs or csv files.
         """
-        super(NutritionProcedure, self).__init__(connection, table, query, output_path)
+        super(NutritionProcedure, self).__init__(connection=connection,
+                                                 table='nutrition',
+                                                 output_path=output_path,
+                                                 query=constants.nutrition_query)
 
-    def get_new_data(self):
+    @staticmethod
+    def get_new_data():
         """
         Gathers user input about macros and water intake. Appends values to database file.
         """
-        names = ["protein", "fat", "carbohydrates", "calories", "water"]
+        names = ["protein", "fat", "carbs", "calories", "water"]
         while True:
             macros_text = input("Enter your protein, tat, carbs (g), and water intake separated by spaces:\n")
             try:
@@ -48,18 +51,18 @@ class NutritionProcedure(procedure):
                 else:
                     raise
 
-    def view_data(self, db_path, output_path, column_names=None):
-        """
-        Creates a separate plot for all nutrition columns by default.
-
-        :param db_path: The path to the DB file.
-        :param str output_path: The desired output directory for created plots.
-        :param List column_names: Optional to only plot certain nutrition items.
-        """
-        columns = ["protein", "fat", "carbs", "calories", "water"]
-        if column_names is not None:
-            columns = column_names
-        util.plot_data(db_path, table, columns, output_path)
+    # def view_data(self, db_path, output_path, column_names=None):
+    #     """
+    #     Creates a separate plot for all nutrition columns by default.
+    #
+    #     :param db_path: The path to the DB file.
+    #     :param str output_path: The desired output directory for created plots.
+    #     :param List column_names: Optional to only plot certain nutrition items.
+    #     """
+    #     columns = ["protein", "fat", "carbs", "calories", "water"]
+    #     if column_names is not None:
+    #         columns = column_names
+    #     util.plot_data(db_path, table, columns, output_path)
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

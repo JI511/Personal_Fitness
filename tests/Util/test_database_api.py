@@ -87,7 +87,7 @@ class TestDatabaseApi(unittest.TestCase):
         """
         db_api.create_table(self.db_path, self.table, self.query)
         unique_id = db_api.add_new_row(self.db_path, self.table)
-        result = db_api.get_all_table_items(self.db_path, self.table)
+        result = db_api.get_all_table_entries(self.db_path, self.table)
         self.assertEqual(unique_id, 1)
         self.assertEqual(result[0][0], 1)
 
@@ -101,7 +101,7 @@ class TestDatabaseApi(unittest.TestCase):
         db_api.create_table(self.db_path, self.table, self.query)
         unique_id = db_api.add_new_row(self.db_path, self.table)
         db_api.update_item(self.db_path, self.table, ('a', 5, unique_id), ['text_item', 'number_item'])
-        result = db_api.get_all_table_items(self.db_path, self.table)
+        result = db_api.get_all_table_entries(self.db_path, self.table)
         self.assertEqual(result[0][0], 1)
         self.assertEqual(result[0][2], 'a')
         self.assertEqual(result[0][3], 5)
@@ -118,7 +118,7 @@ class TestDatabaseApi(unittest.TestCase):
         unique_id_2 = db_api.add_new_row(self.db_path, self.table)
         db_api.update_item(self.db_path, self.table, ('a', 5, unique_id), ['text_item', 'number_item'])
         db_api.update_item(self.db_path, self.table, ('b', 10, unique_id_2), ['text_item', 'number_item'])
-        result = db_api.get_all_table_items(self.db_path, self.table)
+        result = db_api.get_all_table_entries(self.db_path, self.table)
         self.assertEqual(result[0][0], 1)
         self.assertEqual(result[1][0], 2)
         self.assertEqual(result[1][3], 10)
@@ -134,7 +134,7 @@ class TestDatabaseApi(unittest.TestCase):
         db_api.create_table(self.db_path, self.table, self.query)
         unique_id = db_api.add_new_row(self.db_path, self.table)
         db_api.update_item(self.db_path, self.table, ('a', 5, unique_id), ['text_item', 'number_item'])
-        result = db_api.get_table_columns(self.db_path, self.table, ['text_item', 'number_item'])
+        result = db_api.get_table_columns_dict(self.db_path, self.table, ['text_item', 'number_item'])
         self.assertEqual(result['text_item'][0], 'a')
         self.assertEqual(result['number_item'][0], 5)
 

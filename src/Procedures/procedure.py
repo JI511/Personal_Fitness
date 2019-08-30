@@ -11,30 +11,31 @@ class Procedures(object):
     """
     Abstract implementation for procedures classes
     """
-    def __init__(self, connection, table, query, output_path):
+    def __init__(self, connection, table, output_path, query=None):
         """
+        Setup the abstract procedure variables.
 
-
-        :param `sqlite3` connection:
-        :param table:
-        :param query:
-        :param output_path:
+        :param `sqlite3` connection: The connection object to an sqlite3 database.
+        :param `str` table: The name of the table within the database.
+        :param `str` output_path: The path to store any output files created.
+        :param `str` query: The query to use within the specified table.
         """
         self.connection = connection
         self.table = table
         self.query = query
         self.output_path = output_path
 
-    def get_new_data(self):
+    @staticmethod
+    def get_new_data():
         raise NotImplementedError
 
-    def view_data(self, column_names=None):
+    def view_data(self):
         """
 
-        :param column_names:
         :return:
         """
-        # util.plot_data()
+        columns = db_api.get_columns_in_table(self.connection, self.table)
+        util.plot_data(self.connection, self.table, columns, self.output_path)
         pass
 
     def append_new_entry(self):

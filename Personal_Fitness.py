@@ -7,7 +7,7 @@
 
 # imports
 import os
-from src.Procedures import nutrition
+from src.Procedures.nutrition import NutritionProcedure
 from src.Procedures import weight_lifting
 from src.Procedures import body_weight
 from src.Util import database_api as db_api
@@ -47,15 +47,14 @@ def nutrition_procedure():
     print("Nutrition tracking and calculations.")
     calorie_text = input(constants.user_prompt)
     table = 'nutrition'
-    names = ["protein", "fat", "carbohydrates", "calories", "water"]
+    procedure = NutritionProcedure(db_api.create_connection(constants.database_path),
+                                   constants.output_path)
     if calorie_text == '1':
-        db_api.create_table(constants.database_path, table, constants.nutrition_query)
-        unique_id = db_api.add_new_row(constants.database_path, table)
-        results = nutrition.get_new_data()
-        results.append(unique_id)
-        db_api.update_item(constants.database_path, table, tuple(results), names)
+        db_api.create_table(procedure.connection, procedure.table, procedure.query)
+        procedure.append_new_entry()
     elif calorie_text == '2':
-        nutrition.view_data(constants.database_path, constants.output_path)
+        procedure.view_data()
+        pass
     elif calorie_text == '3':
         db_api.table_to_csv(constants.database_path, "nutrition")
 
@@ -86,7 +85,7 @@ def morning_lifts_procedure():
         db_api.add_new_row(constants.database_path, table)
         # todo, how to add actual data
     elif lifting_text == '2':
-        db_api.get_table_columns(constants.database_path, table)
+        db_api.get_table_columns_dict(constants.database_path, table)
     elif lifting_text == '3':
         db_api.table_to_csv(constants.database_path, "morning_lifts")
 

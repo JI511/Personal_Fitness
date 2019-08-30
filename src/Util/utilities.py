@@ -32,15 +32,18 @@ def plot_data(db_path, table, column_names, output_path):
     :param List column_names: Column names within the database.
     :param str output_path: Path to where plots should be saved.
     """
-    plot_values = db_api.get_table_columns(db_path, table, column_names)
+    plot_values = db_api.get_table_columns_dict(db_path, table, column_names)
     for column in column_names:
         x = np.arange(len(plot_values[column]))
         y = np.asarray(plot_values[column])
-
+        print(x)
+        print(y)
         plt.title(table)
         plt.plot(x, y)
         try:
-            my_path = os.path.join(output_path, "%s_%s.png" % (table, column))
+            my_path = os.path.join(output_path, "%s_%s_%s.png" % (table,
+                                                                  column,
+                                                                  datetime.datetime.now().strftime('%f')))
             plt.savefig(my_path)
         except Exception:
             raise
