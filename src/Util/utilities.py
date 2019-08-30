@@ -7,6 +7,7 @@ import os
 import numpy as np
 from matplotlib import pyplot as plt
 from src.Util import database_api as db_api
+import logging
 
 path = r"C:\Users\User\Desktop\Output"
 
@@ -30,6 +31,7 @@ def plot_data(db_path, table, column_names, output_path):
         try:
             my_path = os.path.join(output_path, "%s_%s.png" % (table, column))
             plt.savefig(my_path)
+            logging.getLogger(__name__).info('Plot %s created.' % my_path)
         except Exception:
             raise
 
