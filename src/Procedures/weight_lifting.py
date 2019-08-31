@@ -3,26 +3,37 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
-from src.Util import database_api as db_api
 from src.Util import constants
+from src.Procedures.procedure import Procedure
 
 table = 'weight_lifting'
 
 
-def get_new_data():
+class WeightLiftingProcedure(Procedure):
     """
-    Adds a new entry into the weight lifting table within the health_database database.
+
     """
-    names = get_workout_item_names(determine_muscle_group('Which muscle groups did you work today?'))
-    while True:
-        use_default = input("Would you like to use default values based on current max?\n"
-                            "y: yes\n"
-                            "n: no\n")
-        if use_default == 'y':
-            return get_default_lift_values(names), names
-        elif use_default == 'n':
-            return get_default_lift_values(names), names
-        print('Please enter a valid option')
+    def __init__(self):
+        """
+
+        """
+        super(WeightLiftingProcedure, self).__init__('weight_lifting', constants.output_path,
+                                                     constants.weight_lifting_compound_query)
+
+    def get_new_data(self):
+        """
+        Adds a new entry into the weight lifting table within the health_database database.
+        """
+        names = get_workout_item_names(determine_muscle_group('Which muscle groups did you work today?'))
+        while True:
+            use_default = input("Would you like to use default values based on current max?\n"
+                                "y: yes\n"
+                                "n: no\n")
+            if use_default == 'y':
+                return get_default_lift_values(names), names
+            elif use_default == 'n':
+                return get_default_lift_values(names), names
+            print('Please enter a valid option')
 
 
 def get_max_lift_updates():

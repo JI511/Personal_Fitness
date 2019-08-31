@@ -8,11 +8,76 @@
 # imports
 import os
 from src.Procedures.nutrition import NutritionProcedure
-from src.Procedures import weight_lifting
-from src.Procedures import body_weight
+from src.Procedures.weight_lifting import WeightLiftingProcedure
+from src.Procedures.body_weight import BodyWeightProcedure
+from src.Procedures.morning_lifts import MorningLiftsProcedure
 from src.Util import database_api as db_api
 from src.Util import constants
 from src.Util import config
+
+
+class PersonalFitness(object):
+    """
+    Application to keep track of multiple fitness procdures.
+    """
+    def __init__(self, database_path=None):
+        """
+        Setup for application.
+
+        :param database_path: Optional database location if not default.
+        """
+        if database_path is None:
+            path = constants.database_path
+        else:
+            path = database_path
+        self.connection = db_api.create_connection(path)
+        self.procedure = None
+
+    def run(self):
+        """
+        Starts the application.
+        """
+        print("Starting Fitness Application...")
+        config.read_cfg()
+
+        while True:
+            procedure_text = input(
+                "Which application would you like to run?\n"
+                "1: Body Weight\n"
+                "2: Nutrition\n"
+                "3: Weight Lifting\n"
+                "4: Morning Lifts\n"
+                "q: Quit\n")
+            if procedure_text == '1':
+                self.procedure = BodyWeightProcedure()
+            elif procedure_text == '2':
+                self.procedure = NutritionProcedure()
+            elif procedure_text == '3':
+                self.procedure = WeightLiftingProcedure()
+            elif procedure_text == '4':
+                self.procedure = MorningLiftsProcedure()
+            if procedure_text.lower() == 'q':
+                self.procedure = None
+                print("Goodbye.")
+                break
+            else:
+                print("No valid option entered.")
+        if self.procedure is not None:
+            self.__run_procedure()
+
+    def __run_procedure(self):
+        """
+        Performs procedure operations.
+        """
+        input_text = input(constants.user_prompt)
+        if input_text == '1':
+            db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
+            self.procedure.append_new_entry()
+        elif input_text == '2':
+            self.procedure.view_data()
+            pass
+        elif input_text == '3':
+            db_api.table_to_csv(self.connection, self.procedure.table)
 
 
 def weight_lifting_procedure():
@@ -44,9 +109,8 @@ def weight_lifting_procedure():
 
 
 def nutrition_procedure():
-    print("Nutrition tracking and calculations.")
-    calorie_text = input(constants.user_prompt)
-    table = 'nutrition'
+
+
     procedure = NutritionProcedure(db_api.create_connection(constants.database_path),
                                    constants.output_path)
     if calorie_text == '1':

@@ -3,24 +3,23 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 from src.Util import utilities as util
-from src.Procedures.procedure import Procedures
+from src.Procedures.procedure import Procedure
 from src.Util import constants
 
 # table = 'nutrition'
 
 
-class NutritionProcedure(Procedures):
+class NutritionProcedure(Procedure):
     """
-
+    Handles the specific procedures for nutrition gathering and display.
     """
-    def __init__(self, connection, output_path):
+    def __init__(self):
         """
-        :param connection: Connection to the database.
-        :param output_path: Output path for any graphs or csv files.
+        Setup the nutrition specific values.
         """
-        super(NutritionProcedure, self).__init__(connection=connection,
-                                                 table='nutrition',
-                                                 output_path=output_path,
+        print("Nutrition tracking and calculations.")
+        super(NutritionProcedure, self).__init__(table='nutrition',
+                                                 output_path=constants.output_path,
                                                  query=constants.nutrition_query)
 
     @staticmethod
@@ -51,18 +50,6 @@ class NutritionProcedure(Procedures):
                 else:
                     raise
 
-    # def view_data(self, db_path, output_path, column_names=None):
-    #     """
-    #     Creates a separate plot for all nutrition columns by default.
-    #
-    #     :param db_path: The path to the DB file.
-    #     :param str output_path: The desired output directory for created plots.
-    #     :param List column_names: Optional to only plot certain nutrition items.
-    #     """
-    #     columns = ["protein", "fat", "carbs", "calories", "water"]
-    #     if column_names is not None:
-    #         columns = column_names
-    #     util.plot_data(db_path, table, columns, output_path)
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
