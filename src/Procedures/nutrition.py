@@ -2,6 +2,8 @@
 #    Calories
 # ----------------------------------------------------------------------------------------------------------------------
 
+# imports
+import logging
 from src.Util import utilities as util
 from src.Procedures.procedure import Procedure
 from src.Util import constants

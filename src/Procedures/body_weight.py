@@ -3,6 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
+import logging
 from src.Util import utilities as util
 from src.Util import constants
 from src.Procedures.procedure import Procedure

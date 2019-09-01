@@ -7,6 +7,7 @@ import csv
 import datetime
 import sys
 import os
+import logging
 from functools import wraps
 
 
@@ -50,7 +51,7 @@ def create_table(con, table, query):
                 raise
     else:
         pass
-        # print('required column names not in query')
+        logging.getLogger(__name__).error('required column names not in query')
 
 
 @sql_wrapper
