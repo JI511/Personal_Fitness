@@ -36,8 +36,6 @@ def plot_data(db_path, table, column_names, output_path):
     for column in column_names:
         x = np.arange(len(plot_values[column]))
         y = np.asarray(plot_values[column])
-        print(x)
-        print(y)
         plt.title(table)
         plt.plot(x, y)
         try:
@@ -51,7 +49,7 @@ def plot_data(db_path, table, column_names, output_path):
 
 def read_file_values(file_path):
     """
-    Parses an input file and appends each line to a list.
+    Parses an input file containing integer values and appends each line to a list.
 
     :param file_path: Path to the txt file
     :return: List of ints

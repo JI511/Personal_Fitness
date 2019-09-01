@@ -135,7 +135,6 @@ def get_columns_in_table(connection, table):
     for item in connection.description:
         result.append(item[0])
     result = result[2:]
-    print(result)
     return result
 
 

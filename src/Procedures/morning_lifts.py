@@ -15,6 +15,7 @@ class MorningLiftsProcedure(Procedure):
         """
 
         """
+        print("Morning lifts tracking and procedures.")
         super(MorningLiftsProcedure, self).__init__('morning_lifts', constants.output_path,
                                                     constants.morning_lifts_query)
 
