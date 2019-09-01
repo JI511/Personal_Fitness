@@ -5,9 +5,11 @@
 # imports
 import os
 import numpy as np
+import logging
+import datetime
 from matplotlib import pyplot as plt
 from src.Util import database_api as db_api
-import logging
+
 
 path = r"C:\Users\User\Desktop\Output"
 
