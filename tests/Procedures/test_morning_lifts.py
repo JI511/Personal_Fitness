@@ -16,9 +16,6 @@ class TestMorningLifts(unittest.TestCase):
     def test_nominal(self):
         self.assertEqual('test', 'test')
 
-    def test_nominal_2(self):
-        self.assertTrue(True)
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

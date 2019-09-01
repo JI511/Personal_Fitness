@@ -5,41 +5,42 @@
 # imports
 import logging
 from src.Util import utilities as util
+from src.Util import constants
+from src.Procedures.procedure import Procedure
 
 table = 'body_weight'
 
 
-def get_new_data():
+class BodyWeightProcedure(Procedure):
     """
-    Get the input value from the user for body weight procedure.
-    :return:
+
     """
-    while True:
-        weight_text = input("What did you weigh today?\n"
-                            "Optional: Input a file path to add multiple values (.txt)\n")
-        try:
-            result = [int(weight_text)]
-            logging.getLogger(__name__).info('Weight text retrieved: %s' % weight_text)
-            return result
-        except ValueError:
-            result = util.read_file_values(weight_text)
-            if result is None:
-                logging.getLogger(__name__).info('Invalid option, please enter a valid number or valid path.')
-            else:
+    def __init__(self, output_dir=None):
+        """
+        Setup for body weight procedure.
 
-                return result
+        :param output_dir: Optional output directory if not the default.
+        """
+        # print("Body weight tracking and calculations")
+        output_path = output_dir if output_dir is not None else constants.output_path
+        super(BodyWeightProcedure, self).__init__('body_weight', output_path,
+                                                  constants.body_weight_query)
 
-
-def view_data(db_path, output_path):
-    """
-    Creates a plot for all body weight entries.
-
-    :param db_path: The path to the DB file.
-    :param output_path: The desired output path for plots.
-    """
-    columns = ['body_weight']
-    util.plot_data(db_path, table, columns, output_path)
-    logging.getLogger(__name__).info('Plots created for %s table' % table)
+    def get_new_data(self):
+        """
+        Get the input value from the user for body weight procedure.
+        """
+        while True:
+            weight_text = input("What did you weigh today?\n"
+                                "Optional: Input a file path to add multiple values (.txt)\n")
+            try:
+                return [int(weight_text)], ['body_weight']
+            except ValueError:
+                result = util.read_file_values(weight_text)
+                if result is None:
+                    print('Invalid option, please enter a valid number or valid path.')
+                else:
+                    pass
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

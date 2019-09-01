@@ -6,10 +6,15 @@
 import unittest
 import os
 import datetime
+import argparse
 
 from tests.Util.Test_Help import suite
 
-
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", help='Specify the tests to run by test name.')
+args = parser.parse_args()
+name = args.t if args.t is not None else None
+print(name)
 print("##########################################################\n"
       "######                                              ######\n"
       "######      ##    ##  ##    ##   ##   ######        ######\n"
@@ -23,25 +28,27 @@ print("##########################################################\n"
       "######                                              ######\n"
       "##########################################################\n")
 
-log_file = os.path.join(os.getcwd(), "unit_test_log.txt")
-fail_count = 0
+log_file = os.path.join(os.getcwd(), "logs.txt")
+fail_list = []
+error_list = []
 with open(log_file, "w") as file:
     file.write(str(datetime.datetime.now()))
     runner = unittest.TextTestRunner(file)
-    for test in suite():
+    for test in suite(name):
         result = runner.run(test)
         if result.wasSuccessful():
             print(str(test) + "           PASS")
         else:
-            print(str(test) + "           FAIL\n\n***** DEBUG *****\n")
+            print(str(test) + "           FAIL")
             if len(result.failures) != 0:
+                fail_list.append(str(test))
                 for failure in result.failures[0]:
                     print(failure)
             if len(result.errors) != 0:
+                error_list.append(str(test))
                 for error in result.errors[0]:
                     print(error)
-            fail_count += 1
-if fail_count == 0:
+if len(fail_list) == 0 and len(error_list) == 0:
     print("\n##################\n"
           "#                #\n"
           "#    All tests   #\n"
@@ -57,7 +64,15 @@ else:
           "    ###\n"
           "\n"
           "    ###\n"
-          "    ###")
+          "    ###\n")
+    if len(fail_list) != 0:
+        print('\nFailures:')
+        for f in fail_list:
+            print(f)
+    if len(error_list) != 0:
+        print('\nErrors:')
+        for e in error_list:
+            print(e)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
