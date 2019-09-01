@@ -60,7 +60,7 @@ class PersonalFitness(object):
             elif procedure_text == '4':
                 self.procedure = MorningLiftsProcedure()
             if self.procedure is not None:
-                self.__run_procedure(prompt_text=self.procedure_prompt_text)
+                self.__run_procedure()
                 self.procedure = None
             elif procedure_text.lower() == 'q':
                 print("Goodbye.")
@@ -69,13 +69,12 @@ class PersonalFitness(object):
                 print("No valid option entered.")
         self.connection = None
 
-    def __run_procedure(self, prompt_text):
+    def __run_procedure(self):
         """
         Performs procedure operations.
 
-        :param str prompt_text: Can specify the user prompt message.
         """
-        prompt = prompt_text if prompt_text is not None else constants.user_prompt
+        prompt = self.procedure_prompt_text if self.procedure_prompt_text is not None else constants.user_prompt
         while True:
             input_text = input(prompt)
             if input_text == '1':

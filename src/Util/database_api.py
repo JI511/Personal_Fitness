@@ -129,7 +129,7 @@ def get_columns_in_table(connection, table):
 
     :param connection: Connection to the DB file.
     :param table: Table name to get columns from.
-    :return: `List` of column names.
+    :return: List of column names.
     """
     connection.execute("select * from %s;" % table)
     result = []
