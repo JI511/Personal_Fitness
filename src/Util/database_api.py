@@ -42,7 +42,7 @@ def create_connection(db_path):
 
 @sql_wrapper
 def create_table(con, table, query):
-    if 'date' in query and 'ID integer' in query:
+    if 'date' in query and 'ID integer' in query and isinstance(con, sqlite3.Cursor):
         try:
             con.execute("CREATE TABLE " + table + " (" + query + ");")
         except sqlite3.OperationalError as e:
@@ -85,6 +85,7 @@ def update_item(connection, table, value_tuple, column_list):
         query = query + name + ' = ? ,'
     query = query[:(len(query) - 1)]
     query = query + ' WHERE ID = ?'
+    print(query)
     connection.execute(query, value_tuple)
 
 
@@ -136,6 +137,21 @@ def get_columns_in_table(connection, table):
         result.append(item[0])
     result = result[2:]
     return result
+
+
+def get_table_names(connection):
+    """
+    Gets all table names in the specified database file.
+
+    :param connection: Connection to the DB file.
+    :return: List of table names
+    """
+    connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    print(type(connection))
+    tables = []
+    for table in connection.fetchall():
+        tables.append(table[0])
+    return tables
 
 
 @sql_wrapper

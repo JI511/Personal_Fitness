@@ -14,12 +14,13 @@ class BodyWeightProcedure(Procedure):
     """
 
     """
-    def __init__(self):
+    def __init__(self, output_dir=None):
         """
 
         """
-        print("Body weight tracking and calculations")
-        super(BodyWeightProcedure, self).__init__('body_weight', constants.output_path,
+        # print("Body weight tracking and calculations")
+        output_path = output_dir if output_dir is not None else constants.output_path
+        super(BodyWeightProcedure, self).__init__('body_weight', output_path,
                                                   constants.body_weight_query)
 
     def get_new_data(self):

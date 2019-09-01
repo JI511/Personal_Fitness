@@ -6,10 +6,15 @@
 import unittest
 import os
 import datetime
+import argparse
 
 from tests.Util.Test_Help import suite
 
-
+parser = argparse.ArgumentParser()
+parser.add_argument("-t", help='Specify the tests to run by test name.')
+args = parser.parse_args()
+name = args.t if args.t is not None else None
+print(name)
 print("##########################################################\n"
       "######                                              ######\n"
       "######      ##    ##  ##    ##   ##   ######        ######\n"
@@ -27,7 +32,7 @@ fail_count = 0
 with open(log_file, "w") as file:
     file.write(str(datetime.datetime.now()))
     runner = unittest.TextTestRunner(file)
-    for test in suite():
+    for test in suite(name):
         result = runner.run(test)
         if result.wasSuccessful():
             print(str(test) + "           PASS")

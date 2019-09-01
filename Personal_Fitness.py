@@ -17,7 +17,7 @@ from src.Util import config
 
 class PersonalFitness(object):
     """
-    Application to keep track of multiple fitness procdures.
+    Application to keep track of multiple fitness procedures.
     """
     def __init__(self, database_path=None):
         """
@@ -67,6 +67,7 @@ class PersonalFitness(object):
                 break
             else:
                 print("No valid option entered.")
+        self.connection = None
 
     def __run_procedure(self, prompt_text):
         """
