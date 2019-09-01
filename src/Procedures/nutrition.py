@@ -13,13 +13,16 @@ class NutritionProcedure(Procedure):
     """
     Handles the specific procedures for nutrition gathering and display.
     """
-    def __init__(self):
+    def __init__(self, output_dir=None):
         """
-        Setup the nutrition specific values.
+        Setup for nutrition procedure.
+
+        :param output_dir: Optional output directory if not the default.
         """
-        print("Nutrition tracking and calculations.")
+        # print("Nutrition tracking and calculations.")
+        output_path = output_dir if output_dir is not None else constants.output_path
         super(NutritionProcedure, self).__init__(table='nutrition',
-                                                 output_path=constants.output_path,
+                                                 output_path=output_path,
                                                  query=constants.nutrition_query)
 
     @staticmethod

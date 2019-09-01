@@ -8,7 +8,6 @@ import tempfile
 import os
 import shutil
 import datetime
-from src.Util import constants
 from src.Util import database_api as db_api
 from src.Procedures import body_weight
 
@@ -49,6 +48,7 @@ class TestBodyWeight(unittest.TestCase):
         self.input_values = ['100']
         result, name = self.procedure.get_new_data()
         self.assertEqual(result, [100])
+        self.assertEqual(name, ['body_weight'])
 
     def test_get_new_data_bad_input(self):
         """

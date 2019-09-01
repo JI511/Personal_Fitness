@@ -35,7 +35,6 @@ def suite(starting_name=None):
             if starting_name in test_class[0].lower():
                 test_list.append(test_class)
     my_tests = test_list if test_list is not None else test_classes
-    print(my_tests)
     my_suite = unittest.TestSuite()
     loader = unittest.TestLoader()
     for item in my_tests:

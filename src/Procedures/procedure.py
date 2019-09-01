@@ -27,13 +27,14 @@ class Procedure(object):
     def get_new_data():
         raise NotImplementedError
 
-    def view_data(self, connection):
+    def view_data(self, connection, column_names=None):
         """
         Creates plots for every column in the procedure table. Outputs will be stored in the output_path param.
 
         :param connection: Connection to the database file.
+        :param column_names: Optional param to specify columns desired for plotting.
         """
-        columns = db_api.get_columns_in_table(connection, self.table)
+        columns = db_api.get_columns_in_table(connection, self.table) if column_names is None else column_names
         util.plot_data(connection, self.table, columns, self.output_path)
 
     def append_new_entry(self, connection):

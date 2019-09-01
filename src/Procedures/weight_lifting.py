@@ -17,7 +17,7 @@ class WeightLiftingProcedure(Procedure):
         """
 
         """
-        print("Weight lifting tracking and calculations.")
+        # print("Weight lifting tracking and calculations.")
         super(WeightLiftingProcedure, self).__init__('weight_lifting', constants.output_path,
                                                      constants.weight_lifting_compound_query)
 

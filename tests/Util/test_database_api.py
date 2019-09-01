@@ -105,9 +105,10 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Creates a default row.
         """
-        db_api.create_table(db_api.create_connection(self.db_path), self.table, self.query)
-        unique_id = db_api.add_new_row(db_api.create_connection(self.db_path), self.table)
-        result = db_api.get_all_table_entries(db_api.create_connection(self.db_path), self.table)
+        connection = db_api.create_connection(self.db_path)
+        db_api.create_table(connection, self.table, self.query)
+        unique_id = db_api.add_new_row(connection, self.table)
+        result = db_api.get_all_table_entries(connection, self.table)
         self.assertEqual(unique_id, 1)
         self.assertEqual(result[0][0], 1)
 
@@ -118,12 +119,12 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Updates database file at the specified column and table.
         """
-        db_api.create_table(db_api.create_connection(self.db_path), self.table, self.query)
-        unique_id = db_api.add_new_row(db_api.create_connection(self.db_path), self.table)
-        db_api.update_item(db_api.create_connection(self.db_path), self.table, ('a', 5, unique_id),
+        connection = db_api.create_connection(self.db_path)
+        db_api.create_table(connection, self.table, self.query)
+        unique_id = db_api.add_new_row(connection, self.table)
+        db_api.update_item(connection, self.table, ('a', 5, unique_id),
                            ['text_item', 'number_item'])
-        result = db_api.get_all_table_entries(db_api.create_connection(self.db_path), self.table)
-        print(result)
+        result = db_api.get_all_table_entries(connection, self.table)
         self.assertEqual(result[0][0], 1)
         self.assertEqual(result[0][2], 'a')
         self.assertEqual(result[0][3], 5)
@@ -135,14 +136,15 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Gets all entries within the specified table.
         """
-        db_api.create_table(db_api.create_connection(self.db_path), self.table, self.query)
-        unique_id = db_api.add_new_row(db_api.create_connection(self.db_path), self.table)
-        unique_id_2 = db_api.add_new_row(db_api.create_connection(self.db_path), self.table)
-        db_api.update_item(db_api.create_connection(self.db_path), self.table, ('a', 5, unique_id),
+        connection = db_api.create_connection(self.db_path)
+        db_api.create_table(connection, self.table, self.query)
+        unique_id = db_api.add_new_row(connection, self.table)
+        unique_id_2 = db_api.add_new_row(connection, self.table)
+        db_api.update_item(connection, self.table, ('a', 5, unique_id),
                            ['text_item', 'number_item'])
-        db_api.update_item(db_api.create_connection(self.db_path), self.table, ('b', 10, unique_id_2),
+        db_api.update_item(connection, self.table, ('b', 10, unique_id_2),
                            ['text_item', 'number_item'])
-        result = db_api.get_all_table_entries(db_api.create_connection(self.db_path), self.table)
+        result = db_api.get_all_table_entries(connection, self.table)
         self.assertEqual(result[0][0], 1)
         self.assertEqual(result[1][0], 2)
         self.assertEqual(result[1][3], 10)
@@ -155,11 +157,12 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Gets the entries as a dictionary at the specified columns.
         """
-        db_api.create_table(db_api.create_connection(self.db_path), self.table, self.query)
-        unique_id = db_api.add_new_row(db_api.create_connection(self.db_path), self.table)
-        db_api.update_item(db_api.create_connection(self.db_path), self.table, ('a', 5, unique_id),
+        connection = db_api.create_connection(self.db_path)
+        db_api.create_table(connection, self.table, self.query)
+        unique_id = db_api.add_new_row(connection, self.table)
+        db_api.update_item(connection, self.table, ('a', 5, unique_id),
                            ['text_item', 'number_item'])
-        result = db_api.get_table_columns_dict(db_api.create_connection(self.db_path), self.table,
+        result = db_api.get_table_columns_dict(connection, self.table,
                                                ['text_item', 'number_item'])
         self.assertEqual(result['text_item'][0], 'a')
         self.assertEqual(result['number_item'][0], 5)
@@ -171,11 +174,12 @@ class TestDatabaseApi(unittest.TestCase):
         """
         Outputs all of the specified table to a csv file.
         """
-        db_api.create_table(db_api.create_connection(self.db_path), self.table, self.query)
-        unique_id = db_api.add_new_row(db_api.create_connection(self.db_path), self.table)
-        db_api.update_item(db_api.create_connection(self.db_path), self.table, ('a', 5, unique_id),
+        connection = db_api.create_connection(self.db_path)
+        db_api.create_table(connection, self.table, self.query)
+        unique_id = db_api.add_new_row(connection, self.table)
+        db_api.update_item(connection, self.table, ('a', 5, unique_id),
                            ['text_item', 'number_item'])
-        name = db_api.table_to_csv(db_api.create_connection(self.db_path), self.table, output_dir=self.logs_dir)
+        name = db_api.table_to_csv(connection, self.table, output_dir=self.logs_dir)
         self.assertTrue(os.path.exists(name))
         self.assertEqual(os.path.join(self.logs_dir, '%s.csv' % self.table), name)
 

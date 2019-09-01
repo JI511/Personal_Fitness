@@ -85,7 +85,6 @@ def update_item(connection, table, value_tuple, column_list):
         query = query + name + ' = ? ,'
     query = query[:(len(query) - 1)]
     query = query + ' WHERE ID = ?'
-    print(query)
     connection.execute(query, value_tuple)
 
 
@@ -147,7 +146,6 @@ def get_table_names(connection):
     :return: List of table names
     """
     connection.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    print(type(connection))
     tables = []
     for table in connection.fetchall():
         tables.append(table[0])

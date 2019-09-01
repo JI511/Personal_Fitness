@@ -16,7 +16,9 @@ class BodyWeightProcedure(Procedure):
     """
     def __init__(self, output_dir=None):
         """
+        Setup for body weight procedure.
 
+        :param output_dir: Optional output directory if not the default.
         """
         # print("Body weight tracking and calculations")
         output_path = output_dir if output_dir is not None else constants.output_path
