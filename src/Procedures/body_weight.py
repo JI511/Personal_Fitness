@@ -31,16 +31,25 @@ class BodyWeightProcedure(Procedure):
         """
         while True:
             self.logger.info('Getting input for new body weight entry.')
-            weight_text = input("What did you weigh today?\n"
-                                "Optional: Input a file path to add multiple values (.txt)\n")
+            weight_text = input("What did you weigh today?\n")
             try:
                 return [int(weight_text)], ['body_weight']
             except ValueError:
-                result = util.read_file_values(weight_text)
-                if result is None:
-                    print('Invalid option, please enter a valid number or valid path.')
-                else:
-                    pass
+                print('Invalid option, please enter a valid number.')
+
+    def get_new_data_from_file(self):
+        """
+        Reads multiple numeric values from a file to update the database.
+
+        :return:
+        """
+        while True:
+            self.logger.info('Getting multiple values from file')
+            weight_text = input("What file would you like to use?\n")
+            values = util.read_file_values(weight_text, self.logger)
+            if values is not None:
+                # todo, return all the values, only one column?
+                pass
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

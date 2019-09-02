@@ -14,8 +14,9 @@ water_option = 'mL'
 
 user_prompt = "Would you like to view data or add a new entry?\n"\
               "1: New entry\n"\
-              "2: View plots\n"\
-              "3: Dump data to csv\n"\
+              "2: Multiple entries via file\n"\
+              "3: View plots\n"\
+              "4: Dump data to csv\n"\
               "q: Return to title\n"
 
 weight_lifting_compound_query = (

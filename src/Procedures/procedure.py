@@ -16,9 +16,9 @@ class Procedure(object):
         """
         Setup the abstract procedure variables.
 
-        :param `str` table: The name of the table within the database.
-        :param `str` output_dir: The path to store any output files created.
-        :param `str` query: The query to use within the specified table.
+        :param str table: The name of the table within the database.
+        :param str output_dir: The path to store any output files created.
+        :param str query: The query to use within the specified table.
         """
         output_path = output_dir if output_dir is not None else constants.output_path
         self.table = table
@@ -28,6 +28,15 @@ class Procedure(object):
 
     @staticmethod
     def get_new_data():
+        """
+        Abstract body for getting user input for a procedure.
+        """
+        raise NotImplementedError
+
+    def get_new_data_from_file(self):
+        """
+        Abstract body for getting multiple input values for a procedure via file.
+        """
         raise NotImplementedError
 
     def view_data(self, connection, column_names=None):
