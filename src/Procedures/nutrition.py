@@ -21,11 +21,11 @@ class NutritionProcedure(Procedure):
 
         :param output_dir: Optional output directory if not the default.
         """
-        # print("Nutrition tracking and calculations.")
-        output_path = output_dir if output_dir is not None else constants.output_path
         super(NutritionProcedure, self).__init__(table='nutrition',
-                                                 output_path=output_path,
-                                                 query=constants.nutrition_query)
+                                                 output_dir=output_dir,
+                                                 query=constants.nutrition_query,
+                                                 logger=logging.getLogger(__name__))
+        self.logger.info('Nutrition tracking and calculations.')
 
     @staticmethod
     def get_new_data():

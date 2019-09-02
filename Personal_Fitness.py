@@ -6,6 +6,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
+import logging
 from src.Procedures.nutrition import NutritionProcedure
 from src.Procedures.weight_lifting import WeightLiftingProcedure
 from src.Procedures.body_weight import BodyWeightProcedure
@@ -29,12 +30,14 @@ class PersonalFitness(object):
         self.connection = db_api.create_connection(path)
         self.procedure = None
         self.procedure_prompt_text = None
+        logging.basicConfig(filename='application_log.log', level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
 
     def run(self):
         """
         Starts the application.
         """
-        print("Starting Fitness Application...")
+        self.logger.info("Starting Fitness Application...")
         config.read_cfg()
 
         while True:
@@ -60,6 +63,7 @@ class PersonalFitness(object):
             elif procedure_text == '4':
                 self.procedure = MorningLiftsProcedure()
             if self.procedure is not None:
+                self.logger.info('Procedure chosen: %s' % self.procedure)
                 self.__run_procedure()
                 self.procedure = None
             elif procedure_text.lower() == 'q':
@@ -78,7 +82,7 @@ class PersonalFitness(object):
         while True:
             input_text = input(prompt)
             if input_text == '1':
-                # Adding a new entry with user entry
+                self.logger.info('Adding a new entry with user entry')
                 db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
                 self.procedure.append_new_entry(self.connection)
             elif input_text == '2':

@@ -8,8 +8,6 @@ from src.Util import utilities as util
 from src.Util import constants
 from src.Procedures.procedure import Procedure
 
-table = 'body_weight'
-
 
 class BodyWeightProcedure(Procedure):
     """
@@ -21,16 +19,18 @@ class BodyWeightProcedure(Procedure):
 
         :param output_dir: Optional output directory if not the default.
         """
-        # print("Body weight tracking and calculations")
-        output_path = output_dir if output_dir is not None else constants.output_path
-        super(BodyWeightProcedure, self).__init__('body_weight', output_path,
-                                                  constants.body_weight_query)
+        super(BodyWeightProcedure, self).__init__(table='body_weight',
+                                                  output_dir=output_dir,
+                                                  query=constants.body_weight_query,
+                                                  logger=logging.getLogger(__name__))
+        self.logger.info("Body weight tracking and calculations")
 
     def get_new_data(self):
         """
         Get the input value from the user for body weight procedure.
         """
         while True:
+            self.logger.info('Getting input for new body weight entry.')
             weight_text = input("What did you weigh today?\n"
                                 "Optional: Input a file path to add multiple values (.txt)\n")
             try:

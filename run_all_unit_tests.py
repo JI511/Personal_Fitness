@@ -28,7 +28,7 @@ print("##########################################################\n"
       "######                                              ######\n"
       "##########################################################\n")
 
-log_file = os.path.join(os.getcwd(), "logs.txt")
+log_file = os.path.join(os.getcwd(), "unit_test_logs.txt")
 fail_list = []
 error_list = []
 with open(log_file, "w") as file:

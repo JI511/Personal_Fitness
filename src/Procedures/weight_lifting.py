@@ -3,28 +3,32 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
+import logging
 from src.Util import constants
 from src.Procedures.procedure import Procedure
-
-table = 'weight_lifting'
 
 
 class WeightLiftingProcedure(Procedure):
     """
-
+    Class for handling weight lifting procedures and functions.
     """
-    def __init__(self):
+    def __init__(self, output_dir=None):
         """
+        Setup for weight lifting procedure.
 
+        :param output_dir: Optional output directory if not the default.
         """
-        # print("Weight lifting tracking and calculations.")
-        super(WeightLiftingProcedure, self).__init__('weight_lifting', constants.output_path,
-                                                     constants.weight_lifting_compound_query)
+        super(WeightLiftingProcedure, self).__init__(table='weight_lifting',
+                                                     output_dir=output_dir,
+                                                     query=constants.weight_lifting_compound_query,
+                                                     logger=logging.getLogger(__name__))
+        self.logger.info("Weight lifting tracking and calculations.")
 
     def get_new_data(self):
         """
         Adds a new entry into the weight lifting table within the health_database database.
         """
+        self.logger.info('Getting input for new weight lifting entry.')
         names = self.get_workout_item_names(self.determine_muscle_group('Which muscle groups did you work today?'))
         while True:
             use_default = input("Would you like to use default values based on current max?\n"
