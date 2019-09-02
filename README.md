@@ -35,4 +35,4 @@ Dump existing data to a csv file.
 
 SLOC: 884
 
-![Image of class diagram](https://github.com/JI511/Personal_Fitness/tree/master/diagrams/Personal_Fitness_Class_Diagram.png)
+![Image of class diagram](https://github.com/JI511/Personal_Fitness/blob/master/diagrams/Personal_Fitness_Class_Diagram.png)
