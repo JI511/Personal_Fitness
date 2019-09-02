@@ -11,9 +11,6 @@ from matplotlib import pyplot as plt
 from src.Util import database_api as db_api
 
 
-path = r"C:\Users\User\Desktop\Output"
-
-
 def plot_data(db_path, table, column_names, output_path):
     """
     Gathers and plots all data points within the specified table
@@ -37,13 +34,6 @@ def plot_data(db_path, table, column_names, output_path):
             logging.getLogger(__name__).info('Plot %s created.' % my_path)
         except Exception:
             raise
-
-
-def write_log_file():
-    """
-
-    :return:
-    """
 
 
 def read_file_values(file_path):

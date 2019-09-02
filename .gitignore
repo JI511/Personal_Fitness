@@ -6,7 +6,7 @@ __pycache__/
 # USER ADDED ITEMS #
 *.db
 *.csv
-*.png
+output_files/
 *.ini
 *.cfg
 *.txt

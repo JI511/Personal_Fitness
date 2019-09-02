@@ -88,7 +88,7 @@ class WeightLiftingProcedure(Procedure):
         :param List group: The user chosen compound lifts.
         :return: A list of Strings containing the column names to update.
         """
-        rows = list()
+        rows = []
         if 'squat' in group:
             rows = rows + constants.weight_lifting_squats
         if 'bench' in group:
