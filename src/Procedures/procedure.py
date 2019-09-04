@@ -26,16 +26,19 @@ class Procedure(object):
         self.output_path = output_path
         self.logger = logger
 
-    @staticmethod
-    def get_new_data():
+    def get_new_data(self, connection):
         """
         Abstract body for getting user input for a procedure.
+
+        :param connection: Connection to the database file.
         """
         raise NotImplementedError
 
-    def get_new_data_from_file(self):
+    def get_new_data_from_file(self, connection):
         """
         Abstract body for getting multiple input values for a procedure via file.
+
+        :param connection: Connection to the database file.
         """
         raise NotImplementedError
 
@@ -49,12 +52,11 @@ class Procedure(object):
         columns = db_api.get_columns_in_table(connection, self.table) if column_names is None else column_names
         util.plot_data(connection, self.table, columns, self.output_path)
 
-    def append_new_entry(self, connection):
+    def append_new_entry(self, connection, values, column_names):
         """
         Gets the required input from the user and appends the new values into the database.
         """
-        values, column_names = self.get_new_data()
-        self.logger.info('New data gathered:\n\t names: %s\n\t values: %s' % (column_names, values))
+        self.logger.info('New data gathered:\n\t names: %s\n\t values: %s' % (values, column_names))
         unique_id = db_api.add_new_row(connection, self.table)
         values.append(unique_id)
         db_api.update_item(connection, self.table, tuple(values), column_names)
