@@ -5,7 +5,7 @@
 # imports
 from src.Util import utilities as util
 from src.Util import database_api as db_api
-from src.Util import constants
+from src.Util.constants import Constants
 
 
 class Procedure(object):
@@ -20,7 +20,7 @@ class Procedure(object):
         :param `str` output_dir: The path to store any output files created.
         :param `str` query: The query to use within the specified table.
         """
-        output_path = output_dir if output_dir is not None else constants.output_path
+        output_path = output_dir if output_dir is not None else Constants.output_path
         self.table = table
         self.query = query
         self.output_path = output_path

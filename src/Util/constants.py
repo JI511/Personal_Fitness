@@ -5,190 +5,106 @@
 # imports
 import os
 
-database_path = os.path.join(os.getcwd(), 'health_database.db')
-output_path = os.path.join(os.getcwd(), 'output_files')
-csv_path = ""
-logs_path = ""
-water_option = 'mL'
+
+def generate_sets_item_query(names, sets):
+    """
+    Builds a query with a specified number of sets.
+
+    :param List names: The name of the workout item.
+    :param int sets: The number of sets to generate in the query.
+    :return: SQL compatible query as a string.
+    """
+    master_query = []
+    for name in names:
+        for index in range(sets):
+            master_query.append(('%s_set_%s' % (name, index), 'real,'))
+            master_query.append(('%s_set_%s_reps' % (name, index), 'integer,'))
+    print(master_query)
+    return master_query
 
 
-user_prompt = "Would you like to view data or add a new entry?\n"\
-              "1: New entry\n"\
-              "2: View plots\n"\
-              "3: Dump data to csv\n"\
-              "q: Return to title\n"
+def generate_query(query_tuples):
+    """
+    Builds a query from a list of tuples.
 
-weight_lifting_compound_query = (
-    "ID integer PRIMARY KEY ASC NOT NULL,"
-    "date text,"
-    "bench_press_set_one integer,"
-    "bench_press_set_one_reps integer,"
-    "bench_press_set_two integer,"
-    "bench_press_set_two_reps integer,"
-    "bench_press_set_three integer,"
-    "bench_press_set_three_reps integer,"
-    "bench_press_set_four integer,"
-    "bench_press_set_four_reps integer,"
-    "bench_press_set_five integer,"
-    "bench_press_set_five_reps integer,"
-    "bench_press_set_six integer,"
-    "bench_press_set_six_reps integer,"
-    "squat_set_one integer,"
-    "squat_set_one_reps integer,"
-    "squat_set_two integer,"
-    "squat_set_two_reps integer,"
-    "squat_set_three integer,"
-    "squat_set_three_reps integer,"
-    "squat_set_four integer,"
-    "squat_set_four_reps integer,"
-    "squat_set_five integer,"
-    "squat_set_five_reps integer,"
-    "squat_set_six integer,"
-    "squat_set_six_reps integer,"
-    "shoulder_press_set_one integer,"
-    "shoulder_press_set_one_reps integer,"
-    "shoulder_press_set_two integer,"
-    "shoulder_press_set_two_reps integer,"
-    "shoulder_press_set_three integer,"
-    "shoulder_press_set_three_reps integer,"
-    "shoulder_press_set_four integer,"
-    "shoulder_press_set_four_reps integer,"
-    "shoulder_press_set_five integer,"
-    "shoulder_press_set_five_reps integer,"
-    "shoulder_press_set_six integer,"
-    "shoulder_press_set_six_reps integer,"
-    "deadlift_set_one integer,"
-    "deadlift_set_one_reps integer,"
-    "deadlift_set_two integer,"
-    "deadlift_set_two_reps integer,"
-    "deadlift_set_three integer,"
-    "deadlift_set_three_reps integer,"
-    "deadlift_set_four integer,"
-    "deadlift_set_four_reps integer,"
-    "deadlift_set_five integer,"
-    "deadlift_set_five_reps integer,"
-    "deadlift_set_six integer,"
-    "deadlift_set_six_reps integer"
-)
-
-weight_lifting_bench_press = [
-    "bench_press_set_one",
-    "bench_press_set_one_reps",
-    "bench_press_set_two",
-    "bench_press_set_two_reps",
-    "bench_press_set_three",
-    "bench_press_set_three_reps",
-    "bench_press_set_four",
-    "bench_press_set_four_reps",
-    "bench_press_set_five",
-    "bench_press_set_five_reps",
-    "bench_press_set_six",
-    "bench_press_set_six_reps"
-]
-
-weight_lifting_squats = [
-    "squat_set_one",
-    "squat_set_one_reps",
-    "squat_set_two",
-    "squat_set_two_reps",
-    "squat_set_three",
-    "squat_set_three_reps",
-    "squat_set_four",
-    "squat_set_four_reps",
-    "squat_set_five",
-    "squat_set_five_reps",
-    "squat_set_six",
-    "squat_set_six_reps"
-]
-
-weight_lifting_shoulder_press = [
-    "shoulder_press_set_one",
-    "shoulder_press_set_one_reps",
-    "shoulder_press_set_two",
-    "shoulder_press_set_two_reps",
-    "shoulder_press_set_three",
-    "shoulder_press_set_three_reps",
-    "shoulder_press_set_four",
-    "shoulder_press_set_four_reps",
-    "shoulder_press_set_five",
-    "shoulder_press_set_five_reps",
-    "shoulder_press_set_six",
-    "shoulder_press_set_six_reps"
-]
-
-weight_lifting_deadlift = [
-    "deadlift_set_one",
-    "deadlift_set_one_reps",
-    "deadlift_set_two",
-    "deadlift_set_two_reps",
-    "deadlift_set_three",
-    "deadlift_set_three_reps",
-    "deadlift_set_four",
-    "deadlift_set_four_reps",
-    "deadlift_set_five",
-    "deadlift_set_five_reps",
-    "deadlift_set_six",
-    "deadlift_set_six_reps"
-]
-
-weight_lifting_accessories_query = (
-    "ID integer PRIMARY KEY ASC NOT NULL,"
-    "date text,"
-    "elliptical integer,"
-    "chin_up integer,"
-    "chin_up_sets_reps text,"
-    "dips integer,"
-    "dips_sets_reps text,"
-    "grip_roller real,"
-    "grip_roller_sets_reps text,"
-    "face_pulls integer,"
-    "face_pulls_sets_reps text"
-)
-
-body_weight_query = (
-    "ID integer PRIMARY KEY ASC NOT NULL,"
-    "date text,"
-    "body_weight integer"
-)
-
-max_lifts_query = (
-    "ID integer PRIMARY KEY ASC NOT NULL,"
-    "date text,"
-    "bench_press_max integer,"
-    "squat_max integer,"
-    "shoulder_press_max integer,"
-    "deadlift_max integer"
-)
-
-morning_lifts_query = (
-    "ID integer PRIMARY KEY ASC NOT NULL,"
-    "date text,"
-    "shoulder_lateral_raise text,"
-    "shoulder_front_raises text,"
-    "shoulder_arnold_press text,"
-    "bicep_hammer_curl text,"
-    "bicep_curl text,"
-    "legs_dumbbell_squat text,"
-    "abs_ab_roller text,"
-    "abs_ab_shrugs text"
-)
-
-nutrition_query = (
-    "ID integer PRIMARY KEY ASC NOT NULL,"
-    "date text,"
-    "calories integer,"
-    "protein integer,"
-    "carbs integer,"
-    "fat integer,"
-    "water integer"
-)
+    :param List query_tuples: Lists of tuples to build query item.
+    :return: SQL compatible query as a string.
+    """
+    # prepend ID and date items
+    master_query = ("ID integer PRIMARY KEY ASC NOT NULL,"
+                    "date text,")
+    for name in query_tuples:
+        master_query += '%s %s,' % (name[0], name[1])
+    return master_query[:-1]
 
 
-config_defaults = {
-    "OPTIONS" : {
-        "Water" : "oz"
+class Constants(object):
+    database_path = os.path.join(os.getcwd(), 'health_database.db')
+    output_path = os.path.join(os.getcwd(), 'output_files')
+    csv_path = ""
+    logs_path = ""
+    water_option = 'mL'
+
+    user_prompt = "Would you like to view data or add a new entry?\n" \
+                  "1: New entry\n" \
+                  "2: View plots\n" \
+                  "3: Dump data to csv\n" \
+                  "q: Return to title\n"
+
+    weight_lifting_accessories_query_tuple = [('elliptical', 'integer'),
+                                              ('chin_up', 'integer'),
+                                              ('chin_up_sets_reps', 'text'),
+                                              ('dips', 'integer'),
+                                              ('dips_sets_reps', 'text'),
+                                              ('grip_roller_sets_reps', 'text'),
+                                              ('face_pulls', 'integer'),
+                                              ('face_pulls_sets_reps', 'text')]
+
+    body_weight_query_tuple = [('body_weight', 'integer')]
+
+    max_lifts_query_tuple = [('bench_press_max', 'integer'),
+                             ('squat_max', 'integer'),
+                             ('shoulder_press_max', 'integer'),
+                             ('deadlift_max', 'integer')]
+
+    nutrition_query_tuple = [('calories', 'integer'),
+                             ('protein', 'integer'),
+                             ('carbs', 'integer'),
+                             ('fat', 'integer'),
+                             ('water', 'integer')]
+
+    morning_lifts_query_tuple = [('shoulder_lateral_raise', 'text'),
+                           ('shoulder_front_raises', 'text'),
+                           ('shoulder_arnold_press', 'text'),
+                           ('bicep_hammer_curl', 'text'),
+                           ('bicep_curl', 'text'),
+                           ('legs_dumbbell_squat', 'text'),
+                           ('abs_ab_roller', 'text'),
+                           ('abs_ab_shrugs', 'text')]
+
+    morning_lifts_query = generate_query(morning_lifts_query_tuple)
+
+    nutrition_query = generate_query(nutrition_query_tuple)
+
+    max_lifts_query = generate_query(max_lifts_query_tuple)
+
+    body_weight_query = generate_query(body_weight_query_tuple)
+
+    weight_lifting_accessories_query = generate_query(weight_lifting_accessories_query_tuple)
+
+    weight_lifting_compound_query = generate_query(generate_sets_item_query(names=['bench_press',
+                                                                                   'squat',
+                                                                                   'shoulder_press',
+                                                                                   'deadlift'],
+                                                                            sets=6))
+
+    config_defaults = {
+        "OPTIONS": {
+            "Water": "oz"
+        }
     }
-}
+
+
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

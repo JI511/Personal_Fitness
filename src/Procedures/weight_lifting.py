@@ -4,7 +4,7 @@
 
 # imports
 import logging
-from src.Util import constants
+from src.Util.constants import Constants
 from src.Procedures.procedure import Procedure
 
 
@@ -20,7 +20,7 @@ class WeightLiftingProcedure(Procedure):
         """
         super(WeightLiftingProcedure, self).__init__(table='weight_lifting',
                                                      output_dir=output_dir,
-                                                     query=constants.weight_lifting_compound_query,
+                                                     query=Constants.weight_lifting_compound_query,
                                                      logger=logging.getLogger(__name__))
         self.logger.info("Weight lifting tracking and calculations.")
 
@@ -90,13 +90,13 @@ class WeightLiftingProcedure(Procedure):
         """
         rows = []
         if 'squat' in group:
-            rows = rows + constants.weight_lifting_squats
+            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('squat', 6)]
         if 'bench' in group:
-            rows = rows + constants.weight_lifting_bench_press
+            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('bench_press', 6)]
         if 'shoulder_press' in group:
-            rows = rows + constants.weight_lifting_shoulder_press
+            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('shoulder_press', 6)]
         if 'deadlift' in group:
-            rows = rows + constants.weight_lifting_deadlift
+            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('deadlift', 6)]
         return rows
 
     @staticmethod

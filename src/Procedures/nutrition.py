@@ -6,7 +6,7 @@
 import logging
 from src.Util import utilities as util
 from src.Procedures.procedure import Procedure
-from src.Util import constants
+from src.Util.constants import Constants
 
 # table = 'nutrition'
 
@@ -23,7 +23,7 @@ class NutritionProcedure(Procedure):
         """
         super(NutritionProcedure, self).__init__(table='nutrition',
                                                  output_dir=output_dir,
-                                                 query=constants.nutrition_query,
+                                                 query=Constants.nutrition_query,
                                                  logger=logging.getLogger(__name__))
         self.logger.info('Nutrition tracking and calculations.')
 
