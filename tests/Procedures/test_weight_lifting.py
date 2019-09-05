@@ -10,7 +10,7 @@ import shutil
 
 from src.Util import database_api as db_api
 from src.Procedures import weight_lifting
-from src.Util import constants
+from src.Util.constants import Constants
 
 
 class TestWeightLifting(unittest.TestCase):
@@ -49,7 +49,7 @@ class TestWeightLifting(unittest.TestCase):
         self.input_values = ['9', 'y']
         result, names = self.procedure.get_new_data()
         self.assertEqual(result, list(range(0, 24)))
-        self.assertEqual(names, constants.weight_lifting_bench_press + constants.weight_lifting_deadlift)
+        self.assertEqual(names, Constants.weight_lifting_bench_press + Constants.weight_lifting_deadlift)
 
     # ------------------------------------------------------------------------------------------------------------------
     # get_max_lift_updates tests
@@ -62,7 +62,7 @@ class TestWeightLifting(unittest.TestCase):
         result, names = self.procedure.get_max_lift_updates()
         self.assertEqual(result, [100, 200])
         table = 'max_lifts'
-        db_api.create_table(self.connection, table, constants.max_lifts_query)
+        db_api.create_table(self.connection, table, Constants.max_lifts_query)
         unique_id = db_api.add_new_row(self.connection, table)
         result.append(unique_id)
         db_api.update_item(self.connection, table, tuple(result), names)
@@ -76,7 +76,7 @@ class TestWeightLifting(unittest.TestCase):
         """
         group = ['bench', 'deadlift']
         result = self.procedure.get_workout_item_names(group)
-        self.assertEqual(result, constants.weight_lifting_bench_press + constants.weight_lifting_deadlift)
+        self.assertEqual(result, Constants.weight_lifting_bench_press + Constants.weight_lifting_deadlift)
 
     def test_get_workout_item_names_empty_group(self):
         """

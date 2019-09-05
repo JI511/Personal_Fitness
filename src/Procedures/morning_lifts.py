@@ -5,7 +5,7 @@
 # imports
 import logging
 from src.Procedures.procedure import Procedure
-from src.Util import constants
+from src.Util.constants import Constants
 
 
 class MorningLiftsProcedure(Procedure):
@@ -18,7 +18,7 @@ class MorningLiftsProcedure(Procedure):
         """
         super(MorningLiftsProcedure, self).__init__(table='morning_lifts',
                                                     output_dir=output_dir,
-                                                    query=constants.morning_lifts_query,
+                                                    query=Constants.morning_lifts_query,
                                                     logger=logging.getLogger(__name__))
         self.logger.info("Morning lifts tracking and procedures.")
 
