@@ -27,8 +27,7 @@ class NutritionProcedure(Procedure):
                                                  logger=logging.getLogger(__name__))
         self.logger.info('Nutrition tracking and calculations.')
 
-    @staticmethod
-    def get_new_data():
+    def get_new_data(self, connection):
         """
         Gathers user input about macros and water intake. Appends values to database file.
         """
@@ -54,6 +53,8 @@ class NutritionProcedure(Procedure):
                     print('Invalid option, please enter a valid number or valid path.')
                 else:
                     raise
+
+    def get_new_data_from_file(self, connection):
 
 
 # ----------------------------------------------------------------------------------------------------------------------

@@ -22,7 +22,8 @@ class BodyWeightProcedure(Procedure):
         super(BodyWeightProcedure, self).__init__(table='body_weight',
                                                   output_dir=output_dir,
                                                   query=constants.body_weight_query,
-                                                  logger=logging.getLogger(__name__))
+                                                  logger=logging.getLogger(__name__),
+                                                  names=['body_weight'])
         self.names = ['body_weight']
         self.logger.info("Body weight tracking and calculations")
 

@@ -12,7 +12,7 @@ class Procedure(object):
     """
     Abstract implementation for procedures classes
     """
-    def __init__(self, table, output_dir, query, logger):
+    def __init__(self, table, output_dir, query, logger, names):
         """
         Setup the abstract procedure variables.
 
@@ -25,6 +25,7 @@ class Procedure(object):
         self.query = query
         self.output_path = output_path
         self.logger = logger
+        self.names = names
 
     def get_new_data(self, connection):
         """
@@ -40,7 +41,13 @@ class Procedure(object):
 
         :param connection: Connection to the database file.
         """
-        raise NotImplementedError
+        while True:
+            self.logger.info('Getting multiple values from file')
+            weight_text = input("What file would you like to use?\n")
+            values = util.read_file_values(weight_text, self.logger)
+            if values is not None:
+                for value in values:
+                    self.append_new_entry(connection, [value], self.names)
 
     def view_data(self, connection, column_names=None):
         """
