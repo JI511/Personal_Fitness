@@ -8,7 +8,7 @@ import os
 import datetime
 import argparse
 
-from tests.Util.Test_Help import suite
+from tests.Test_Help import suite
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", help='Specify the tests to run by test name.')
