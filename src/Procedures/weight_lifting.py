@@ -5,6 +5,7 @@
 # imports
 import logging
 from src.Util.constants import Constants
+from src.Util import constants as const
 from src.Procedures.procedure import Procedure
 
 
@@ -46,7 +47,7 @@ class WeightLiftingProcedure(Procedure):
         """
         names = self.determine_muscle_group('Which max values would you like to update?')
         max_lift_names = list()
-        if 'bench' in names:
+        if 'bench_press' in names:
             max_lift_names.append('bench_press_max')
         if 'squat' in names:
             max_lift_names.append('squat_max')
@@ -88,19 +89,11 @@ class WeightLiftingProcedure(Procedure):
         :param List group: The user chosen compound lifts.
         :return: A list of Strings containing the column names to update.
         """
-        rows = []
-        if 'squat' in group:
-            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('squat', 6)]
-        if 'bench' in group:
-            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('bench_press', 6)]
-        if 'shoulder_press' in group:
-            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('shoulder_press', 6)]
-        if 'deadlift' in group:
-            rows = rows + [lis[0] for lis in Constants.generate_sets_item_query('deadlift', 6)]
-        return rows
+        names = [a[0] for a in const.generate_sets_item_query(group, 6)]
+        return names
 
     @staticmethod
-    def determine_muscle_group(question_text):
+    def determine_muscle_group(question_text=''):
         """
         Gets a binary input from the user to select the chosen compound lifts to update.
 
@@ -123,7 +116,7 @@ class WeightLiftingProcedure(Procedure):
                 print('Invalid literal, please enter a number.')
         muscle_groups = list()
         if (result & Vars.Bench) == 8:
-            muscle_groups.append("bench")
+            muscle_groups.append("bench_press")
         if (result & Vars.Squat) == 4:
             muscle_groups.append("squat")
         if (result & Vars.Shoulder_Press) == 2:

@@ -11,6 +11,7 @@ import shutil
 from src.Util import database_api as db_api
 from src.Procedures import weight_lifting
 from src.Util.constants import Constants
+from src.Util import constants as const
 
 
 class TestWeightLifting(unittest.TestCase):
@@ -49,7 +50,7 @@ class TestWeightLifting(unittest.TestCase):
         self.input_values = ['9', 'y']
         result, names = self.procedure.get_new_data()
         self.assertEqual(result, list(range(0, 24)))
-        self.assertEqual(names, Constants.weight_lifting_bench_press + Constants.weight_lifting_deadlift)
+        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
 
     # ------------------------------------------------------------------------------------------------------------------
     # get_max_lift_updates tests
@@ -76,7 +77,7 @@ class TestWeightLifting(unittest.TestCase):
         """
         group = ['bench', 'deadlift']
         result = self.procedure.get_workout_item_names(group)
-        self.assertEqual(result, Constants.weight_lifting_bench_press + Constants.weight_lifting_deadlift)
+        self.assertEqual(result, [a[0] for a in const.generate_sets_item_query(group, 6)])
 
     def test_get_workout_item_names_empty_group(self):
         """
@@ -94,8 +95,8 @@ class TestWeightLifting(unittest.TestCase):
         Gets a list of compound activities based on a binary input.
         """
         self.input_values = ['9']
-        result = self.procedure.determine_muscle_group('')
-        self.assertEqual(result, ['bench', 'deadlift'])
+        result = self.procedure.determine_muscle_group(question_text='Irrelevant question text')
+        self.assertEqual(result, ['bench_press', 'deadlift'])
 
     def test_determine_muscle_group_bad_number(self):
         """
@@ -103,7 +104,7 @@ class TestWeightLifting(unittest.TestCase):
         """
         self.input_values = ['0', '9']
         result = self.procedure.determine_muscle_group('')
-        self.assertEqual(result, ['bench', 'deadlift'])
+        self.assertEqual(result, ['bench_press', 'deadlift'])
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

@@ -14,7 +14,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument("-t", help='Specify the tests to run by test name.')
 args = parser.parse_args()
 name = args.t if args.t is not None else None
-print(name)
 print("##########################################################\n"
       "######                                              ######\n"
       "######      ##    ##  ##    ##   ##   ######        ######\n"

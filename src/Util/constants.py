@@ -10,17 +10,16 @@ def generate_sets_item_query(names, sets):
     """
     Builds a query with a specified number of sets.
 
-    :param List names: The name of the workout item.
+    :param list names: The name of the workout item.
     :param int sets: The number of sets to generate in the query.
     :return: SQL compatible query as a string.
     """
-    master_query = []
+    master_tuple_list = []
     for name in names:
-        for index in range(sets):
-            master_query.append(('%s_set_%s' % (name, index), 'real,'))
-            master_query.append(('%s_set_%s_reps' % (name, index), 'integer,'))
-    print(master_query)
-    return master_query
+        for index in range(1, sets + 1):
+            master_tuple_list.append(('%s_set_%s' % (name, index), 'real'))
+            master_tuple_list.append(('%s_set_%s_reps' % (name, index), 'integer'))
+    return master_tuple_list
 
 
 def generate_query(query_tuples):
