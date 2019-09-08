@@ -3,11 +3,10 @@ import os
 
 from tests.Util.test_database_api import TestDatabaseApi
 from tests.Util.test_utilities import TestUtilities
-from tests.Procedures.test_body_weight import TestBodyWeight
+from tests.Procedures.test_body_weight import TestBodyWeightProcedure
 from tests.Procedures.test_nutrition import TestNutrition
-from tests.Procedures.test_morning_lifts import TestMorningLifts
+from tests.Procedures.test_morning_lifts import TestMorningLiftsProcedure
 from tests.Procedures.test_weight_lifting import TestWeightLifting
-from tests.test_personal_fitness import TestPersonalFitness
 
 
 def suite(starting_name=None):
@@ -24,11 +23,10 @@ def suite(starting_name=None):
 
     test_classes = [("DatabaseApi", TestDatabaseApi),
                     ("Utilities", TestUtilities),
-                    ("BodyWeight", TestBodyWeight),
+                    ("BodyWeight", TestBodyWeightProcedure),
                     ("Nutrition", TestNutrition),
-                    ("MorningLifts", TestMorningLifts),
-                    ("WeightLifting", TestWeightLifting),
-                    ("PersonalFitness", TestPersonalFitness)
+                    ("MorningLifts", TestMorningLiftsProcedure),
+                    ("WeightLifting", TestWeightLifting)
                     ]
     test_list = None
     if starting_name is not None:

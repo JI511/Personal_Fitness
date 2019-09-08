@@ -52,6 +52,29 @@ class TestWeightLifting(unittest.TestCase):
         self.assertEqual(result, list(range(0, 24)))
         self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
 
+    def test_get_new_data_nominal_all(self):
+        """
+        Adds a new entry into the weight lifting table.
+        """
+        self.input_values = ['15', 'y']
+        result, names = self.procedure.get_new_data()
+        self.assertEqual(result, list(range(0, 48)))
+        # sort items since order doesn't matter
+        self.assertEqual(names.sort(), [a[0] for a in const.generate_sets_item_query(['bench_press',
+                                                                                      'deadlift',
+                                                                                      'shoulder_press',
+                                                                                      'squat'],
+                                                                                     6)].sort())
+
+    def test_get_new_data_bad_muscle_group_entry(self):
+        """
+        Adds a new entry into the weight lifting table after one failed attempt on selecting muscle group.
+        """
+        self.input_values = ['a', '9', 'y']
+        result, names = self.procedure.get_new_data()
+        self.assertEqual(result, list(range(0, 24)))
+        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
+
     # ------------------------------------------------------------------------------------------------------------------
     # get_max_lift_updates tests
     # ------------------------------------------------------------------------------------------------------------------

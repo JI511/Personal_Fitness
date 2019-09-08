@@ -8,22 +8,19 @@ import numpy as np
 import logging
 import datetime
 from matplotlib import pyplot as plt
-from src.Util import database_api as db_api
 
 
-def plot_data(db_path, table, column_names, output_path):
+def plot_data(table, column_dict, output_path):
     """
     Gathers and plots all data points within the specified table
 
-    :param db_path: Path to the DB file.
     :param str table: Name of table within the DB file.
-    :param List column_names: Column names within the database.
+    :param List column_dict: Column names within the database.
     :param str output_path: Path to where plots should be saved.
     """
-    plot_values = db_api.get_table_columns_dict(db_path, table, column_names)
-    for column in column_names:
-        x = np.arange(len(plot_values[column]))
-        y = np.asarray(plot_values[column])
+    for column in column_dict.keys():
+        x = np.arange(len(column_dict[column]))
+        y = np.asarray(column_dict[column])
         plt.title(table)
         plt.plot(x, y)
         try:

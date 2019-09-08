@@ -36,9 +36,9 @@ with open(log_file, "w") as file:
     for test in suite(name):
         result = runner.run(test)
         if result.wasSuccessful():
-            print(str(test) + "           PASS")
+            print("PASS\t%s" % str(test))
         else:
-            print(str(test) + "           FAIL")
+            print("FAIL\t%s" % str(test))
             if len(result.failures) != 0:
                 fail_list.append(str(test))
                 for failure in result.failures[0]:

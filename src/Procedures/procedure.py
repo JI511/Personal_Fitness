@@ -37,8 +37,16 @@ class Procedure(object):
         :param connection: Connection to the database file.
         :param column_names: Optional param to specify columns desired for plotting.
         """
-        columns = db_api.get_columns_in_table(connection, self.table) if column_names is None else column_names
-        util.plot_data(connection, self.table, columns, self.output_path)
+        try:
+            columns = db_api.get_columns_in_table(connection, self.table) if column_names is None else column_names
+            column_dict = db_api.get_table_columns_dict(connection, self.table, columns)
+            if column_dict is not dict():
+                self.logger.info("Creating plots for %s" % self.table)
+                util.plot_data(self.table, column_dict, self.output_path)
+            else:
+                self.logger.error("Error, no columns in the table")
+        except db_api.SqlError as msg:
+            self.logger.error("Error trying to modify the database,\n%s" % str(msg))
 
     def append_new_entry(self, connection):
         """
