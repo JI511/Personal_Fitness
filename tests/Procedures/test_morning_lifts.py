@@ -4,18 +4,50 @@
 
 # imports
 import unittest
+import tempfile
+import os
+import shutil
+from src.Util import database_api as db_api
+from src.Procedures import morning_lifts
 
 
-class TestMorningLifts(unittest.TestCase):
+class TestMorningLiftsProcedure(unittest.TestCase):
+    """
+    Class for testing the morning lifts procedure.
+    """
     def setUp(self):
-        self.logs_dir = ''
+        """
+        Initializes unit test variables.
+        """
+        self.logs_dir = tempfile.mkdtemp()
+        self.connection = db_api.create_connection(os.path.join(self.logs_dir, 'test_database.db'))
+        self.procedure = morning_lifts.MorningLiftsProcedure(self.logs_dir)
+        self.input_values = []
+
+        def mock_input(_):
+            """
+            Fake input function in order to test input calls in unit tests.
+            """
+            return self.input_values.pop(0)
+        morning_lifts.input = mock_input
+        db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
 
     def tearDown(self):
-        pass
+        """
+        Performs any clean up needed.
+        """
+        self.connection = None
+        if os.path.exists(self.logs_dir):
+            shutil.rmtree(self.logs_dir)
 
-    def test_nominal(self):
-        self.assertEqual('test', 'test')
-
+    # ------------------------------------------------------------------------------------------------------------------
+    # get_new_data tests
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_get_new_data_nominal(self):
+        """
+        Provides mock user input for a morning lifts entry.
+        """
+        self.assertTrue(True)
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

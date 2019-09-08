@@ -12,7 +12,8 @@ from src.Procedures.weight_lifting import WeightLiftingProcedure
 from src.Procedures.body_weight import BodyWeightProcedure
 from src.Procedures.morning_lifts import MorningLiftsProcedure
 from src.Util import database_api as db_api
-from src.Util import constants
+from src.Util import constants as const
+from src.Util.constants import Constants
 from src.Util import config
 
 
@@ -20,17 +21,18 @@ class PersonalFitness(object):
     """
     Application to keep track of multiple fitness procedures.
     """
-    def __init__(self, database_path=None):
+    def __init__(self, database_path=None, log_name='application_log.log'):
         """
         Setup for application.
 
         :param database_path: Optional database location if not default.
+        :param log_name: Optional name for log file.
         """
-        path = database_path if database_path is not None else constants.database_path
+        path = database_path if database_path is not None else Constants.database_path
         self.connection = db_api.create_connection(path)
         self.procedure = None
         self.procedure_prompt_text = None
-        logging.basicConfig(filename='application_log.log', level=logging.INFO)
+        logging.basicConfig(filename=log_name, level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
     def run(self):
@@ -78,7 +80,7 @@ class PersonalFitness(object):
         Performs procedure operations.
 
         """
-        prompt = self.procedure_prompt_text if self.procedure_prompt_text is not None else constants.user_prompt
+        prompt = self.procedure_prompt_text if self.procedure_prompt_text is not None else Constants.user_prompt
         while True:
             input_text = input(prompt)
             if input_text == '1':

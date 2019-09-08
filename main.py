@@ -3,7 +3,7 @@
 # ----------------------------------------------------------------------------------------------------------------------
 
 # imports
-from Personal_Fitness import PersonalFitness
+from src.Personal_Fitness import PersonalFitness
 
 application = PersonalFitness()
 application.run()
