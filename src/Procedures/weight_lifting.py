@@ -22,12 +22,15 @@ class WeightLiftingProcedure(Procedure):
         super(WeightLiftingProcedure, self).__init__(table='weight_lifting',
                                                      output_dir=output_dir,
                                                      query=Constants.weight_lifting_compound_query,
-                                                     logger=logging.getLogger(__name__))
+                                                     logger=logging.getLogger(__name__),
+                                                     names=None)
         self.logger.info("Weight lifting tracking and calculations.")
 
-    def get_new_data(self):
+    def get_new_data(self, connection):
         """
         Adds a new entry into the weight lifting table within the health_database database.
+
+        :param connection: Connection to the database.
         """
         self.logger.info('Getting input for new weight lifting entry.')
         names = self.get_workout_item_names(self.determine_muscle_group('Which muscle groups did you work today?'))
@@ -36,8 +39,10 @@ class WeightLiftingProcedure(Procedure):
                                 "y: yes\n"
                                 "n: no\n")
             if use_default == 'y':
+                self.append_new_entry(connection, self.get_default_lift_values(names), names)
                 return self.get_default_lift_values(names), names
             elif use_default == 'n':
+                self.append_new_entry(connection, self.get_default_lift_values(names), names)
                 return self.get_default_lift_values(names), names
             print('Please enter a valid option')
 

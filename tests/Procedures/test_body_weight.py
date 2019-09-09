@@ -52,7 +52,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
         Provides mock user input for a body weight entry.
         """
         self.input_values = ['100']
-        result, name = self.procedure.get_new_data()
+        result, name = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, [100])
         self.assertEqual(name, ['body_weight'])
 
@@ -62,7 +62,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
         :return:
         """
         self.input_values = ['a', '100']
-        result, name = self.procedure.get_new_data()
+        result, name = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, [100])
 
     # ------------------------------------------------------------------------------------------------------------------

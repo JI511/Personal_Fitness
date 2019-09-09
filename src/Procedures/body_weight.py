@@ -35,7 +35,7 @@ class BodyWeightProcedure(Procedure):
             weight_text = input("What did you weigh today?\n")
             try:
                 self.append_new_entry(connection, [int(weight_text)], self.names)
-                break
+                return [int(weight_text)], self.names
             except ValueError:
                 print('Invalid option, please enter a valid number.')
 
