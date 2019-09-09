@@ -41,13 +41,15 @@ class Procedure(object):
 
         :param connection: Connection to the database file.
         """
-        while True:
-            self.logger.info('Getting multiple values from file')
-            weight_text = input("What file would you like to use?\n")
-            values = util.read_file_values(weight_text, self.logger)
-            if values is not None:
-                for value in values:
-                    self.append_new_entry(connection, [value], self.names)
+        self.logger.info('Getting multiple values from file')
+        weight_text = input("What file would you like to use?\n")
+        values = util.read_file_values(weight_text, self.logger)
+        if values is not None:
+            for value in values:
+                self.append_new_entry(connection, [value], self.names)
+        else:
+            self.logger.error("Bad path provided, aborting updates")
+        return values
 
     def view_data(self, connection, column_names=None):
         """

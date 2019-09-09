@@ -4,7 +4,6 @@
 
 # imports
 import logging
-from src.Util import utilities as util
 from src.Util.constants import Constants
 from src.Procedures.procedure import Procedure
 
@@ -38,20 +37,6 @@ class BodyWeightProcedure(Procedure):
                 return [int(weight_text)], self.names
             except ValueError:
                 print('Invalid option, please enter a valid number.')
-
-    def get_new_data_from_file(self, connection):
-        """
-        Reads multiple numeric values from a file to update the database.
-
-        :return:
-        """
-        while True:
-            self.logger.info('Getting multiple values from file')
-            weight_text = input("What file would you like to use?\n")
-            values = util.read_file_values(weight_text, self.logger)
-            if values is not None:
-                for value in values:
-                    self.append_new_entry(connection, [value], self.names)
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

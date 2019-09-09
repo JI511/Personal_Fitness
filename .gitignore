@@ -9,7 +9,7 @@ __pycache__/
 output_files/
 *.ini
 *.cfg
-*.txt
+unit_test_logs.txt
 
 # C extensions
 *.so
