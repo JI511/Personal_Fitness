@@ -5,7 +5,7 @@
 # imports
 from src.Util import utilities as util
 from src.Util import database_api as db_api
-from src.Util import constants
+from src.Util.constants import Constants
 
 
 class Procedure(object):
@@ -20,7 +20,7 @@ class Procedure(object):
         :param str output_dir: The path to store any output files created.
         :param str query: The query to use within the specified table.
         """
-        output_path = output_dir if output_dir is not None else constants.output_path
+        output_path = output_dir if output_dir is not None else Constants.output_path
         self.table = table
         self.query = query
         self.output_path = output_path
@@ -56,8 +56,16 @@ class Procedure(object):
         :param connection: Connection to the database file.
         :param column_names: Optional param to specify columns desired for plotting.
         """
-        columns = db_api.get_columns_in_table(connection, self.table) if column_names is None else column_names
-        util.plot_data(connection, self.table, columns, self.output_path)
+        try:
+            columns = db_api.get_columns_in_table(connection, self.table) if column_names is None else column_names
+            column_dict = db_api.get_table_columns_dict(connection, self.table, columns)
+            if column_dict is not dict():
+                self.logger.info("Creating plots for %s" % self.table)
+                util.plot_data(self.table, column_dict, self.output_path)
+            else:
+                self.logger.error("Error, no columns in the table")
+        except db_api.SqlError as msg:
+            self.logger.error("Error trying to modify the database,\n%s" % str(msg))
 
     def append_new_entry(self, connection, values, column_names):
         """

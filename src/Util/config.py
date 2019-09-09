@@ -7,7 +7,7 @@ import configparser
 import pathlib
 import logging
 import os
-from src.Util import constants
+from src.Util.constants import Constants
 
 config_path = 'config.ini'
 
@@ -18,7 +18,7 @@ def __init_cfg():
 
     """
     config = configparser.ConfigParser()
-    config["OPTIONS"] = constants.config_defaults["OPTIONS"]
+    config["OPTIONS"] = Constants.config_defaults["OPTIONS"]
     with open(config_path, "w") as configfile:
         config.write(configfile)
     configfile.close()
@@ -29,15 +29,15 @@ def read_cfg():
     """
 
     """
-    if not os.path.exists(constants.output_path):
-        os.mkdir(constants.output_path)
+    if not os.path.exists(Constants.output_path):
+        os.mkdir(Constants.output_path)
     if not pathlib.Path(config_path).exists():
         __init_cfg()
     logging.getLogger(__name__).info("Reading config...")
     config = configparser.ConfigParser()
     try:
         config.read(config_path)
-        constants.water_option = config["OPTIONS"]["Water"]
+        Constants.water_option = config["OPTIONS"]["Water"]
     except KeyError:
         logging.getLogger(__name__).error("Error, trying to access a field not available in current config file.")
 

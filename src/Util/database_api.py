@@ -109,8 +109,8 @@ def get_table_columns_dict(connection, table, column_names):
     Gets all column items from the specified table column, or a set amount if count is used.
 
     :param connection: Connection to the DB file.
-    :param String table: Name of table within the DB file.
-    :param List column_names: Column names within the database.
+    :param str table: Name of table within the DB file.
+    :param list column_names: Column names within the database.
     :return: Dictionary of key=column_name and value=gathered values
     """
     value_dict = dict()
@@ -154,22 +154,24 @@ def get_table_names(connection):
 
 
 @sql_wrapper
-def table_to_csv(connection, table, output_dir=None):
+def table_to_csv(connection, table, output_dir):
     """
     Outputs the specified table to a csv file.
 
     :param connection: Connection to the DB file.
     :param table: Name of table within the DB file.
-    :param output_dir: Optional output directory (if different than project root).
+    :param output_dir: Output directory for csv file.
     """
     connection.execute("SELECT * FROM " + table + ";")
     csv_name = '%s.csv' % table
     if output_dir is not None and os.path.isdir(output_dir):
         csv_name = os.path.join(output_dir, csv_name)
-    with open(csv_name.format(table), "w", newline='') as file:
-        csv_writer = csv.writer(file)
-        csv_writer.writerow([i[0] for i in connection.description])
-        csv_writer.writerows(connection)
+        with open(csv_name.format(table), "w", newline='') as file:
+            csv_writer = csv.writer(file)
+            csv_writer.writerow([i[0] for i in connection.description])
+            csv_writer.writerows(connection)
+    else:
+        csv_name = None
     return csv_name
 
 # ----------------------------------------------------------------------------------------------------------------------

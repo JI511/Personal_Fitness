@@ -10,7 +10,8 @@ import shutil
 
 from src.Util import database_api as db_api
 from src.Procedures import weight_lifting
-from src.Util import constants
+from src.Util.constants import Constants
+from src.Util import constants as const
 
 
 class TestWeightLifting(unittest.TestCase):
@@ -49,7 +50,30 @@ class TestWeightLifting(unittest.TestCase):
         self.input_values = ['9', 'y']
         result, names = self.procedure.get_new_data()
         self.assertEqual(result, list(range(0, 24)))
-        self.assertEqual(names, constants.weight_lifting_bench_press + constants.weight_lifting_deadlift)
+        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
+
+    def test_get_new_data_nominal_all(self):
+        """
+        Adds a new entry into the weight lifting table.
+        """
+        self.input_values = ['15', 'y']
+        result, names = self.procedure.get_new_data()
+        self.assertEqual(result, list(range(0, 48)))
+        # sort items since order doesn't matter
+        self.assertEqual(names.sort(), [a[0] for a in const.generate_sets_item_query(['bench_press',
+                                                                                      'deadlift',
+                                                                                      'shoulder_press',
+                                                                                      'squat'],
+                                                                                     6)].sort())
+
+    def test_get_new_data_bad_muscle_group_entry(self):
+        """
+        Adds a new entry into the weight lifting table after one failed attempt on selecting muscle group.
+        """
+        self.input_values = ['a', '9', 'y']
+        result, names = self.procedure.get_new_data()
+        self.assertEqual(result, list(range(0, 24)))
+        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
 
     # ------------------------------------------------------------------------------------------------------------------
     # get_max_lift_updates tests
@@ -62,7 +86,7 @@ class TestWeightLifting(unittest.TestCase):
         result, names = self.procedure.get_max_lift_updates()
         self.assertEqual(result, [100, 200])
         table = 'max_lifts'
-        db_api.create_table(self.connection, table, constants.max_lifts_query)
+        db_api.create_table(self.connection, table, Constants.max_lifts_query)
         unique_id = db_api.add_new_row(self.connection, table)
         result.append(unique_id)
         db_api.update_item(self.connection, table, tuple(result), names)
@@ -76,7 +100,7 @@ class TestWeightLifting(unittest.TestCase):
         """
         group = ['bench', 'deadlift']
         result = self.procedure.get_workout_item_names(group)
-        self.assertEqual(result, constants.weight_lifting_bench_press + constants.weight_lifting_deadlift)
+        self.assertEqual(result, [a[0] for a in const.generate_sets_item_query(group, 6)])
 
     def test_get_workout_item_names_empty_group(self):
         """
@@ -94,8 +118,8 @@ class TestWeightLifting(unittest.TestCase):
         Gets a list of compound activities based on a binary input.
         """
         self.input_values = ['9']
-        result = self.procedure.determine_muscle_group('')
-        self.assertEqual(result, ['bench', 'deadlift'])
+        result = self.procedure.determine_muscle_group(question_text='Irrelevant question text')
+        self.assertEqual(result, ['bench_press', 'deadlift'])
 
     def test_determine_muscle_group_bad_number(self):
         """
@@ -103,7 +127,7 @@ class TestWeightLifting(unittest.TestCase):
         """
         self.input_values = ['0', '9']
         result = self.procedure.determine_muscle_group('')
-        self.assertEqual(result, ['bench', 'deadlift'])
+        self.assertEqual(result, ['bench_press', 'deadlift'])
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

@@ -4,7 +4,8 @@
 
 # imports
 import logging
-from src.Util import constants
+from src.Util.constants import Constants
+from src.Util import constants as const
 from src.Procedures.procedure import Procedure
 
 
@@ -20,7 +21,7 @@ class WeightLiftingProcedure(Procedure):
         """
         super(WeightLiftingProcedure, self).__init__(table='weight_lifting',
                                                      output_dir=output_dir,
-                                                     query=constants.weight_lifting_compound_query,
+                                                     query=Constants.weight_lifting_compound_query,
                                                      logger=logging.getLogger(__name__))
         self.logger.info("Weight lifting tracking and calculations.")
 
@@ -46,7 +47,7 @@ class WeightLiftingProcedure(Procedure):
         """
         names = self.determine_muscle_group('Which max values would you like to update?')
         max_lift_names = list()
-        if 'bench' in names:
+        if 'bench_press' in names:
             max_lift_names.append('bench_press_max')
         if 'squat' in names:
             max_lift_names.append('squat_max')
@@ -88,19 +89,11 @@ class WeightLiftingProcedure(Procedure):
         :param List group: The user chosen compound lifts.
         :return: A list of Strings containing the column names to update.
         """
-        rows = []
-        if 'squat' in group:
-            rows = rows + constants.weight_lifting_squats
-        if 'bench' in group:
-            rows = rows + constants.weight_lifting_bench_press
-        if 'shoulder_press' in group:
-            rows = rows + constants.weight_lifting_shoulder_press
-        if 'deadlift' in group:
-            rows = rows + constants.weight_lifting_deadlift
-        return rows
+        names = [a[0] for a in const.generate_sets_item_query(group, 6)]
+        return names
 
     @staticmethod
-    def determine_muscle_group(question_text):
+    def determine_muscle_group(question_text=''):
         """
         Gets a binary input from the user to select the chosen compound lifts to update.
 
@@ -123,7 +116,7 @@ class WeightLiftingProcedure(Procedure):
                 print('Invalid literal, please enter a number.')
         muscle_groups = list()
         if (result & Vars.Bench) == 8:
-            muscle_groups.append("bench")
+            muscle_groups.append("bench_press")
         if (result & Vars.Squat) == 4:
             muscle_groups.append("squat")
         if (result & Vars.Shoulder_Press) == 2:

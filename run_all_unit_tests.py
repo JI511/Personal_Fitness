@@ -8,13 +8,12 @@ import os
 import datetime
 import argparse
 
-from tests.Util.Test_Help import suite
+from tests.Test_Help import suite
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-t", help='Specify the tests to run by test name.')
 args = parser.parse_args()
 name = args.t if args.t is not None else None
-print(name)
 print("##########################################################\n"
       "######                                              ######\n"
       "######      ##    ##  ##    ##   ##   ######        ######\n"
@@ -37,9 +36,9 @@ with open(log_file, "w") as file:
     for test in suite(name):
         result = runner.run(test)
         if result.wasSuccessful():
-            print(str(test) + "           PASS")
+            print("PASS\t%s" % str(test))
         else:
-            print(str(test) + "           FAIL")
+            print("FAIL\t%s" % str(test))
             if len(result.failures) != 0:
                 fail_list.append(str(test))
                 for failure in result.failures[0]:
