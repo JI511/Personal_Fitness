@@ -58,9 +58,10 @@ class PersonalFitness(object):
                 self.procedure = WeightLiftingProcedure()
                 self.procedure_prompt_text = "Would you like to view data or add a new entry?\n"\
                                              "1: New entry\n"\
-                                             "2: View data\n"\
-                                             "3: Dump data to CSV\n"\
-                                             "4: Update max lift values\n"\
+                                             "2: Multiple entries via file\n"\
+                                             "3: View data\n"\
+                                             "4: Dump data to CSV\n"\
+                                             "5: Update max lift values\n"\
                                              "q: Return to title"
             elif procedure_text == '4':
                 self.procedure = MorningLiftsProcedure()
@@ -78,7 +79,6 @@ class PersonalFitness(object):
     def __run_procedure(self):
         """
         Performs procedure operations.
-
         """
         prompt = self.procedure_prompt_text if self.procedure_prompt_text is not None else Constants.user_prompt
         while True:
@@ -86,15 +86,19 @@ class PersonalFitness(object):
             if input_text == '1':
                 self.logger.info('Adding a new entry with user entry')
                 db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
-                self.procedure.append_new_entry(self.connection)
+                self.procedure.get_new_data(self.connection)
             elif input_text == '2':
-                # Creating plots for user
+                self.logger.info('Adding new entries from file')
+                db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
+                self.procedure.get_new_data_from_file(self.connection)
+            elif input_text == '3':
+                self.logger.info("Creating plots for user")
                 self.procedure.view_data(self.connection)
                 pass
-            elif input_text == '3':
-                # Dumping tables to csv files
-                db_api.table_to_csv(self.connection, self.procedure.table)
             elif input_text == '4':
+                self.logger.info("Dumping tables to csv files")
+                db_api.table_to_csv(self.connection, self.procedure.table)
+            elif input_text == '5':
                 pass
             elif input_text == 'q':
                 break

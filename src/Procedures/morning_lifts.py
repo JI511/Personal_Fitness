@@ -19,10 +19,11 @@ class MorningLiftsProcedure(Procedure):
         super(MorningLiftsProcedure, self).__init__(table='morning_lifts',
                                                     output_dir=output_dir,
                                                     query=Constants.morning_lifts_query,
-                                                    logger=logging.getLogger(__name__))
+                                                    logger=logging.getLogger(__name__),
+                                                    names=None)
         self.logger.info("Morning lifts tracking and procedures.")
 
-    def get_new_data(self):
+    def get_new_data(self, connection):
         pass
 
 

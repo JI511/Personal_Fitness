@@ -10,6 +10,7 @@ import shutil
 import datetime
 from src.Util import database_api as db_api
 from src.Procedures import body_weight
+from src.Procedures import procedure
 
 
 class TestBodyWeightProcedure(unittest.TestCase):
@@ -31,6 +32,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
             """
             return self.input_values.pop(0)
         body_weight.input = mock_input
+        procedure.input = mock_input
         db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
         for _ in range(1, 10):
             unique_id = db_api.add_new_row(self.connection, self.procedure.table)
@@ -52,7 +54,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
         Provides mock user input for a body weight entry.
         """
         self.input_values = ['100']
-        result, name = self.procedure.get_new_data()
+        result, name = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, [100])
         self.assertEqual(name, ['body_weight'])
 
@@ -62,7 +64,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
         :return:
         """
         self.input_values = ['a', '100']
-        result, name = self.procedure.get_new_data()
+        result, name = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, [100])
 
     # ------------------------------------------------------------------------------------------------------------------

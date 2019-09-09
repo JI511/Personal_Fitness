@@ -48,7 +48,7 @@ class TestWeightLifting(unittest.TestCase):
         Adds a new entry into the weight lifting table.
         """
         self.input_values = ['9', 'y']
-        result, names = self.procedure.get_new_data()
+        result, names = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, list(range(0, 24)))
         self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
 
@@ -57,7 +57,7 @@ class TestWeightLifting(unittest.TestCase):
         Adds a new entry into the weight lifting table.
         """
         self.input_values = ['15', 'y']
-        result, names = self.procedure.get_new_data()
+        result, names = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, list(range(0, 48)))
         # sort items since order doesn't matter
         self.assertEqual(names.sort(), [a[0] for a in const.generate_sets_item_query(['bench_press',
@@ -71,7 +71,7 @@ class TestWeightLifting(unittest.TestCase):
         Adds a new entry into the weight lifting table after one failed attempt on selecting muscle group.
         """
         self.input_values = ['a', '9', 'y']
-        result, names = self.procedure.get_new_data()
+        result, names = self.procedure.get_new_data(self.connection)
         self.assertEqual(result, list(range(0, 24)))
         self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
 

@@ -33,14 +33,14 @@ def plot_data(table, column_dict, output_path):
             raise
 
 
-def read_file_values(file_path):
+def read_file_values(file_path, logger):
     """
     Parses an input file containing integer values and appends each line to a list.
 
     :param file_path: Path to the txt file
+    :param logger: Instance of logging.logger
     :return: List of ints
     """
-    # todo fix this, check path
     values = None
     if os.path.exists(file_path):
         file = open(file_path, 'r')
@@ -50,9 +50,9 @@ def read_file_values(file_path):
                 number = int(line)
                 values.append(number)
             except ValueError:
-                print("There was an invalid number present.")
-                return None
-    return values
+                logger.error("There was an invalid number present.")
+    # return None if values is an empty list
+    return values if values != [] else None
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

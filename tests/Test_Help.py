@@ -7,6 +7,7 @@ from tests.Procedures.test_body_weight import TestBodyWeightProcedure
 from tests.Procedures.test_nutrition import TestNutrition
 from tests.Procedures.test_morning_lifts import TestMorningLiftsProcedure
 from tests.Procedures.test_weight_lifting import TestWeightLifting
+from tests.Procedures.test_procedure import TestProcedure
 
 
 def suite(starting_name=None):
@@ -26,7 +27,8 @@ def suite(starting_name=None):
                     ("BodyWeight", TestBodyWeightProcedure),
                     ("Nutrition", TestNutrition),
                     ("MorningLifts", TestMorningLiftsProcedure),
-                    ("WeightLifting", TestWeightLifting)
+                    ("WeightLifting", TestWeightLifting),
+                    ("Procedure", TestProcedure)
                     ]
     test_list = None
     if starting_name is not None:

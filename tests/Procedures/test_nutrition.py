@@ -52,7 +52,7 @@ class TestNutrition(unittest.TestCase):
         Adds a new entry into the nutrition table.
         """
         self.input_values = ['1 2 3 4']
-        result, name = self.procedure.get_new_data()
+        result, name = self.procedure.get_new_data(self.connection)
         # calories value calculated from provided input
         self.assertEqual(result, [1, 2, 3, 4, 34])
         self.assertEqual(name, ['protein', 'fat', 'carbs', 'calories', 'water'])
@@ -62,7 +62,7 @@ class TestNutrition(unittest.TestCase):
         Adds a new entry after one failed attempt.
         """
         self.input_values = ['a', '1 2 3 4']
-        result, name = self.procedure.get_new_data()
+        result, name = self.procedure.get_new_data(self.connection)
         # calories value calculated from provided input
         self.assertEqual(result, [1, 2, 3, 4, 34])
         self.assertEqual(name, ['protein', 'fat', 'carbs', 'calories', 'water'])

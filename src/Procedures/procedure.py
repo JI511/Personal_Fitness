@@ -12,23 +12,44 @@ class Procedure(object):
     """
     Abstract implementation for procedures classes
     """
-    def __init__(self, table, output_dir, query, logger):
+    def __init__(self, table, output_dir, query, logger, names):
         """
         Setup the abstract procedure variables.
 
-        :param `str` table: The name of the table within the database.
-        :param `str` output_dir: The path to store any output files created.
-        :param `str` query: The query to use within the specified table.
+        :param str table: The name of the table within the database.
+        :param str output_dir: The path to store any output files created.
+        :param str query: The query to use within the specified table.
         """
         output_path = output_dir if output_dir is not None else Constants.output_path
         self.table = table
         self.query = query
         self.output_path = output_path
         self.logger = logger
+        self.names = names
 
-    @staticmethod
-    def get_new_data():
+    def get_new_data(self, connection):
+        """
+        Abstract body for getting user input for a procedure.
+
+        :param connection: Connection to the database file.
+        """
         raise NotImplementedError
+
+    def get_new_data_from_file(self, connection):
+        """
+        Abstract body for getting multiple input values for a procedure via file.
+
+        :param connection: Connection to the database file.
+        """
+        self.logger.info('Getting multiple values from file')
+        weight_text = input("What file would you like to use?\n")
+        values = util.read_file_values(weight_text, self.logger)
+        if values is not None:
+            for value in values:
+                self.append_new_entry(connection, [value], self.names)
+        else:
+            self.logger.error("Bad path provided, aborting updates")
+        return values
 
     def view_data(self, connection, column_names=None):
         """
@@ -48,15 +69,17 @@ class Procedure(object):
         except db_api.SqlError as msg:
             self.logger.error("Error trying to modify the database,\n%s" % str(msg))
 
-    def append_new_entry(self, connection):
+    def append_new_entry(self, connection, values, column_names):
         """
         Gets the required input from the user and appends the new values into the database.
         """
-        values, column_names = self.get_new_data()
-        self.logger.info('New data gathered:\n\t names: %s\n\t values: %s' % (column_names, values))
+        self.logger.info('New data gathered:\n\t names: %s\n\t values: %s' % (values, column_names))
         unique_id = db_api.add_new_row(connection, self.table)
         values.append(unique_id)
         db_api.update_item(connection, self.table, tuple(values), column_names)
+        # not sure why this is needed but a unit test was failing because the nutrition get_new_data result somehow had
+        # the unique_id appended even though nothing is returned in this function. No other tests showing this.
+        values.pop(-1)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
