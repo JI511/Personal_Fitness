@@ -20,8 +20,8 @@ class TestMorningLiftsProcedure(unittest.TestCase):
         Initializes unit test variables.
         """
         self.logs_dir = tempfile.mkdtemp()
-        self.connection = db_api.create_connection(os.path.join(self.logs_dir, 'test_database.db'))
-        self.procedure = morning_lifts.MorningLiftsProcedure(self.logs_dir)
+        self.connection = db_api.create_connection(db_path=os.path.join(self.logs_dir, 'test_database.db'))
+        self.procedure = morning_lifts.MorningLiftsProcedure(output_dir=self.logs_dir)
         self.input_values = []
 
         def mock_input(_):
@@ -30,7 +30,9 @@ class TestMorningLiftsProcedure(unittest.TestCase):
             """
             return self.input_values.pop(0)
         morning_lifts.input = mock_input
-        db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
+        db_api.create_table(connection=self.connection,
+                            table=self.procedure.table,
+                            query=self.procedure.query)
 
     def tearDown(self):
         """

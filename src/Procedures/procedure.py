@@ -88,7 +88,7 @@ class Procedure(object):
         db_api.update_item(connection=connection,
                            table=self.table,
                            value_tuple=tuple(values),
-                           column_list=column_names)
+                           column_names=column_names)
         # not sure why this is needed but a unit test was failing because the nutrition get_new_data result somehow had
         # the unique_id appended even though nothing is returned in this function. No other tests showing this.
         values.pop(-1)

@@ -69,12 +69,12 @@ def add_new_row(connection, table):
     update_item(connection=connection,
                 table=table,
                 value_tuple=(str(datetime.datetime.now()), unique_id),
-                column_list=["date"])
+                column_names=["date"])
     return unique_id
 
 
 @sql_wrapper
-def update_item(connection, table, value_tuple, column_list):
+def update_item(connection, table, value_tuple, column_names):
     """
 
     Note - unique_id needs to be the last value of the value tuple.
@@ -82,10 +82,10 @@ def update_item(connection, table, value_tuple, column_list):
     :param connection: Connection to the db file.
     :param table: Name of the table to access within the db file.
     :param value_tuple:
-    :param column_list:
+    :param column_names:
     """
     query = 'Update ' + table + ' SET '
-    for name in column_list:
+    for name in column_names:
         query = query + name + ' = ? ,'
     query = query[:(len(query) - 1)]
     query = query + ' WHERE ID = ?'
