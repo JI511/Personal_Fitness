@@ -42,10 +42,10 @@ def create_connection(db_path):
 
 
 @sql_wrapper
-def create_table(con, table, query):
-    if 'date' in query and 'ID integer' in query and isinstance(con, sqlite3.Cursor):
+def create_table(connection, table, query):
+    if 'date' in query and 'ID integer' in query and isinstance(connection, sqlite3.Cursor):
         try:
-            con.execute("CREATE TABLE " + table + " (" + query + ");")
+            connection.execute("CREATE TABLE " + table + " (" + query + ");")
         except sqlite3.OperationalError as e:
             if str(e) != ('table ' + table + " already exists"):
                 raise
@@ -66,7 +66,10 @@ def add_new_row(connection, table):
 
     connection.execute("INSERT INTO " + table + " DEFAULT VALUES")
     unique_id = connection.lastrowid
-    update_item(connection, table, (str(datetime.datetime.now()), unique_id), ["date"])
+    update_item(connection=connection,
+                table=table,
+                value_tuple=(str(datetime.datetime.now()), unique_id),
+                column_list=["date"])
     return unique_id
 
 

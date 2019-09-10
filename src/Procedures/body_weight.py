@@ -33,7 +33,9 @@ class BodyWeightProcedure(Procedure):
             self.logger.info('Getting input for new body weight entry.')
             weight_text = input("What did you weigh today?\n")
             try:
-                self.append_new_entry(connection, [int(weight_text)], self.names)
+                self.append_new_entry(connection=connection,
+                                      values=[int(weight_text)],
+                                      column_names=self.names)
                 return [int(weight_text)], self.names
             except ValueError:
                 print('Invalid option, please enter a valid number.')

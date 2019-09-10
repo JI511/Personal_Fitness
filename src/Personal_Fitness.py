@@ -29,7 +29,7 @@ class PersonalFitness(object):
         :param log_name: Optional name for log file.
         """
         path = database_path if database_path is not None else Constants.database_path
-        self.connection = db_api.create_connection(path)
+        self.connection = db_api.create_connection(db_path=path)
         self.procedure = None
         self.procedure_prompt_text = None
         logging.basicConfig(filename=log_name, level=logging.INFO)
@@ -85,21 +85,26 @@ class PersonalFitness(object):
             input_text = input(prompt)
             if input_text == '1':
                 self.logger.info('Adding a new entry with user entry')
-                db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
-                self.procedure.get_new_data(self.connection)
+                db_api.create_table(connection=self.connection,
+                                    table=self.procedure.table,
+                                    query=self.procedure.query)
+                self.procedure.get_new_data(connection=self.connection)
             elif input_text == '2':
                 self.logger.info('Adding new entries from file')
-                db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
-                self.procedure.get_new_data_from_file(self.connection)
+                db_api.create_table(connection=self.connection,
+                                    table=self.procedure.table,
+                                    query=self.procedure.query)
+                self.procedure.get_new_data_from_file(connection=self.connection)
             elif input_text == '3':
                 self.logger.info("Creating plots for user")
-                self.procedure.view_data(self.connection)
+                self.procedure.view_data(connection=self.connection)
                 pass
             elif input_text == '4':
                 self.logger.info("Dumping tables to csv files")
-                db_api.table_to_csv(self.connection, self.procedure.table)
+                db_api.table_to_csv(connection=self.connection,
+                                    table=self.procedure.table)
             elif input_text == '5':
-                pass
+                return NotImplementedError
             elif input_text == 'q':
                 break
             else:
