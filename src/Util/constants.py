@@ -44,6 +44,12 @@ class Constants(object):
     logs_path = ""
     water_option = 'mL'
 
+    config_defaults = {
+        "OPTIONS": {
+            "Water": "oz"
+        }
+    }
+
     user_prompt = "Would you like to view data or add a new entry?\n" \
                   "1: New entry\n" \
                   "2: View plots\n" \
@@ -81,27 +87,21 @@ class Constants(object):
                            ('abs_ab_roller', 'text'),
                            ('abs_ab_shrugs', 'text')]
 
-    morning_lifts_query = generate_query(morning_lifts_query_tuple)
+    morning_lifts_query = generate_query(query_tuples=morning_lifts_query_tuple)
 
-    nutrition_query = generate_query(nutrition_query_tuple)
+    nutrition_query = generate_query(query_tuples=nutrition_query_tuple)
 
-    max_lifts_query = generate_query(max_lifts_query_tuple)
+    max_lifts_query = generate_query(query_tuples=max_lifts_query_tuple)
 
-    body_weight_query = generate_query(body_weight_query_tuple)
+    body_weight_query = generate_query(query_tuples=body_weight_query_tuple)
 
-    weight_lifting_accessories_query = generate_query(weight_lifting_accessories_query_tuple)
+    weight_lifting_accessories_query = generate_query(query_tuples=weight_lifting_accessories_query_tuple)
 
-    weight_lifting_compound_query = generate_query(generate_sets_item_query(names=['bench_press',
-                                                                                   'squat',
-                                                                                   'shoulder_press',
-                                                                                   'deadlift'],
-                                                                            sets=6))
-
-    config_defaults = {
-        "OPTIONS": {
-            "Water": "oz"
-        }
-    }
+    weight_lifting_compound_query = generate_query(query_tuples=generate_sets_item_query(names=['bench_press',
+                                                                                                'squat',
+                                                                                                'shoulder_press',
+                                                                                                'deadlift'],
+                                                                                         sets=6))
 
 
 # ----------------------------------------------------------------------------------------------------------------------

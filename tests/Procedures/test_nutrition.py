@@ -20,8 +20,8 @@ class TestNutrition(unittest.TestCase):
         Initializes unit test variables.
         """
         self.logs_dir = tempfile.mkdtemp()
-        self.connection = db_api.create_connection(os.path.join(self.logs_dir, 'test_database.db'))
-        self.procedure = nutrition.NutritionProcedure(self.logs_dir)
+        self.connection = db_api.create_connection(db_path=os.path.join(self.logs_dir, 'test_database.db'))
+        self.procedure = nutrition.NutritionProcedure(output_dir=self.logs_dir)
         self.input_values = []
 
         def mock_input(_):
@@ -30,11 +30,16 @@ class TestNutrition(unittest.TestCase):
             """
             return self.input_values.pop(0)
         nutrition.input = mock_input
-        db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
+        db_api.create_table(connection=self.connection,
+                            table=self.procedure.table,
+                            query=self.procedure.query)
         for _ in range(1, 10):
-            unique_id = db_api.add_new_row(self.connection, self.procedure.table)
-            db_api.update_item(self.connection, self.procedure.table, (1, 2, 3, 4, 5, unique_id),
-                               [a[0] for a in Constants.nutrition_query_tuple])
+            unique_id = db_api.add_new_row(connection=self.connection,
+                                           table=self.procedure.table)
+            db_api.update_item(connection=self.connection,
+                               table=self.procedure.table,
+                               value_tuple=(1, 2, 3, 4, 5, unique_id),
+                               column_names=[a[0] for a in Constants.nutrition_query_tuple])
 
     def tearDown(self):
         """
@@ -52,7 +57,7 @@ class TestNutrition(unittest.TestCase):
         Adds a new entry into the nutrition table.
         """
         self.input_values = ['1 2 3 4']
-        result, name = self.procedure.get_new_data(self.connection)
+        result, name = self.procedure.get_new_data(connection=self.connection)
         # calories value calculated from provided input
         self.assertEqual(result, [1, 2, 3, 4, 34])
         self.assertEqual(name, ['protein', 'fat', 'carbs', 'calories', 'water'])
@@ -62,7 +67,7 @@ class TestNutrition(unittest.TestCase):
         Adds a new entry after one failed attempt.
         """
         self.input_values = ['a', '1 2 3 4']
-        result, name = self.procedure.get_new_data(self.connection)
+        result, name = self.procedure.get_new_data(connection=self.connection)
         # calories value calculated from provided input
         self.assertEqual(result, [1, 2, 3, 4, 34])
         self.assertEqual(name, ['protein', 'fat', 'carbs', 'calories', 'water'])
@@ -74,7 +79,7 @@ class TestNutrition(unittest.TestCase):
         """
         Creates separate plots for all nutrition items
         """
-        self.procedure.view_data(self.connection)
+        self.procedure.view_data(connection=self.connection)
         date_item = datetime.datetime.now().strftime('%m_%d')
         self.assertTrue(os.path.exists(os.path.join(self.logs_dir, 'nutrition_protein_%s.png' % date_item)))
         self.assertTrue(os.path.exists(os.path.join(self.logs_dir, 'nutrition_fat_%s.png' % date_item)))
@@ -86,7 +91,8 @@ class TestNutrition(unittest.TestCase):
         """
         Creates a plot for only one nutrition item. The others should not be created.
         """
-        self.procedure.view_data(self.connection, column_names=['protein'])
+        self.procedure.view_data(connection=self.connection,
+                                 column_names=['protein'])
         date_item = datetime.datetime.now().strftime('%m_%d')
         self.assertTrue(os.path.exists(os.path.join(self.logs_dir, 'nutrition_protein_%s.png' % date_item)))
         self.assertFalse(os.path.exists(os.path.join(self.logs_dir, 'nutrition_fat_%s.png' % date_item)))
@@ -98,7 +104,8 @@ class TestNutrition(unittest.TestCase):
         """
         Tries to create a plot with an invalid database column.
         """
-        self.procedure.view_data(self.connection, column_names=['bad'])
+        self.procedure.view_data(connection=self.connection,
+                                 column_names=['bad'])
         date_item = datetime.datetime.now().strftime('%m_%d')
         self.assertFalse(os.path.exists(os.path.join(self.logs_dir, 'nutrition_protein_%s.png' % date_item)))
         self.assertFalse(os.path.exists(os.path.join(self.logs_dir, 'nutrition_fat_%s.png' % date_item)))
@@ -113,7 +120,9 @@ class TestNutrition(unittest.TestCase):
         """
         Creates a csv file from values within the database table.
         """
-        csv_name = db_api.table_to_csv(self.connection, self.procedure.table, self.logs_dir)
+        csv_name = db_api.table_to_csv(connection=self.connection,
+                                       table=self.procedure.table,
+                                       output_dir=self.logs_dir)
         self.assertTrue(os.path.exists(os.path.join(self.logs_dir, csv_name)))
 
     def test_dump_csv_bad_path(self):
@@ -121,7 +130,9 @@ class TestNutrition(unittest.TestCase):
         Attempts to create a csv file but a bad output path is provided.
         :return:
         """
-        csv_name = db_api.table_to_csv(self.connection, self.procedure.table, 'bad_path')
+        csv_name = db_api.table_to_csv(connection=self.connection,
+                                       table=self.procedure.table,
+                                       output_dir='bad_path')
         self.assertEqual(None, csv_name)
 
 # ----------------------------------------------------------------------------------------------------------------------

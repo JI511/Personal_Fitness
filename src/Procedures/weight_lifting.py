@@ -33,24 +33,26 @@ class WeightLiftingProcedure(Procedure):
         :param connection: Connection to the database.
         """
         self.logger.info('Getting input for new weight lifting entry.')
-        names = self.get_workout_item_names(self.determine_muscle_group('Which muscle groups did you work today?'))
+        names = self.get_workout_item_names(
+            group=self.determine_muscle_group('Which muscle groups did you work today?'))
         while True:
             use_default = input("Would you like to use default values based on current max?\n"
                                 "y: yes\n"
                                 "n: no\n")
             if use_default == 'y':
-                self.append_new_entry(connection, self.get_default_lift_values(names), names)
-                return self.get_default_lift_values(names), names
+                self.append_new_entry(connection=connection,
+                                      values=self.get_default_lift_values(names=names),
+                                      column_names=names)
+                return self.get_default_lift_values(names=names), names
             elif use_default == 'n':
-                self.append_new_entry(connection, self.get_default_lift_values(names), names)
-                return self.get_default_lift_values(names), names
+                return NotImplementedError
             print('Please enter a valid option')
 
     def get_max_lift_updates(self):
         """
         Updates the user selected max lift values by getting input from the user.
         """
-        names = self.determine_muscle_group('Which max values would you like to update?')
+        names = self.determine_muscle_group(question_text='Which max values would you like to update?')
         max_lift_names = list()
         if 'bench_press' in names:
             max_lift_names.append('bench_press_max')
@@ -94,7 +96,8 @@ class WeightLiftingProcedure(Procedure):
         :param List group: The user chosen compound lifts.
         :return: A list of Strings containing the column names to update.
         """
-        names = [a[0] for a in const.generate_sets_item_query(group, 6)]
+        names = [a[0] for a in const.generate_sets_item_query(names=group,
+                                                              sets=6)]
         return names
 
     @staticmethod

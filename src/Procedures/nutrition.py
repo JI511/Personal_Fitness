@@ -38,19 +38,18 @@ class NutritionProcedure(Procedure):
                 if macros_text == "":
                     print("Nothing was entered, please try again.")
                 else:
-                    macros_list = macros_text.split(" ")
-                    if len(macros_list) != 4:
-                        print("Invalid number of entries for macros entry, please try again")
+                    all_values = [int(a) for a in macros_text.split(" ")]
+                    if len(all_values) != 4:
                         continue
-                    all_values = []
-                    for value in macros_list:
-                        all_values.append(int(value))
                     calories = (all_values[0] * 4) + (all_values[1] * 9) + (all_values[2] * 4)
                     all_values.append(calories)
-                    self.append_new_entry(connection, all_values, self.names)
+                    self.append_new_entry(connection=connection,
+                                          values=all_values,
+                                          column_names=self.names)
                     return all_values, self.names
             except ValueError:
-                result = util.read_file_values(macros_text, self.logger)
+                result = util.read_file_values(file_path=macros_text,
+                                               logger=self.logger)
                 if result is None:
                     print('Invalid option, please enter a valid number or valid path.')
                 else:

@@ -42,10 +42,10 @@ def create_connection(db_path):
 
 
 @sql_wrapper
-def create_table(con, table, query):
-    if 'date' in query and 'ID integer' in query and isinstance(con, sqlite3.Cursor):
+def create_table(connection, table, query):
+    if 'date' in query and 'ID integer' in query and isinstance(connection, sqlite3.Cursor):
         try:
-            con.execute("CREATE TABLE " + table + " (" + query + ");")
+            connection.execute("CREATE TABLE " + table + " (" + query + ");")
         except sqlite3.OperationalError as e:
             if str(e) != ('table ' + table + " already exists"):
                 raise
@@ -66,12 +66,15 @@ def add_new_row(connection, table):
 
     connection.execute("INSERT INTO " + table + " DEFAULT VALUES")
     unique_id = connection.lastrowid
-    update_item(connection, table, (str(datetime.datetime.now()), unique_id), ["date"])
+    update_item(connection=connection,
+                table=table,
+                value_tuple=(str(datetime.datetime.now()), unique_id),
+                column_names=["date"])
     return unique_id
 
 
 @sql_wrapper
-def update_item(connection, table, value_tuple, column_list):
+def update_item(connection, table, value_tuple, column_names):
     """
 
     Note - unique_id needs to be the last value of the value tuple.
@@ -79,10 +82,10 @@ def update_item(connection, table, value_tuple, column_list):
     :param connection: Connection to the db file.
     :param table: Name of the table to access within the db file.
     :param value_tuple:
-    :param column_list:
+    :param column_names:
     """
     query = 'Update ' + table + ' SET '
-    for name in column_list:
+    for name in column_names:
         query = query + name + ' = ? ,'
     query = query[:(len(query) - 1)]
     query = query + ' WHERE ID = ?'

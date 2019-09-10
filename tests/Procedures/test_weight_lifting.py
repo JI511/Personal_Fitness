@@ -20,7 +20,7 @@ class TestWeightLifting(unittest.TestCase):
         Initializes unit test variables.
         """
         self.logs_dir = tempfile.mkdtemp()
-        self.connection = db_api.create_connection(os.path.join(self.logs_dir, 'test_database.db'))
+        self.connection = db_api.create_connection(db_path=os.path.join(self.logs_dir, 'test_database.db'))
         self.procedure = weight_lifting.WeightLiftingProcedure()
         self.input_values = []
 
@@ -30,7 +30,9 @@ class TestWeightLifting(unittest.TestCase):
             """
             return self.input_values.pop(0)
         weight_lifting.input = mock_input
-        db_api.create_table(self.connection, self.procedure.table, self.procedure.query)
+        db_api.create_table(connection=self.connection,
+                            table=self.procedure.table,
+                            query=self.procedure.query)
 
     def tearDown(self):
         """
@@ -48,32 +50,34 @@ class TestWeightLifting(unittest.TestCase):
         Adds a new entry into the weight lifting table.
         """
         self.input_values = ['9', 'y']
-        result, names = self.procedure.get_new_data(self.connection)
+        result, names = self.procedure.get_new_data(connection=self.connection)
         self.assertEqual(result, list(range(0, 24)))
-        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
+        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(names=['bench_press', 'deadlift'],
+                                                                              sets=6)])
 
     def test_get_new_data_nominal_all(self):
         """
         Adds a new entry into the weight lifting table.
         """
         self.input_values = ['15', 'y']
-        result, names = self.procedure.get_new_data(self.connection)
+        result, names = self.procedure.get_new_data(connection=self.connection)
         self.assertEqual(result, list(range(0, 48)))
         # sort items since order doesn't matter
-        self.assertEqual(names.sort(), [a[0] for a in const.generate_sets_item_query(['bench_press',
-                                                                                      'deadlift',
-                                                                                      'shoulder_press',
-                                                                                      'squat'],
-                                                                                     6)].sort())
+        self.assertEqual(names.sort(), [a[0] for a in const.generate_sets_item_query(names=['bench_press',
+                                                                                            'deadlift',
+                                                                                            'shoulder_press',
+                                                                                            'squat'],
+                                                                                     sets=6)].sort())
 
     def test_get_new_data_bad_muscle_group_entry(self):
         """
         Adds a new entry into the weight lifting table after one failed attempt on selecting muscle group.
         """
         self.input_values = ['a', '9', 'y']
-        result, names = self.procedure.get_new_data(self.connection)
+        result, names = self.procedure.get_new_data(connection=self.connection)
         self.assertEqual(result, list(range(0, 24)))
-        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(['bench_press', 'deadlift'], 6)])
+        self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(names=['bench_press', 'deadlift'],
+                                                                              sets=6)])
 
     # ------------------------------------------------------------------------------------------------------------------
     # get_max_lift_updates tests
@@ -86,10 +90,16 @@ class TestWeightLifting(unittest.TestCase):
         result, names = self.procedure.get_max_lift_updates()
         self.assertEqual(result, [100, 200])
         table = 'max_lifts'
-        db_api.create_table(self.connection, table, Constants.max_lifts_query)
-        unique_id = db_api.add_new_row(self.connection, table)
+        db_api.create_table(connection=self.connection,
+                            table=table,
+                            query=Constants.max_lifts_query)
+        unique_id = db_api.add_new_row(connection=self.connection,
+                                       table=table)
         result.append(unique_id)
-        db_api.update_item(self.connection, table, tuple(result), names)
+        db_api.update_item(connection=self.connection,
+                           table=table,
+                           value_tuple=tuple(result),
+                           column_names=names)
 
     # ------------------------------------------------------------------------------------------------------------------
     # get_workout_item_names tests
@@ -99,15 +109,16 @@ class TestWeightLifting(unittest.TestCase):
         Gets the desired column names based off selected compound lifts.
         """
         group = ['bench', 'deadlift']
-        result = self.procedure.get_workout_item_names(group)
-        self.assertEqual(result, [a[0] for a in const.generate_sets_item_query(group, 6)])
+        result = self.procedure.get_workout_item_names(group=group)
+        self.assertEqual(result, [a[0] for a in const.generate_sets_item_query(names=group,
+                                                                               sets=6)])
 
     def test_get_workout_item_names_empty_group(self):
         """
         Gets no columns when no groups are passed in.
         :return:
         """
-        result = self.procedure.get_workout_item_names([])
+        result = self.procedure.get_workout_item_names(group=[])
         self.assertEqual([], result)
 
     # ------------------------------------------------------------------------------------------------------------------
@@ -126,7 +137,7 @@ class TestWeightLifting(unittest.TestCase):
         An 0 is entered and should not be accepted since no groups will be returned.
         """
         self.input_values = ['0', '9']
-        result = self.procedure.determine_muscle_group('')
+        result = self.procedure.determine_muscle_group(question_text='')
         self.assertEqual(result, ['bench_press', 'deadlift'])
 
 # ----------------------------------------------------------------------------------------------------------------------
