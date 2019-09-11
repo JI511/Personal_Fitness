@@ -10,7 +10,7 @@ from src.Procedures.procedure import Procedure
 
 class BodyWeightProcedure(Procedure):
     """
-
+    Class for handling body weight procedures and functions.
     """
     def __init__(self, output_dir=None):
         """
