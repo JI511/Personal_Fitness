@@ -43,6 +43,14 @@ def create_connection(db_path):
 
 @sql_wrapper
 def create_table(connection, table, query):
+    """
+    Attempts to create a sqlite3 table.
+
+    :param connection: Connection to the database file.
+    :param str table: Name of the table to create.
+    :param str query: Query to use for table creation.
+    :return:
+    """
     if 'date' in query and 'ID integer' in query and isinstance(connection, sqlite3.Cursor):
         try:
             connection.execute("CREATE TABLE " + table + " (" + query + ");")
@@ -76,8 +84,10 @@ def add_new_row(connection, table):
 @sql_wrapper
 def update_item(connection, table, value_tuple, column_names):
     """
+    Updates an item at a specified index.
 
-    Note - unique_id needs to be the last value of the value tuple.
+    Notes
+    * unique_id needs to be the last value of the value tuple.
 
     :param connection: Connection to the db file.
     :param table: Name of the table to access within the db file.
