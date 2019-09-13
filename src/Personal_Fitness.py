@@ -14,7 +14,7 @@ from src.Procedures.morning_lifts import MorningLiftsProcedure
 from src.Util import database_api as db_api
 from src.Util import constants as const
 from src.Util.constants import Constants
-from src.Util import config
+from src.Util.config import Config
 
 
 class PersonalFitness(object):
@@ -40,7 +40,9 @@ class PersonalFitness(object):
         Starts the application.
         """
         self.logger.info("Starting Fitness Application...")
-        config.read_cfg()
+        config = Config(logger=self.logger,
+                        output_path=Constants.output_path)
+        config.read_cfg("Water")
 
         while True:
             procedure_text = input(

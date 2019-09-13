@@ -40,6 +40,9 @@ class TestUtilities(unittest.TestCase):
         if os.path.exists(self.logs_dir):
             shutil.rmtree(self.logs_dir)
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # function tests
+    # ------------------------------------------------------------------------------------------------------------------
     def test_plot_data_nominal(self):
         column_dict = db_api.get_table_columns_dict(connection=self.connection,
                                                     table=self.table,
@@ -52,7 +55,6 @@ class TestUtilities(unittest.TestCase):
 
     def test_read_file_values_nominal(self):
         self.assertTrue(True)
-
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
