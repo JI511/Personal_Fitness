@@ -45,10 +45,12 @@ class Config(object):
             try:
                 self.__config.read(self.config_path)
                 return self.__config["OPTIONS"][read_value]
-            except KeyError as msg:
+            except KeyError:
                 logging.getLogger(__name__).error(
                     "Error, trying to access a field not available in current config file.")
-                raise KeyError("Bad value, %s" % msg)
+                raise KeyError(str(read_value))
+        else:
+            raise NotImplementedError
 
 
 # ----------------------------------------------------------------------------------------------------------------------

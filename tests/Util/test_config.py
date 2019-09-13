@@ -44,6 +44,14 @@ class TestConfig(unittest.TestCase):
         value = self.config.read_cfg("Water")
         self.assertEqual(value, "oz")
 
+    def test_read_cfg_bad_value(self):
+        """
+        Attempts to get a bad value in the config file.
+        """
+        with self.assertRaises(KeyError) as error:
+            self.config.read_cfg("bad")
+            self.assertTrue('bad' in error.exception)
+
 # ------------------------------------------------------------------------------------------------------------------
 # End
 # ------------------------------------------------------------------------------------------------------------------
