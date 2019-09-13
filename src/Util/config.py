@@ -4,42 +4,51 @@
 
 # imports
 import configparser
-import pathlib
 import logging
 import os
 from src.Util.constants import Constants
 
-config_path = 'config.ini'
 
-
-def __init_cfg():
+class Config(object):
     """
-    Creates a config file with default values.
+    Functions for creating and reading a config file.
 
+    Notes
+    * Config file must be '.ini'
     """
-    config = configparser.ConfigParser()
-    config["OPTIONS"] = Constants.config_defaults["OPTIONS"]
-    with open(config_path, "w") as configfile:
-        config.write(configfile)
-    configfile.close()
-    logging.getLogger(__name__).info('Config file created.')
+    def __init__(self, logger, output_path):
+        """
+        Creates a default config file if it does not already exist.
+        :param output_path: The path
+        """
+        self.config_path = 'config.ini'
+        self.logger = logger
+        self.__config = configparser.ConfigParser()
+        if not os.path.exists(output_path):
+            # todo, try catch here
+            os.mkdir(output_path)
+        if not os.path.exists(os.path.join(output_path, self.config_path)):
+            self.__config["OPTIONS"] = Constants.config_defaults["OPTIONS"]
+            with open(self.config_path, "w") as configfile:
+                self.__config.write(configfile)
+            configfile.close()
+            self.logger.info('Config file created.')
 
+    def read_cfg(self, read_value):
+        """
+        Retrieves a specific variable from the config file.
 
-def read_cfg():
-    """
-
-    """
-    if not os.path.exists(Constants.output_path):
-        os.mkdir(Constants.output_path)
-    if not pathlib.Path(config_path).exists():
-        __init_cfg()
-    logging.getLogger(__name__).info("Reading config...")
-    config = configparser.ConfigParser()
-    try:
-        config.read(config_path)
-        Constants.water_option = config["OPTIONS"]["Water"]
-    except KeyError:
-        logging.getLogger(__name__).error("Error, trying to access a field not available in current config file.")
+        :param str read_value: The value to be taken.
+        """
+        self.logger.info("Reading config...")
+        if read_value is not None and isinstance(read_value, str):
+            try:
+                self.__config.read(self.config_path)
+                return self.__config["OPTIONS"][read_value]
+            except KeyError as msg:
+                logging.getLogger(__name__).error(
+                    "Error, trying to access a field not available in current config file.")
+                raise KeyError("Bad value, %s" % msg)
 
 
 # ----------------------------------------------------------------------------------------------------------------------
