@@ -149,6 +149,9 @@ class WeightLiftingProcedure(Procedure):
             elif accessories == 'n':
                 break
 
+    def view_data(self, connection, column_names=None):
+        return NotImplementedError
+
 
 class Vars(object):
     """
