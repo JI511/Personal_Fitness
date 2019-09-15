@@ -72,6 +72,14 @@ class TestNutrition(unittest.TestCase):
         self.assertEqual(result, [1, 2, 3, 4, 34])
         self.assertEqual(name, ['protein', 'fat', 'carbs', 'calories', 'water'])
 
+    def test_get_new_data_quit(self):
+        """
+        User aborts adding a new nutrition entry.
+        """
+        self.input_values = ['q']
+        result, name = self.procedure.get_new_data(connection=self.connection)
+        self.assertEqual(result, [])
+
     # ------------------------------------------------------------------------------------------------------------------
     # view_data tests
     # ------------------------------------------------------------------------------------------------------------------

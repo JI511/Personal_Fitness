@@ -24,7 +24,25 @@ class MorningLiftsProcedure(Procedure):
         self.logger.info("Morning lifts tracking and procedures.")
 
     def get_new_data(self, connection):
-        pass
+        """
+        Gathers user input about which morning lifts were performed.
+
+        :param connection: Connection to the database.
+        :return:
+        """
+        return NotImplementedError
+
+    def get_new_data_from_file(self, connection):
+        """
+        Appends multiple entries to the database with values read from a file
+
+        :param connection: Connection to the database.
+        :return: All values added to the database
+        """
+        return NotImplementedError
+
+    def view_data(self, connection, column_names=None):
+        return NotImplementedError
 
 
 # ----------------------------------------------------------------------------------------------------------------------
