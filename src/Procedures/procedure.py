@@ -41,18 +41,7 @@ class Procedure(object):
 
         :param connection: Connection to the database file.
         """
-        self.logger.info('Getting multiple values from file')
-        weight_text = input("What file would you like to use?\n")
-        values = util.read_file_values(file_path=weight_text,
-                                       logger=self.logger)
-        if values is not None:
-            for value in values:
-                self.append_new_entry(connection=connection,
-                                      values=[value],
-                                      column_names=self.names)
-        else:
-            self.logger.error("Bad path provided, aborting updates")
-        return values
+        return NotImplementedError
 
     def view_data(self, connection, column_names=None):
         """
@@ -80,6 +69,10 @@ class Procedure(object):
     def append_new_entry(self, connection, values, column_names):
         """
         Gets the required input from the user and appends the new values into the database.
+
+        :param connection: Connection to the database file.
+        :param list values: Values to add to the database.
+        :param list column_names: Column names in the database to reference.
         """
         self.logger.info('New data gathered:\n\t names: %s\n\t values: %s' % (values, column_names))
         unique_id = db_api.add_new_row(connection=connection,

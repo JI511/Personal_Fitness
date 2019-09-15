@@ -79,6 +79,14 @@ class TestWeightLifting(unittest.TestCase):
         self.assertEqual(names, [a[0] for a in const.generate_sets_item_query(names=['bench_press', 'deadlift'],
                                                                               sets=6)])
 
+    def test_get_new_data_quit(self):
+        """
+        :return:
+        """
+        self.input_values = ['q']
+        result, names = self.procedure.get_new_data(connection=self.connection)
+        self.assertEqual(result, [])
+
     # ------------------------------------------------------------------------------------------------------------------
     # get_max_lift_updates tests
     # ------------------------------------------------------------------------------------------------------------------
