@@ -64,7 +64,7 @@ class PersonalFitness(object):
                                              "3: View data\n"\
                                              "4: Dump data to CSV\n"\
                                              "5: Update max lift values\n"\
-                                             "q: Return to title"
+                                             "q: Return to title\n"
             elif procedure_text == '4':
                 self.procedure = MorningLiftsProcedure()
             if self.procedure is not None:
@@ -106,7 +106,9 @@ class PersonalFitness(object):
                 db_api.table_to_csv(connection=self.connection,
                                     table=self.procedure.table)
             elif input_text == '5':
-                return NotImplementedError
+                if isinstance(self.procedure, WeightLiftingProcedure):
+                    self.procedure.get_max_lift_updates()
+                print("Please enter a valid option.")
             elif input_text == 'q':
                 break
             else:
