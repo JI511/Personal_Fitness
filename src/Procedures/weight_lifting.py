@@ -35,18 +35,32 @@ class WeightLiftingProcedure(Procedure):
         self.logger.info('Getting input for new weight lifting entry.')
         names = self.get_workout_item_names(
             group=self.determine_muscle_group('Which muscle groups did you work today?'))
-        while True:
-            use_default = input("Would you like to use default values based on current max?\n"
-                                "y: yes\n"
-                                "n: no\n")
-            if use_default == 'y':
-                self.append_new_entry(connection=connection,
-                                      values=self.get_default_lift_values(names=names),
-                                      column_names=names)
-                return self.get_default_lift_values(names=names), names
-            elif use_default == 'n':
-                return NotImplementedError
-            print('Please enter a valid option')
+        # check if names is empty
+        values = []
+        if names:
+            while True:
+                use_default = input("Would you like to use default values based on current max?\n"
+                                    "y: yes\n"
+                                    "n: no\n")
+                if use_default == 'y':
+                    self.append_new_entry(connection=connection,
+                                          values=self.get_default_lift_values(names=names),
+                                          column_names=names)
+                    values = self.get_default_lift_values(names=names)
+                    break
+                elif use_default == 'n':
+                    return NotImplementedError
+                print('Please enter a valid option')
+        return values, names
+
+    def get_new_data_from_file(self, connection):
+        """
+        Appends multiple entries to the database with values read from a file
+
+        :param connection: Connection to the database.
+        :return: All values added to the database
+        """
+        return NotImplementedError
 
     def get_max_lift_updates(self):
         """
@@ -108,21 +122,26 @@ class WeightLiftingProcedure(Procedure):
         :param str question_text: Question for the user to determine which procedure is asking about compounds.
         :return: A list of Strings containing the chosen compound lifts.
         """
+        muscle_groups = list()
         while True:
             groups = input(question_text + " (Binary Entry)\n"
                            "8: Bench\n"
                            "4: Squat\n"
                            "2: Shoulder Press\n"
-                           "1: Deadlift\n")
-            try:
-                result = int(groups)
-                if result > 0:
-                    break
-                else:
-                    print('Please enter a positive integer value.')
-            except ValueError:
-                print('Invalid literal, please enter a number.')
-        muscle_groups = list()
+                           "1: Deadlift\n"
+                           "q: Quit\n")
+            if groups != 'q':
+                try:
+                    result = int(groups)
+                    if result > 0:
+                        break
+                    else:
+                        print('Please enter a positive integer value.')
+                except ValueError:
+                    print('Invalid literal, please enter a number.')
+            else:
+                result = 0
+                break
         if (result & Vars.Bench) == 8:
             muscle_groups.append("bench_press")
         if (result & Vars.Squat) == 4:

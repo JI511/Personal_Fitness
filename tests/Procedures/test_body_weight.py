@@ -36,7 +36,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
         db_api.create_table(connection=self.connection,
                             table=self.procedure.table,
                             query=self.procedure.query)
-        for _ in range(1, 10):
+        for _ in range(5):
             unique_id = db_api.add_new_row(connection=self.connection,
                                            table=self.procedure.table)
             db_api.update_item(connection=self.connection,
@@ -72,6 +72,30 @@ class TestBodyWeightProcedure(unittest.TestCase):
         self.input_values = ['a', '100']
         result, name = self.procedure.get_new_data(connection=self.connection)
         self.assertEqual(result, [100])
+
+    def test_get_new_data_quit(self):
+        """
+        The user needs to be able to exit the input prompt screen why a 'q' is provided.
+        """
+        self.input_values = ['q']
+        result, name = self.procedure.get_new_data(connection=self.connection)
+        self.assertEqual(result, [])
+
+    # ------------------------------------------------------------------------------------------------------------------
+    # get_new_data_from_file tests
+    # ------------------------------------------------------------------------------------------------------------------
+    def test_get_new_data_from_file_nominal(self):
+        """
+        Adds multiple values to database via text file.
+        """
+        path = os.path.join(os.getcwd(), r'tests\support_files\body_weight_inputs.txt')
+        self.input_values = [str(path)]
+        self.procedure.get_new_data_from_file(connection=self.connection)
+        column_dict = db_api.get_table_columns_dict(connection=self.connection,
+                                                    table=self.procedure.table,
+                                                    column_names=['body_weight'])
+        self.assertEqual(column_dict['body_weight'], [100, 100, 100, 100, 100, 10, 20, 30, 40,
+                                                      50, 60, 70, 80, 90, 100])
 
     # ------------------------------------------------------------------------------------------------------------------
     # view_data tests
