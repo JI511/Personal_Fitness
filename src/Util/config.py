@@ -25,7 +25,6 @@ class Config(object):
         self.logger = logger
         self.__config = configparser.ConfigParser()
         if not os.path.exists(output_path):
-            # todo, try catch here
             os.mkdir(output_path)
         if not os.path.exists(os.path.join(output_path, self.config_path)):
             self.__config["OPTIONS"] = Constants.config_defaults["OPTIONS"]
