@@ -23,18 +23,19 @@ class PersonalFitness(object):
     """
     Application to keep track of multiple fitness procedures.
     """
-    def __init__(self, database_path=None, log_name='application_log.log'):
+    def __init__(self, database_path=None, log_name='application_log.log', backup_path=os.getcwd()):
         """
         Setup for application.
 
-        :param database_path: Optional database location if not default.
-        :param log_name: Optional name for log file.
+        :param str database_path: Optional database location if not default.
+        :param str log_name: Optional name for log file.
+        :param str backup_path: Path to output the backup database file.
         """
         self.database_path = database_path if database_path is not None else Constants.database_path
-        print(self.database_path)
         self.connection = db_api.create_connection(db_path=self.database_path)
         self.procedure = None
         self.procedure_prompt_text = None
+        self.backup_path = backup_path
         logging.basicConfig(filename=log_name, level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
@@ -76,10 +77,13 @@ class PersonalFitness(object):
                 self.__run_procedure()
                 self.procedure = None
             elif procedure_text == '5':
-                backup_path = os.path.join(os.getcwd(), 'backup_db')
+                backup_folder = os.path.join(self.backup_path, 'backup_db')
+                if not os.path.exists(backup_folder):
+                    os.mkdir(backup_folder)
                 db_name = os.path.split(self.database_path)[-1][:-3]
-                shutil.copy(self.database_path, os.path.join(backup_path, '%s_%s.db' % (
-                    db_name, datetime.datetime.now().strftime('%m_%d'))))
+                path = os.path.join(backup_folder, '%s_%s.db' % (
+                    db_name, datetime.datetime.now().strftime('%m_%d')))
+                shutil.copy(self.database_path, path)
             elif procedure_text.lower() == 'q':
                 print("Goodbye.")
                 break
