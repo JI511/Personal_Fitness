@@ -7,12 +7,14 @@
 
 # imports
 import logging
+import shutil
+import os
+import datetime
 from src.Procedures.nutrition import NutritionProcedure
 from src.Procedures.weight_lifting import WeightLiftingProcedure
 from src.Procedures.body_weight import BodyWeightProcedure
 from src.Procedures.morning_lifts import MorningLiftsProcedure
 from src.Util import database_api as db_api
-from src.Util import constants as const
 from src.Util.constants import Constants
 from src.Util.config import Config
 
@@ -28,8 +30,9 @@ class PersonalFitness(object):
         :param database_path: Optional database location if not default.
         :param log_name: Optional name for log file.
         """
-        path = database_path if database_path is not None else Constants.database_path
-        self.connection = db_api.create_connection(db_path=path)
+        self.database_path = database_path if database_path is not None else Constants.database_path
+        print(self.database_path)
+        self.connection = db_api.create_connection(db_path=self.database_path)
         self.procedure = None
         self.procedure_prompt_text = None
         logging.basicConfig(filename=log_name, level=logging.INFO)
@@ -51,6 +54,7 @@ class PersonalFitness(object):
                 "2: Nutrition\n"
                 "3: Weight Lifting\n"
                 "4: Morning Lifts\n"
+                "5: Create backup database file\n"
                 "q: Quit\n")
             if procedure_text == '1':
                 self.procedure = BodyWeightProcedure()
@@ -71,6 +75,11 @@ class PersonalFitness(object):
                 self.logger.info('Procedure chosen: %s' % self.procedure)
                 self.__run_procedure()
                 self.procedure = None
+            elif procedure_text == '5':
+                backup_path = os.path.join(os.getcwd(), 'backup_db')
+                db_name = os.path.split(self.database_path)[-1][:-3]
+                shutil.copy(self.database_path, os.path.join(backup_path, '%s_%s.db' % (
+                    db_name, datetime.datetime.now().strftime('%m_%d'))))
             elif procedure_text.lower() == 'q':
                 print("Goodbye.")
                 break
