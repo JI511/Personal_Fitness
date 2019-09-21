@@ -21,6 +21,7 @@ class TestBodyWeightProcedure(unittest.TestCase):
         Initializes unit test variables.
         """
         self.logs_dir = tempfile.mkdtemp()
+        os.mkdir(os.path.join(self.logs_dir, 'backup_db'))
         self.database_name = 'test_database.db'
         self.application = Personal_Fitness.PersonalFitness(
             database_path=os.path.join(self.logs_dir, self.database_name),
@@ -47,6 +48,21 @@ class TestBodyWeightProcedure(unittest.TestCase):
     #    backup db tests
     # ------------------------------------------------------------------------------------------------------------------
     def test_create_backup_db_nominal(self):
+        """
+        Creates a copy of database file and stores it in the backup_db folder.
+        """
+        self.input_values = ['5', 'q']
+        self.application.run()
+        date = datetime.datetime.now().strftime('%m_%d')
+        backup_folder = os.path.join(self.logs_dir, 'backup_db')
+        path = os.path.join(backup_folder, '%s_%s.db' % (self.database_name[:-3], date))
+        self.assertTrue(os.path.exists(path))
+
+    def test_no_backup_folder(self):
+        """
+        Creates the backup db folder in the cwd if it does not already exist.
+        """
+        shutil.rmtree(os.path.join(self.logs_dir, 'backup_db'))
         self.input_values = ['5', 'q']
         self.application.run()
         date = datetime.datetime.now().strftime('%m_%d')

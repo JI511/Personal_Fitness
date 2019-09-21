@@ -79,11 +79,13 @@ class PersonalFitness(object):
             elif procedure_text == '5':
                 backup_folder = os.path.join(self.backup_path, 'backup_db')
                 if not os.path.exists(backup_folder):
+                    self.logger.info("Backup folder created.")
                     os.mkdir(backup_folder)
                 db_name = os.path.split(self.database_path)[-1][:-3]
                 path = os.path.join(backup_folder, '%s_%s.db' % (
                     db_name, datetime.datetime.now().strftime('%m_%d')))
                 shutil.copy(self.database_path, path)
+                self.logger.info("backup database file created: %s" % path)
             elif procedure_text.lower() == 'q':
                 print("Goodbye.")
                 break
