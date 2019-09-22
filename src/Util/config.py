@@ -37,7 +37,7 @@ class Config(object):
             configfile.close()
             self.logger.info('Config file created.')
 
-    def read_cfg(self, section, option):
+    def read_config_option(self, section, option):
         """
         Retrieves a specific variable from the config file.
 
@@ -68,15 +68,16 @@ class Config(object):
         """
         success = False
         try:
-            self.__config.set(section=section,
-                              option=option,
-                              value=value)
-            self.__config.write(open(self.config_path, 'w'))
-            success = True
+            if self.__config.has_option(section=section, option=option):
+                self.__config.set(section=section,
+                                  option=option,
+                                  value=value)
+                self.__config.write(open(self.config_path, 'w'))
+                success = True
+            else:
+                self.logger.error('Option: %s does not exist in specified section' % option)
         except configparser.NoSectionError as e:
             self.logger.error('Section does not exist in config file, %s' % e)
-        except configparser.NoOptionError as e:
-            self.logger.error('Option does not exist in specified section, %s' % e)
         return success
 
     def check_config_file_values(self):
@@ -87,7 +88,7 @@ class Config(object):
         for key in Constants.config_defaults.keys():
             for dict_key in Constants.config_defaults[key]:
                 if self.__config.has_option(section=key, option=dict_key):
-                    Constants.config_defaults[key][dict_key] = self.read_cfg(section=key, option=dict_key)
+                    Constants.config_defaults[key][dict_key] = self.read_config_option(section=key, option=dict_key)
             self.__config.remove_section(key)
             self.__config.write(Constants.config_defaults[key])
 

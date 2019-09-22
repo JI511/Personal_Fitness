@@ -37,25 +37,28 @@ class TestConfig(unittest.TestCase):
             shutil.rmtree(self.logs_dir)
 
     # ------------------------------------------------------------------------------------------------------------------
-    # read_cfg tests
+    # read_config_option tests
     # ------------------------------------------------------------------------------------------------------------------
-    def test_read_cfg(self):
+    def test_read_config_option_nominal(self):
         """
         Checks that the default config file is created properly.
         """
-        value = self.config.read_cfg(section="OPTIONS",
-                                     option="Water")
+        value = self.config.read_config_option(section=self.section,
+                                               option=self.option)
         self.assertEqual(value, "oz")
 
-    def test_read_cfg_bad_option(self):
+    def test_read_config_option_bad_option(self):
         """
         Attempts to get a bad value in the config file.
         """
         with self.assertRaises(KeyError) as error:
-            self.config.read_cfg(section="OPTIONS",
-                                 option="bad")
+            self.config.read_config_option(section=self.section,
+                                           option="bad")
             self.assertTrue('bad' in error.exception)
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # update_config_option tests
+    # ------------------------------------------------------------------------------------------------------------------
     def test_update_config_option_nominal(self):
         """
         Updates a config value to be used in the future.
@@ -65,27 +68,52 @@ class TestConfig(unittest.TestCase):
                                                   option=self.option,
                                                   value=value)
         self.assertTrue(status)
-        water_type = self.config.read_cfg(section=self.section,
-                                          option=self.option)
+        water_type = self.config.read_config_option(section=self.section,
+                                                    option=self.option)
         self.assertEqual(value, water_type)
 
-    def test_update_config_retain_unique(self):
+    def test_update_config_retain_unique_values(self):
         """
         Updating an option should keep unaffected values the same when rewriting.
         """
-        pass
+        value = 'mL'
+        status = self.config.update_config_option(section=self.section,
+                                                  option=self.option,
+                                                  value=value)
+        self.assertTrue(status)
+        value = '5'
+        status = self.config.update_config_option(section=self.section,
+                                                  option='backup_rate',
+                                                  value=value)
+        self.assertTrue(status)
+        water_type = self.config.read_config_option(section=self.section,
+                                                    option=self.option)
+        backup_rate = self.config.read_config_option(section=self.section,
+                                                     option='backup_rate')
+        self.assertEqual(water_type, 'mL')
+        self.assertEqual(backup_rate, '5')
 
-    def test_change_config_option_bad_section(self):
+    def test_update_config_option_bad_section(self):
         """
         Attempts to change a config option with a section that does not exist.
         """
-        pass
+        status = self.config.update_config_option(section='bad',
+                                                  option=self.option,
+                                                  value='mL')
+        self.assertFalse(status)
 
-    def test_change_config_option_bad_option(self):
+    def test_update_config_option_bad_option(self):
         """
         Attempts to change a config option that does not exist.
         """
+        status = self.config.update_config_option(section=self.section,
+                                                  option='bad',
+                                                  value='mL')
+        self.assertFalse(status)
 
+    # ------------------------------------------------------------------------------------------------------------------
+    # check_config_file_values tests
+    # ------------------------------------------------------------------------------------------------------------------
     def test_add_missing_config_option_value(self):
         """
         A new default has been added to a section. Add the default value to an already existing config file. The old

@@ -47,7 +47,7 @@ class Constants(object):
     config_defaults = {
         "OPTIONS": {
             "water": "oz",
-            "backup_rate": 7
+            "backup_rate": '7'
         }
     }
 

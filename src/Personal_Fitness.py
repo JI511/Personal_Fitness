@@ -49,8 +49,8 @@ class PersonalFitness(object):
         self.logger.info("Starting Fitness Application...")
         config = Config(logger=self.logger,
                         output_path=self.config_path)
-        config.read_cfg(section="OPTIONS",
-                        option="Water")
+        config.read_config_option(section="OPTIONS",
+                                  option="Water")
 
         while True:
             procedure_text = input(
