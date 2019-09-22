@@ -87,11 +87,9 @@ class Config(object):
         """
         for key in Constants.config_defaults.keys():
             for dict_key in Constants.config_defaults[key]:
-                if self.__config.has_option(section=key, option=dict_key):
-                    Constants.config_defaults[key][dict_key] = self.read_config_option(section=key, option=dict_key)
-            self.__config.remove_section(key)
-            self.__config.write(Constants.config_defaults[key])
-
+                if not self.__config.has_option(section=key, option=dict_key):
+                    self.__config.set(section=key, option=dict_key, value=Constants.config_defaults[key][dict_key])
+        self.__config.write(open(self.config_path, 'w'))
 
 # ----------------------------------------------------------------------------------------------------------------------
 #    End

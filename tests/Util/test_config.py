@@ -10,6 +10,7 @@ import shutil
 import logging
 
 from src.Util.config import Config
+from src.Util.constants import Constants
 
 
 class TestConfig(unittest.TestCase):
@@ -114,12 +115,22 @@ class TestConfig(unittest.TestCase):
     # ------------------------------------------------------------------------------------------------------------------
     # check_config_file_values tests
     # ------------------------------------------------------------------------------------------------------------------
-    def test_add_missing_config_option_value(self):
+    def test_check_config_file_values_nominal(self):
         """
         A new default has been added to a section. Add the default value to an already existing config file. The old
         config values will remain.
         """
-        pass
+        Constants.config_defaults[self.section]['test'] = 'new'
+        value = 'mL'
+        status = self.config.update_config_option(section=self.section,
+                                                  option=self.option,
+                                                  value=value)
+        self.assertTrue(status)
+        self.config.check_config_file_values()
+        added_default = self.config.read_config_option(section=self.section,
+                                                       option='test')
+        self.assertEqual(added_default, 'new')
+        # todo add check to make sure others did not change
 
 # ------------------------------------------------------------------------------------------------------------------
 # End
