@@ -26,7 +26,9 @@ class TestBodyWeightProcedure(unittest.TestCase):
         self.application = Personal_Fitness.PersonalFitness(
             database_path=os.path.join(self.logs_dir, self.database_name),
             log_name='test_log.log',
-            backup_path=self.logs_dir)
+            backup_path=self.logs_dir,
+            config_path=self.logs_dir
+        )
         self.input_values = []
 
         def mock_input(_):

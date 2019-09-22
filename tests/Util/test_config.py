@@ -41,15 +41,17 @@ class TestConfig(unittest.TestCase):
         """
         Checks that the default config file is created properly.
         """
-        value = self.config.read_cfg("Water")
+        value = self.config.read_cfg(section="OPTIONS",
+                                     option="Water")
         self.assertEqual(value, "oz")
 
-    def test_read_cfg_bad_value(self):
+    def test_read_cfg_bad_option(self):
         """
         Attempts to get a bad value in the config file.
         """
         with self.assertRaises(KeyError) as error:
-            self.config.read_cfg("bad")
+            self.config.read_cfg(section="OPTIONS",
+                                 option="bad")
             self.assertTrue('bad' in error.exception)
 
 # ------------------------------------------------------------------------------------------------------------------

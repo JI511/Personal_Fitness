@@ -23,19 +23,22 @@ class PersonalFitness(object):
     """
     Application to keep track of multiple fitness procedures.
     """
-    def __init__(self, database_path=None, log_name='application_log.log', backup_path=os.getcwd()):
+    def __init__(self, database_path=None, log_name='application_log.log', backup_path=os.getcwd(),
+                 config_path=os.getcwd()):
         """
         Setup for application.
 
         :param str database_path: Optional database location if not default.
         :param str log_name: Optional name for log file.
         :param str backup_path: Path to output the backup database file.
+        :param str config_path: Path to the config file.
         """
         self.database_path = database_path if database_path is not None else Constants.database_path
         self.connection = db_api.create_connection(db_path=self.database_path)
         self.procedure = None
         self.procedure_prompt_text = None
         self.backup_path = backup_path
+        self.config_path = config_path
         logging.basicConfig(filename=log_name, level=logging.INFO)
         self.logger = logging.getLogger(__name__)
 
@@ -45,8 +48,9 @@ class PersonalFitness(object):
         """
         self.logger.info("Starting Fitness Application...")
         config = Config(logger=self.logger,
-                        output_path=Constants.output_path)
-        config.read_cfg("Water")
+                        output_path=self.config_path)
+        config.read_cfg(section="OPTIONS",
+                        option="Water")
 
         while True:
             procedure_text = input(
