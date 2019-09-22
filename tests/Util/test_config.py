@@ -54,6 +54,30 @@ class TestConfig(unittest.TestCase):
                                  option="bad")
             self.assertTrue('bad' in error.exception)
 
+    def test_change_config_value_nominal(self):
+        """
+        Updates a config value to be used in the future.
+        """
+        pass
+
+    def test_change_config_value_bad_section(self):
+        """
+        Attempts to change a config option with a section that does not exist.
+        """
+        pass
+
+    def test_change_config_value_bad_option(self):
+        """
+        Attempts to change a config option that does not exist.
+        """
+
+    def test_add_missing_config_option_value(self):
+        """
+        A new default has been added to a section. Add the default value to an already existing config file. The old
+        config values will remain.
+        """
+        pass
+
 # ------------------------------------------------------------------------------------------------------------------
 # End
 # ------------------------------------------------------------------------------------------------------------------
