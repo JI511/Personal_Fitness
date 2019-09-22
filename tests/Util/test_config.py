@@ -25,6 +25,8 @@ class TestConfig(unittest.TestCase):
         self.logger = logging.getLogger(__name__)
         self.config = Config(logger=self.logger,
                              output_path=self.logs_dir)
+        self.section = 'OPTIONS'
+        self.option = 'water'
 
     def tearDown(self):
         """
@@ -54,19 +56,32 @@ class TestConfig(unittest.TestCase):
                                  option="bad")
             self.assertTrue('bad' in error.exception)
 
-    def test_change_config_value_nominal(self):
+    def test_update_config_option_nominal(self):
         """
         Updates a config value to be used in the future.
         """
+        value = 'mL'
+        status = self.config.update_config_option(section=self.section,
+                                                  option=self.option,
+                                                  value=value)
+        self.assertTrue(status)
+        water_type = self.config.read_cfg(section=self.section,
+                                          option=self.option)
+        self.assertEqual(value, water_type)
+
+    def test_update_config_retain_unique(self):
+        """
+        Updating an option should keep unaffected values the same when rewriting.
+        """
         pass
 
-    def test_change_config_value_bad_section(self):
+    def test_change_config_option_bad_section(self):
         """
         Attempts to change a config option with a section that does not exist.
         """
         pass
 
-    def test_change_config_value_bad_option(self):
+    def test_change_config_option_bad_option(self):
         """
         Attempts to change a config option that does not exist.
         """

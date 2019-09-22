@@ -47,7 +47,7 @@ class Config(object):
         self.logger.info("Reading config...")
         if option is not None and isinstance(option, str):
             try:
-                self.__config.read(self.config_name)
+                self.__config.read(self.config_path)
                 return self.__config[section][option]
             except KeyError:
                 logging.getLogger(__name__).error(
@@ -55,6 +55,29 @@ class Config(object):
                 raise KeyError(str(option))
         else:
             raise NotImplementedError
+
+    def update_config_option(self, section, option, value):
+        """
+        Updates a config option at the specified section
+
+        :param str section: The section of the config file to access.
+        :param str option: The option to be updated.
+        :param str value: The value to update option with.
+        :return: True if successful, False otherwise.
+        :rtype: bool
+        """
+        success = False
+        try:
+            self.__config.set(section=section,
+                              option=option,
+                              value=value)
+            self.__config.write(open(self.config_path, 'w'))
+            success = True
+        except configparser.NoSectionError as e:
+            self.logger.error('Section does not exist in config file, %s' % e)
+        except configparser.NoOptionError as e:
+            self.logger.error('Option does not exist in specified section, %s' % e)
+        return success
 
     def check_config_file_values(self):
         """
