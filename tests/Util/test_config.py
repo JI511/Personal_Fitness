@@ -130,7 +130,9 @@ class TestConfig(unittest.TestCase):
         added_default = self.config.read_config_option(section=self.section,
                                                        option='test')
         self.assertEqual(added_default, 'new')
-        # todo add check to make sure others did not change
+        old_value = self.config.read_config_option(section=self.section,
+                                                   option=self.option)
+        self.assertEqual(old_value, 'mL')
 
 # ------------------------------------------------------------------------------------------------------------------
 # End
