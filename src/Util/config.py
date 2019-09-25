@@ -91,6 +91,13 @@ class Config(object):
                     self.__config.set(section=key, option=dict_key, value=Constants.config_defaults[key][dict_key])
         self.__config.write(open(self.config_path, 'w'))
 
+    def create_backup_database(self):
+        """
+        Will create a backup database file if there has not been one created since the amount of days ago indicated
+        by the config value 'backup_rate'.
+        """
+        pass
+
 # ----------------------------------------------------------------------------------------------------------------------
 #    End
 # ----------------------------------------------------------------------------------------------------------------------
