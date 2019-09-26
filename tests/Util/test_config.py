@@ -141,6 +141,25 @@ class TestConfig(unittest.TestCase):
         """
         Creates a backup database when no other backups are present
         """
+        pass
+
+    def test_create_backup_database_already_exists(self):
+        """
+        Checks for a backup database file, and sees that one has been created within the backup rate.
+        """
+        pass
+
+    def test_create_backup_database_needed(self):
+        """
+        Checks for a backup database file, one does exist, but a new one is needed.
+        """
+        pass
+
+    def test_create_backup_database_no_backup_db_folder(self):
+        """
+        Creates the backup_db folder within the cwd if it does not already exist.
+        """
+        pass
 
 # ------------------------------------------------------------------------------------------------------------------
 # End
